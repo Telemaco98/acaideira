@@ -7,8 +7,7 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import employee.Employee;
-import employee.data.EmployeeDAO;
+import com.ufrn.imd.acaideira.data.EmployeeDAO;
 
 @Named(value = "employeeManagedBean")
 @RequestScoped

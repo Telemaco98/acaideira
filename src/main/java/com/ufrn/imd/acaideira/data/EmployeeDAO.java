@@ -1,4 +1,4 @@
-package employee.data;
+package com.ufrn.imd.acaideira.data;
 
 import java.util.List;
 
@@ -12,7 +12,7 @@ import javax.transaction.NotSupportedException;
 import javax.transaction.SystemException;
 import javax.transaction.UserTransaction;
 
-import employee.Employee;
+import employee.presentation.Employee;
 
 @Named
 @RequestScoped

@@ -1,10 +1,10 @@
-package employee.data;
+package com.ufrn.imd.acaideira.data;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-import employee.data.exception.DatabaseException;
+import com.ufrn.imd.acaideira.data.exception.DatabaseException;
 
 /**
  * Class to do the connection with the database

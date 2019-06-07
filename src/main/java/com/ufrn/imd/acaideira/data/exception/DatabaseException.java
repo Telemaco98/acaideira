@@ -1,4 +1,4 @@
-package employee.data.exception;
+package com.ufrn.imd.acaideira.data.exception;
 
 /**
  * Class to the database exceptions
