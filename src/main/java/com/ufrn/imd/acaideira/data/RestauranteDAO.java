@@ -15,7 +15,7 @@ public class RestauranteDAO implements DAO<Restaurante> {
 	private static RestauranteDAO restauranteDAO;
 	private Statement comando;
 
-	private RestauranteDAO() throws DatabaseException {
+	public RestauranteDAO() throws DatabaseException {
 		this.connection = ConnectionFactory.getConnection();
 	}
 
@@ -44,9 +44,9 @@ public class RestauranteDAO implements DAO<Restaurante> {
 		try {
 			this.startConnection();
 			StringBuffer buffer = new StringBuffer();
-			buffer.append("UPDATE restaurante SET ");
+			buffer.append("UPDATE restaurant SET ");
 			buffer.append(returnFieldValuesBD(r));
-			buffer.append(" WHERE id_restaunt=");
+			buffer.append(" WHERE id_restaurant=");
 			buffer.append(r.getId());
 			String sql = buffer.toString();
 
@@ -104,7 +104,7 @@ public class RestauranteDAO implements DAO<Restaurante> {
 	public void delete(Restaurante r) throws DatabaseException {
 		try {
 			this.startConnection();
-			String sql = "DELETE FROM restaurante WHERE id_restaurant="
+			String sql = "DELETE FROM restaurant WHERE id_restaurant="
 					+ this.retornarValorStringBD(String.valueOf(r.getId()));
 			comando.executeUpdate(sql);
 		} catch (SQLException | ClassNotFoundException e) {
@@ -140,10 +140,10 @@ public class RestauranteDAO implements DAO<Restaurante> {
 		return null;
 	}
 	
-	public List<Produto> retrieveProdutctInRestaurant(Restaurante r) throws DatabaseException{
+	public List<Produto> retrieveProductInRestaurant(Restaurante r) throws DatabaseException{
 		try {
 			this.startConnection();
-			String sql = "SELECT * FROM product WHERE id_restaurante = " + this.retornarValorStringBD(String.valueOf(r.getId()));;
+			String sql = "SELECT * FROM product WHERE id_restaurant = " + this.retornarValorStringBD(String.valueOf(r.getId()));;
 			ResultSet rs = comando.executeQuery(sql);
 			List<Produto> products = new ArrayList<Produto>();
 			while (rs.next()) {
@@ -165,23 +165,25 @@ public class RestauranteDAO implements DAO<Restaurante> {
 		return null;
 	}
 	
-	public List<Restaurante> retrieveProdutosByNameDesc(String name) throws DatabaseException {
+	public List<Produto> retrieveProductsByNameDesc(Restaurante r, String name) throws DatabaseException {
 		try {
 			this.startConnection();
 			String sql = "SELECT * FROM product WHERE name LIKE "
-			+ this.retornarValorStringBD("%" + name + "%") + " ORDER BY Name DESC";
+			+ this.retornarValorStringBD("%" + name + "%") + " AND id_restaurant="
+					+ this.retornarValorStringBD("%" + String.valueOf(r.getId()) + "%") +"ORDER BY Name DESC";
 			ResultSet rs = comando.executeQuery(sql);
-			List<Restaurante> rest = new ArrayList<Restaurante>();
+			List<Produto> products = new ArrayList<Produto>();
 			while (rs.next()) {
-				Restaurante r = new Restaurante();
-				r.setId(Integer.parseInt(rs.getString("id_restaurant")));
-				r.setNome(rs.getString("name"));
-				r.setTipo(rs.getString("type"));
-				r.setEndereco(rs.getString("address"));
-				rest.add(r);
+				Produto p = new Produto();
+				p.setId(Integer.parseInt(rs.getString("id_product")));
+				p.setPrice(Double.parseDouble(rs.getString("price")));
+				p.setNome(rs.getString("name"));
+				p.setIdRestaurante(Integer.parseInt(rs.getString("id_restaurant")));
+				p.setQuantidade(Integer.parseInt(rs.getString("quantity")));
+				products.add(p);
 			}
 
-			return rest;
+			return products;
 		} catch (SQLException | ClassNotFoundException e) {
 			e.printStackTrace();
 		} finally {
@@ -191,23 +193,25 @@ public class RestauranteDAO implements DAO<Restaurante> {
 	}
 	
 	
-	public List<Restaurante> retrieveProdutosByNameAsc(String name) throws DatabaseException {
+	public List<Produto> retrieveProductsByNameAsc(Restaurante r,String name) throws DatabaseException {
 		try {
 			this.startConnection();
 			String sql = "SELECT * FROM product WHERE name LIKE "
-					+ this.retornarValorStringBD("%" + name + "%") + " ORDER BY Name Asc";
+					+ this.retornarValorStringBD("%" + name + "%")+ " AND id_restaurant="
+							+ this.retornarValorStringBD("%" + String.valueOf(r.getId()) + "%") +" ORDER BY Name Asc";
 			ResultSet rs = comando.executeQuery(sql);
-			List<Restaurante> rest = new ArrayList<Restaurante>();
+			List<Produto> products = new ArrayList<Produto>();
 			while (rs.next()) {
-				Restaurante r = new Restaurante();
-				r.setId(Integer.parseInt(rs.getString("id_restaurant")));
-				r.setNome(rs.getString("name"));
-				r.setTipo(rs.getString("type"));
-				r.setEndereco(rs.getString("address"));
-				rest.add(r);
+				Produto p = new Produto();
+				p.setId(Integer.parseInt(rs.getString("id_product")));
+				p.setPrice(Double.parseDouble(rs.getString("price")));
+				p.setNome(rs.getString("name"));
+				p.setIdRestaurante(Integer.parseInt(rs.getString("id_restaurant")));
+				p.setQuantidade(Integer.parseInt(rs.getString("quantity")));
+				products.add(p);
 			}
 
-			return rest;
+			return products;
 		} catch (SQLException | ClassNotFoundException e) {
 			e.printStackTrace();
 		} finally {
@@ -216,10 +220,10 @@ public class RestauranteDAO implements DAO<Restaurante> {
 		return null;
 	}
 	
-	public List<Restaurante> retrieveProdutosByType(String type) throws DatabaseException {
+	public List<Restaurante> retrieveRestaurantsByType(String type) throws DatabaseException {
 		try {
 			this.startConnection();
-			String sql = "SELECT * FROM product WHERE type LIKE "
+			String sql = "SELECT * FROM restaurant WHERE type LIKE "
 			+ this.retornarValorStringBD("%" + type + "%");
 			ResultSet rs = comando.executeQuery(sql);
 			List<Restaurante> rest = new ArrayList<Restaurante>();
@@ -241,10 +245,10 @@ public class RestauranteDAO implements DAO<Restaurante> {
 		return null;
 	}
 	
-	public List<Restaurante> retrieveProdutosByAddress(String address) throws DatabaseException {
+	public List<Restaurante> retrieveRestaurantsByAddress(String address) throws DatabaseException {
 		try {
 			this.startConnection();
-			String sql = "SELECT * FROM product WHERE address LIKE "
+			String sql = "SELECT * FROM restaurant WHERE address LIKE "
 			+ this.retornarValorStringBD("%" + address + "%");
 			ResultSet rs = comando.executeQuery(sql);
 			List<Restaurante> rest = new ArrayList<Restaurante>();
