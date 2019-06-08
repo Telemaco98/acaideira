@@ -47,7 +47,7 @@ public class PagamentoDAO implements DAO<Pagamento> {
 			buffer.append("UPDATE payment SET ");
 			buffer.append(returnFieldValuesBD(p));
 			buffer.append(" WHERE id_payment=");
-			buffer.append(r.getId_restaurante());
+			buffer.append(p.getId());
 			String sql = buffer.toString();
 
 			comando.executeUpdate(sql);
@@ -116,10 +116,35 @@ public class PagamentoDAO implements DAO<Pagamento> {
 		}
 	}
 
-	public List<Pagamento> retrieveRestaurantes() throws DatabaseException {
+	public List<Pagamento> retrievePayments() throws DatabaseException {
 		try {
 			this.startConnection();
 			String sql = "SELECT * FROM payment";
+			ResultSet rs = comando.executeQuery(sql);
+			List<Pagamento> payments = new ArrayList<Pagamento>();
+			while (rs.next()) {
+				Pagamento p = new Pagamento();
+				p.setId(Integer.parseInt(rs.getString("id_payment")));
+				p.setStatus(rs.getString("status"));
+				p.setValor(Double.parseDouble(rs.getString("amount")));
+				p.setTipo(rs.getString("way"));
+				payments.add(p);
+			}
+
+			return payments;
+		} catch (SQLException | ClassNotFoundException e) {
+			e.printStackTrace();
+		} finally {
+			this.closeConnection();
+		}
+		return null;
+	}
+	
+	public List<Pagamento> retrievePaymentsByType(String type) throws DatabaseException {
+		try {
+			this.startConnection();
+			String sql = "SELECT * FROM payment type LIKE "
+					+ this.retornarValorStringBD("%" + type + "%");
 			ResultSet rs = comando.executeQuery(sql);
 			List<Pagamento> payments = new ArrayList<Pagamento>();
 			while (rs.next()) {
@@ -169,7 +194,7 @@ public class PagamentoDAO implements DAO<Pagamento> {
 	public List<Pagamento> retrivePaymentsByPedido(Pedido p) throws DatabaseException{
 		try {
 			this.startConnection();
-			String sql = "SELECT id_payment FROM purchase WHERE id_order = " + retornarValorStringBD(String.valueOf(p.getId_pedido()));
+			String sql = "SELECT id_payment FROM purchase WHERE id_order = " + retornarValorStringBD(String.valueOf(p.getId()));
 			ResultSet rs = comando.executeQuery(sql);
 			List<String> id_payments = new ArrayList<String>();
 			while (rs.next()) {

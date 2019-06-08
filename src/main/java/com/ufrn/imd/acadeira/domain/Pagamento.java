@@ -9,6 +9,8 @@ public class Pagamento{
 	private double valor;
 	
 	private String tipo;
+	
+	private int quant;
 
 	public Pagamento() {
 
@@ -52,5 +54,12 @@ public class Pagamento{
 	public void setTipo(String tipo) {
 		this.tipo = tipo;
 	}
-		
+
+	public int getQuant() {
+		return quant;
+	}
+
+	public void setQuant(int quant) {
+		this.quant = quant;
+	}
 }

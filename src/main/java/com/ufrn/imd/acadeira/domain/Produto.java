@@ -2,34 +2,47 @@ package com.ufrn.imd.acadeira.domain;
 
 public class Produto{
 
-	private int id_produto;
+	private int id;
 	
-	private String quantidade;
+	private int quantidade;
+	
+	private double price;
 	
 	private String nome;
+	
+	private int idRestaurante;
 		
 	public Produto() {
 		
 	}
 	
-	public Produto(String quantidade, String nome) {
+	public Produto(int quantidade, String nome, double price) {
 		this.quantidade = quantidade;
 		this.nome = nome;
+		this.price = price;
 	}
 
-	public int getId_produto() {
-		return id_produto;
+	public int getId() {
+		return id;
 	}
 
-	public void setId_produto(int id_produto) {
-		this.id_produto = id_produto;
+	public void setId(int id) {
+		this.id = id;
 	}
 
-	public String getQuantidade() {
+	public double getPrice() {
+		return price;
+	}
+
+	public void setPrice(double price) {
+		this.price = price;
+	}
+
+	public int getQuantidade() {
 		return quantidade;
 	}
 	
-	public void setQuantidade(String quantidade) {
+	public void setQuantidade(int quantidade) {
 		this.quantidade = quantidade;
 	}
 	
@@ -40,5 +53,15 @@ public class Produto{
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
+
+	public int getIdRestaurante() {
+		return idRestaurante;
+	}
+
+	public void setIdRestaurante(int idRestaurante) {
+		this.idRestaurante = idRestaurante;
+	}
+	
+	
 	
 }

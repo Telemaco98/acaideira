@@ -107,9 +107,7 @@ public class RestauranteDAO implements DAO<Restaurante> {
 			String sql = "DELETE FROM restaurante WHERE id_restaurant="
 					+ this.retornarValorStringBD(String.valueOf(r.getId()));
 			comando.executeUpdate(sql);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
+		} catch (SQLException | ClassNotFoundException e) {
 			e.printStackTrace();
 		} finally {
 			this.closeConnection();
@@ -141,9 +139,135 @@ public class RestauranteDAO implements DAO<Restaurante> {
 		}
 		return null;
 	}
+	
+	public List<Produto> retrieveProdutctInRestaurant(Restaurante r) throws DatabaseException{
+		try {
+			this.startConnection();
+			String sql = "SELECT * FROM product WHERE id_restaurante = " + this.retornarValorStringBD(String.valueOf(r.getId()));;
+			ResultSet rs = comando.executeQuery(sql);
+			List<Produto> products = new ArrayList<Produto>();
+			while (rs.next()) {
+				Produto p = new Produto();
+				p.setId(Integer.parseInt(rs.getString("id_product")));
+				p.setPrice(Double.parseDouble(rs.getString("price")));
+				p.setNome(rs.getString("name"));
+				p.setIdRestaurante(Integer.parseInt(rs.getString("id_restaurant")));
+				p.setQuantidade(Integer.parseInt(rs.getString("quantity")));
+				products.add(p);
+			}
+
+			return products;
+		} catch (SQLException | ClassNotFoundException e) {
+			e.printStackTrace();
+		} finally {
+			this.closeConnection();
+		}
+		return null;
+	}
+	
+	public List<Restaurante> retrieveProdutosByNameDesc(String name) throws DatabaseException {
+		try {
+			this.startConnection();
+			String sql = "SELECT * FROM product WHERE name LIKE "
+			+ this.retornarValorStringBD("%" + name + "%") + " ORDER BY Name DESC";
+			ResultSet rs = comando.executeQuery(sql);
+			List<Restaurante> rest = new ArrayList<Restaurante>();
+			while (rs.next()) {
+				Restaurante r = new Restaurante();
+				r.setId(Integer.parseInt(rs.getString("id_restaurant")));
+				r.setNome(rs.getString("name"));
+				r.setTipo(rs.getString("type"));
+				r.setEndereco(rs.getString("address"));
+				rest.add(r);
+			}
+
+			return rest;
+		} catch (SQLException | ClassNotFoundException e) {
+			e.printStackTrace();
+		} finally {
+			this.closeConnection();
+		}
+		return null;
+	}
+	
+	
+	public List<Restaurante> retrieveProdutosByNameAsc(String name) throws DatabaseException {
+		try {
+			this.startConnection();
+			String sql = "SELECT * FROM product WHERE name LIKE "
+					+ this.retornarValorStringBD("%" + name + "%") + " ORDER BY Name Asc";
+			ResultSet rs = comando.executeQuery(sql);
+			List<Restaurante> rest = new ArrayList<Restaurante>();
+			while (rs.next()) {
+				Restaurante r = new Restaurante();
+				r.setId(Integer.parseInt(rs.getString("id_restaurant")));
+				r.setNome(rs.getString("name"));
+				r.setTipo(rs.getString("type"));
+				r.setEndereco(rs.getString("address"));
+				rest.add(r);
+			}
+
+			return rest;
+		} catch (SQLException | ClassNotFoundException e) {
+			e.printStackTrace();
+		} finally {
+			this.closeConnection();
+		}
+		return null;
+	}
+	
+	public List<Restaurante> retrieveProdutosByType(String type) throws DatabaseException {
+		try {
+			this.startConnection();
+			String sql = "SELECT * FROM product WHERE type LIKE "
+			+ this.retornarValorStringBD("%" + type + "%");
+			ResultSet rs = comando.executeQuery(sql);
+			List<Restaurante> rest = new ArrayList<Restaurante>();
+			while (rs.next()) {
+				Restaurante r = new Restaurante();
+				r.setId(Integer.parseInt(rs.getString("id_restaurant")));
+				r.setNome(rs.getString("name"));
+				r.setTipo(rs.getString("type"));
+				r.setEndereco(rs.getString("address"));
+				rest.add(r);
+			}
+
+			return rest;
+		} catch (SQLException | ClassNotFoundException e) {
+			e.printStackTrace();
+		} finally {
+			this.closeConnection();
+		}
+		return null;
+	}
+	
+	public List<Restaurante> retrieveProdutosByAddress(String address) throws DatabaseException {
+		try {
+			this.startConnection();
+			String sql = "SELECT * FROM product WHERE address LIKE "
+			+ this.retornarValorStringBD("%" + address + "%");
+			ResultSet rs = comando.executeQuery(sql);
+			List<Restaurante> rest = new ArrayList<Restaurante>();
+			while (rs.next()) {
+				Restaurante r = new Restaurante();
+				r.setId(Integer.parseInt(rs.getString("id_restaurant")));
+				r.setNome(rs.getString("name"));
+				r.setTipo(rs.getString("type"));
+				r.setEndereco(rs.getString("address"));
+				rest.add(r);
+			}
+
+			return rest;
+		} catch (SQLException | ClassNotFoundException e) {
+			e.printStackTrace();
+		} finally {
+			this.closeConnection();
+		}
+		return null;
+	}
 
 	protected String retornarCamposBD() {
-		return "nome, tipo, endereco";
+		return "name, type, address";
 	}
 
 	protected String returnFieldValuesBD(Restaurante r) {
