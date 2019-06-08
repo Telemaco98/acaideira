@@ -32,11 +32,11 @@ public class Address {
 		this.complement   = complement;
 	}
 
-	public int getId() {
+	public int getAddressId() {
 		return id;
 	}
 	
-	public int  getUser_id() {
+	public int  getUserId() {
 		return user_id;
 	}
 	

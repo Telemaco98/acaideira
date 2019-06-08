@@ -105,8 +105,7 @@ public class ClientDAO extends UtilsDAO<Client> implements DAO<Client> {
 			throw new DatabaseException(e.getMessage());
 		} finally {
 			this.closeConnection();
-		}
-		
+		}		
 	}
 
 	@Override
@@ -114,7 +113,7 @@ public class ClientDAO extends UtilsDAO<Client> implements DAO<Client> {
 		try {
 			this.startConnection();
 			String sql = "DELETE FROM client WHERE id_client="
-					+ UtilsDAO.retornValueStringBD(String.valueOf(client.getId_cliente()));
+					+ retornValueStringBD(String.valueOf(client.getId_cliente()));
 			
 			command.executeUpdate(sql);
 		} catch (SQLException e) {
