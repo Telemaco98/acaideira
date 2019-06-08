@@ -2,9 +2,9 @@ package com.ufrn.imd.acadeira.domain;
 
 public class Pagamento{
 
-	private int id_pagamento;
+	private int id;
 	
-	private String endereco;
+	private String status;
 	
 	private double valor;
 	
@@ -14,28 +14,27 @@ public class Pagamento{
 
 	}
 
-	public Pagamento(String endereco, double valor, String tipo) {
-
-		this.endereco = endereco;
+	public Pagamento(String status, double valor, String tipo) {
+		this.status = status;
 		this.valor = valor;
 		this.tipo = tipo;
 	}
 	
 	
-	public int getId_pagamento() {
-		return id_pagamento;
+	public int getId() {
+		return id;
 	}
 
-	public void setId_pagamento(int id_pagamento) {
-		this.id_pagamento = id_pagamento;
+	public void setId(int id) {
+		this.id = id;
 	}
 
-	public String getEndereco() {
-		return endereco;
+	public String getStatus() {
+		return status;
 	}
 
-	public void setEndereco(String endereco) {
-		this.endereco = endereco;
+	public void setStatus(String status) {
+		this.status = status;
 	}
 
 	public double getValor() {

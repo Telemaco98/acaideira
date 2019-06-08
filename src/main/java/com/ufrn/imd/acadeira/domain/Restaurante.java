@@ -2,7 +2,7 @@ package com.ufrn.imd.acadeira.domain;
 
 public class Restaurante{
 
-	private int id_restaurante;
+	private int id;
 	
 	private String endereco;
 	
@@ -20,12 +20,12 @@ public class Restaurante{
 		this.tipo = tipo;
 	}
 		
-	public int getId_restaurante() {
-		return id_restaurante;
+	public int getId() {
+		return id;
 	}
 
-	public void setId_restaurante(int id_restaurante) {
-		this.id_restaurante = id_restaurante;
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public String getEndereco() {
