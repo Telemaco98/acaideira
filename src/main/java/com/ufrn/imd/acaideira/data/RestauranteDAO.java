@@ -15,7 +15,7 @@ public class RestauranteDAO implements DAO<Restaurante> {
 	private static RestauranteDAO restauranteDAO;
 	private Statement comando;
 
-	public RestauranteDAO() throws DatabaseException {
+	private RestauranteDAO() throws DatabaseException {
 		this.connection = ConnectionFactory.getConnection();
 	}
 
