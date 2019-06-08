@@ -1,29 +1,29 @@
 package com.ufrn.imd.acadeira.domain;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class Client {
-	private int id_cliente;
-	private String name;
+	private int    id_cliente;
 	private String cpf;
-	private List<String> addresses;
-	private List<String> phones;
-	private List<String> credit_cards;
+	private String name;
+	private String email;
+	private String phone;
+	private ArrayList<Address> 	  addresses;
+	private ArrayList<CreditCard> credit_cards;
 
-	public Client(int id, String name, String cpf) {
+	public Client(int id, String cpf, String name, String email, String phone) {
 		this.id_cliente   = id;
-		this.name 		  = name;
 		this.cpf 		  = cpf;
-		this.addresses	  = new ArrayList<String>();
-		this.phones 	  = new ArrayList<String>();
-		this.credit_cards = new ArrayList<String>();
+		this.name 		  = name;		
+		this.email  	  = email;
+		this.phone  	  = phone;
+		this.addresses	  = new ArrayList<>();
+		this.credit_cards = new ArrayList<>();
 	}
 	
-	public Client(int id, String name, String cpf, ArrayList<String> addresses, ArrayList<String> phones, ArrayList<String> credit_cards) {
-		this(id, name, cpf);
+	public Client(int id, String cpf, String name, String email, String phone, ArrayList<Address> addresses, ArrayList<String> phones, ArrayList<CreditCard> credit_cards) {
+		this(id, cpf, name, email, phone);
 		this.addresses	  = addresses;
-		this.phones 	  = phones;
 		this.credit_cards = credit_cards;
 	}
 
@@ -31,31 +31,35 @@ public class Client {
 		return id_cliente;
 	}
 	
-	public String getName() {
-		return name;
-	}
-	
 	public String getCpf() {
 		return cpf;
 	}
 	
-	public List<String> getAddresses() {
+	public String getName() {
+		return name;
+	}
+	
+	public String getEmail() {
+		return email;
+	}
+	
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	
+	public String getPhone() {
+		return phone;
+	}
+	
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+	
+	public ArrayList<Address> getAddresses() {
 		return addresses;
 	}
 	
-	public List<String> getPhones() {
-		return phones;
-	}
-	
-	public void addAddress (String address) {
-		addresses.add(address);
-	}
-	
-	public void addPhone (String phone) {
-		phones.add(phone);
-	}
-	
-	public List<String> getCredit_cards() {
+	public ArrayList<CreditCard> getCredit_cards() {
 		return credit_cards;
 	}
 }

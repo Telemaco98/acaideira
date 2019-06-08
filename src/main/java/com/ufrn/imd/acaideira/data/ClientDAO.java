@@ -39,28 +39,6 @@ public class ClientDAO extends UtilsDAO<Client> implements DAO<Client> {
 	}
 	
 	@Override
-	protected String returnFieldsBD() {
-		return "name, cpf";
-	}
-
-	@Override
-	protected String returnFieldValuesBD(Client c) {
-		StringBuffer buffer = new StringBuffer();
-		
-		buffer.append("name=");
-		buffer.append(retornValueStringBD(c.getName()));
-		buffer.append(", cpf=");
-		buffer.append(retornValueStringBD(c.getCpf()));
-		
-		return buffer.toString();
-	}
-
-	@Override
-	protected String returnValuesBD(Client c) {
-		return UtilsDAO.retornValueStringBD(c.getName()) + ", "  + UtilsDAO.retornValueStringBD(c.getCpf());
-	}
-
-	@Override
 	public void insert(Client client) throws DatabaseException {
 		try {
 			this.startConnection();
@@ -93,10 +71,12 @@ public class ClientDAO extends UtilsDAO<Client> implements DAO<Client> {
 
 			Client c = null;
 			if (rs.next()) {
-				String name = rs.getString("name");
 				String cpf  = rs.getString("cpf");
+				String name = rs.getString("name");
+				String email = rs.getString("email");
+				String phone = rs.getString("phone");
 				
-				c = new Client(id, name, cpf);
+				c = new Client(id, cpf, name, email, phone);
 				return c;
 			} 
 		} catch (SQLException | ClassNotFoundException e) {
@@ -145,4 +125,34 @@ public class ClientDAO extends UtilsDAO<Client> implements DAO<Client> {
 			this.closeConnection();
 		}
 	}
+	
+	@Override
+	protected String returnFieldsBD() {
+		return "cpf, name, email, phone";
+	}
+
+	@Override
+	protected String returnFieldValuesBD(Client c) {
+		StringBuffer buffer = new StringBuffer();
+		
+		buffer.append("cpf=");
+		buffer.append(retornValueStringBD(c.getCpf()));
+		buffer.append(", name=");
+		buffer.append(retornValueStringBD(c.getName()));
+		buffer.append(", email=");
+		buffer.append(retornValueStringBD(c.getEmail()));
+		buffer.append(", phone=");
+		buffer.append(retornValueStringBD(c.getPhone()));
+		
+		return buffer.toString();
+	}
+
+	@Override
+	protected String returnValuesBD(Client c) {
+		return retornValueStringBD(c.getCpf()) + ", " +
+				retornValueStringBD(c.getName()) + ", " +
+				retornValueStringBD(c.getEmail()) + ", " +
+				retornValueStringBD(c.getPhone());
+	}
+
 }
