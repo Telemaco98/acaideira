@@ -1,4 +1,4 @@
-package com.ufrn.imd.acaideira.data;
+package employee.presentation;
 
 import java.util.List;
 
@@ -11,8 +11,6 @@ import javax.persistence.TypedQuery;
 import javax.transaction.NotSupportedException;
 import javax.transaction.SystemException;
 import javax.transaction.UserTransaction;
-
-import employee.presentation.Employee;
 
 @Named
 @RequestScoped
