@@ -1,41 +1,21 @@
 package com.ufrn.imd.acaideira.data;
 
-import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 
-import com.ufrn.imd.acadeira.domain.Client;
 import com.ufrn.imd.acaideira.data.exception.DatabaseException;
+import com.ufrn.imd.acaideira.domain.Client;
 
-public class ClientDAO extends UtilsDAO<Client> implements DAO<Client> {
-	private Connection connection; 
-	private Statement command;
-	private static ClientDAO clientDAO;
+public class ClientDAO extends UtilsDAO<ClientDAO, Client> implements DAO<Client> {
+	private ClientDAO clientDAO;
 	
-	private ClientDAO () throws DatabaseException {
-		connection = ConnectionFactory.getConnection();
-	}
+	private ClientDAO () { }
 	
-	public static synchronized ClientDAO getInstance() throws DatabaseException {
+	@Override
+	public synchronized ClientDAO getInstance() {
 		if (clientDAO == null)
 			clientDAO = new ClientDAO();
 		return clientDAO; 
-	}
-	
-	private void startConnection() throws ClassNotFoundException, SQLException, DatabaseException {
-		connection = ConnectionFactory.getConnection();
-		command = connection.createStatement();
-		System.out.println("Connection Success!");
-	}
-
-	private void closeConnection() {
-		try {
-			command.close();
-			connection.close();
-			System.out.println("Connection Failed");
-		} catch (SQLException e) {
-		}
 	}
 	
 	@Override
@@ -65,7 +45,7 @@ public class ClientDAO extends UtilsDAO<Client> implements DAO<Client> {
 			this.startConnection();
 			
 			String sql = "SELECT * FROM CLIENT WHERE id_client = " +
-					UtilsDAO.retornValueStringBD(String.valueOf(id));  // TODO update to get the addresses of each client
+					retornValueStringBD(String.valueOf(id));  // TODO update to get the addresses of each client
 			
 			ResultSet rs = command.executeQuery(sql);
 
@@ -77,15 +57,14 @@ public class ClientDAO extends UtilsDAO<Client> implements DAO<Client> {
 				String phone = rs.getString("phone");
 				
 				c = new Client(id, cpf, name, email, phone);
-				return c;
 			} 
+			
+			return c;
 		} catch (SQLException | ClassNotFoundException e) {
 			throw new DatabaseException(e.getMessage());
 		} finally {
 			this.closeConnection();
-		}
-		
-		throw new DatabaseException("This client doesn't exist");  
+		}  
 	}
 
 	@Override

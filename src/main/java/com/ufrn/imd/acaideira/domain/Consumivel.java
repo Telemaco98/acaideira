@@ -1,4 +1,4 @@
-package com.ufrn.imd.acadeira.domain;
+package com.ufrn.imd.acaideira.domain;
 
 public class Consumivel{
 	private int id_consumivel;

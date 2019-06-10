@@ -1,41 +1,22 @@
 package com.ufrn.imd.acaideira.data;
 
-import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
+import java.util.ArrayList;
 
-import com.ufrn.imd.acadeira.domain.Address;
 import com.ufrn.imd.acaideira.data.exception.DatabaseException;
+import com.ufrn.imd.acaideira.domain.Address;
 
-public class AddressDAO extends UtilsDAO<Address> implements DAO<Address> {
-	private Connection connection;
-	private Statement  command;
+public class AddressDAO extends UtilsDAO<AddressDAO, Address> implements DAO<Address> {
 	private static AddressDAO addressDAO;
 
-	private AddressDAO () {
-		connection = ConnectionFactory.getConnection();
-	}
+	private AddressDAO () { }
 
-	public static synchronized AddressDAO getInstance() throws DatabaseException {
+	@Override
+	public synchronized AddressDAO getInstance(){
 		if (addressDAO == null)
-			addressDAO = new AddressDAO;
+			addressDAO = new AddressDAO();
 		return addressDAO;
-	}
-
-	private void startConnection() throws ClassNotFoundException, SQLException, DatabaseException {
-		connection = ConnectionFactory.getConnection();
-		command = connection.createStatement();
-		System.out.println("Connection Success!");
-	}
-
-	private void closeConnection() {
-		try {
-			command.close();
-			connection.close();
-			System.out.println("Connection Failed");
-		} catch (SQLException e) {
-		}
 	}
 
 	@Override
@@ -64,8 +45,8 @@ public class AddressDAO extends UtilsDAO<Address> implements DAO<Address> {
 		try {
 			this.startConnection();
 			
-			String sql = "SELECT * FROM CLIENT WHERE id_address = " +
-					UtilsDAO.retornValueStringBD(String.valueOf(id));  // TODO update to get the addresses of each client
+			String sql = "SELECT * FROM address WHERE id_address = " +
+					retornValueStringBD(String.valueOf(id));
 			
 			ResultSet rs = command.executeQuery(sql);
 
@@ -75,19 +56,51 @@ public class AddressDAO extends UtilsDAO<Address> implements DAO<Address> {
 				String street 		= rs.getString("street");
 				String neighborhood = rs.getString("neighborhood");
 				String city 		= rs.getString("city");
-				String number 		= Integer.parseInt(rs.getString("number"));
+				int    number 		= Integer.parseInt(rs.getString("number"));
 				String complement   = rs.getString("complement");
+				int    id_client	= Integer.parseInt(rs.getString("id_user"));
 				
-				a = new Address(id, cep, street, neighborhood, city, number, complement);
-				return c;
+				a = new Address(id, cep, street, neighborhood, city, number, complement, id_client);
 			} 
+			
+			return a;
 		} catch (SQLException | ClassNotFoundException e) {
 			throw new DatabaseException(e.getMessage());
 		} finally {
 			this.closeConnection();
 		}
-		
-		throw new DatabaseException("This address doesn't exist");  
+	}
+	
+	public ArrayList<Address> selectAllClientAddresses (int id_client) throws DatabaseException {
+		try {
+			this.startConnection();
+			
+			String sql = "SELECT * FROM address WHERE id_client = " +
+					retornValueStringBD(String.valueOf(id_client));
+			
+			ResultSet rs = command.executeQuery(sql);
+
+			ArrayList<Address> addresses = new ArrayList<Address>();
+			while (rs.next()) {
+				int    id_address	= Integer.parseInt(rs.getString("id_address"));
+				String cep  		= rs.getString("cep");
+				String street 		= rs.getString("street");
+				String neighborhood = rs.getString("neighborhood");
+				String city 		= rs.getString("city");
+				int    number 		= Integer.parseInt(rs.getString("number"));
+				String complement   = rs.getString("complement");
+				
+				
+				Address a = new Address(id_address, cep, street, neighborhood, city, number, complement, id_client);
+				addresses.add(a);
+			} 
+			
+			return addresses;
+		} catch (SQLException | ClassNotFoundException e) {
+			throw new DatabaseException(e.getMessage());
+		} finally {
+			this.closeConnection();
+		}
 	}
 
 	@Override
@@ -99,7 +112,7 @@ public class AddressDAO extends UtilsDAO<Address> implements DAO<Address> {
 			buffer.append("UPDATE address SET ");
 			buffer.append(returnFieldValuesBD(address));
 			buffer.append(" WHERE id_address=");
-			buffer.append(client.getId_cliente());
+			buffer.append(address.getIdAddress());
 			
 			String sql = buffer.toString();
 			command.executeUpdate(sql);
@@ -115,7 +128,7 @@ public class AddressDAO extends UtilsDAO<Address> implements DAO<Address> {
 		try {
 			this.startConnection();
 			String sql = "DELETE FROM address WHERE id_address="
-					+ retornValueStringBD(String.valueOf(address.getAddressId()));
+					+ retornValueStringBD(String.valueOf(address.getIdAddress()));
 			
 			command.executeUpdate(sql);
 		} catch (SQLException e) {
@@ -129,7 +142,7 @@ public class AddressDAO extends UtilsDAO<Address> implements DAO<Address> {
 
 	@Override
 	protected String returnFieldsBD() {
-		return "cep, street, neighborhood, city, number, complements";
+		return "cep, street, neighborhood, city, number, complements, id_client";
 	}
 
 	@Override
@@ -148,6 +161,8 @@ public class AddressDAO extends UtilsDAO<Address> implements DAO<Address> {
 		buffer.append(retornValueStringBD(String.valueOf(a.getNumber())));
 		buffer.append(", complement=");
 		buffer.append(retornValueStringBD(a.getComplement()));
+		buffer.append(", id_client=");
+		buffer.append(retornValueStringBD(String.valueOf(a.getIdClient())));
 		
 		return buffer.toString();
 	}
@@ -159,6 +174,7 @@ public class AddressDAO extends UtilsDAO<Address> implements DAO<Address> {
 				retornValueStringBD(a.getNeighborhood()) + ", " +
 				retornValueStringBD(a.getCity()) + ", " +
 				retornValueStringBD(String.valueOf(a.getNumber())) + ", " +
-				retornValueStringBD(a.getComplement());
+				retornValueStringBD(a.getComplement()) + ", " +
+				retornValueStringBD(String.valueOf(a.getIdClient()));
 	}
 }

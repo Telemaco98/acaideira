@@ -7,8 +7,8 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.ufrn.imd.acadeira.domain.*;
 import com.ufrn.imd.acaideira.data.exception.DatabaseException;
+import com.ufrn.imd.acaideira.domain.*;
 
 public class RestauranteDAO implements DAO<Restaurante> {
 	private Connection connection;

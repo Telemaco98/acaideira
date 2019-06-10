@@ -1,7 +1,33 @@
 package com.ufrn.imd.acaideira.data;
 
-public abstract class UtilsDAO <Type>{
-	public static String retornValueStringBD(String value) {
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+import com.ufrn.imd.acaideira.data.exception.DatabaseException;
+
+public abstract class UtilsDAO <Type, EntityType> {
+	protected Connection connection; 
+	protected Statement command;
+	
+	public abstract Type getInstance();
+	
+	protected void startConnection() throws ClassNotFoundException, SQLException, DatabaseException {
+		connection = ConnectionFactory.getConnection();
+		command = connection.createStatement();
+		System.out.println("Connection Success!");
+	}
+
+	protected void closeConnection() {
+		try {
+			command.close();
+			connection.close();
+			System.out.println("Connection Failed");
+		} catch (SQLException e) {
+		}
+	}
+	
+	public String retornValueStringBD(String value) {
 		if (value != null && !"".equals(value)) value = "'" + value + "'";
 		else value = "'" + "'";
 		
@@ -10,7 +36,7 @@ public abstract class UtilsDAO <Type>{
 	
 	protected abstract String returnFieldsBD();
 
-	protected abstract String returnFieldValuesBD(Type t);
+	protected abstract String returnFieldValuesBD(EntityType t);
 
-	protected abstract String returnValuesBD(Type t);
+	protected abstract String returnValuesBD(EntityType t);
 }

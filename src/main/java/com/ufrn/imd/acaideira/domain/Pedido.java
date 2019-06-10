@@ -1,4 +1,4 @@
-package com.ufrn.imd.acadeira.domain;
+package com.ufrn.imd.acaideira.domain;
 
 public class Pedido{
 
