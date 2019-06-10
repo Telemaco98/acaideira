@@ -10,21 +10,32 @@ public abstract class UtilsDAO <Type, EntityType> {
 	protected Connection connection; 
 	protected Statement command;
 	
-	public abstract Type getInstance();
+	public UtilsDAO() { }
 	
-	protected void startConnection() throws ClassNotFoundException, SQLException, DatabaseException {
-		connection = ConnectionFactory.getConnection();
-		command = connection.createStatement();
-		System.out.println("Connection Success!");
+	protected void startConnection() throws DatabaseException {
+		try {
+			connection = ConnectionFactory.getConnection();
+			command = connection.createStatement();
+			System.out.println("Connection Success!");
+		} catch (SQLException e) {
+			System.out.println("Connection Failed!");
+			System.out.println(e.getMessage());
+		}
 	}
 
 	protected void closeConnection() {
 		try {
-			command.close();
-			connection.close();
-			System.out.println("Connection Failed");
+			if (!command.isClosed())
+				command.close();
+			if (connection.isReadOnly())
+				connection.close();
+			System.out.println("Closing Success!");
 		} catch (SQLException e) {
+			System.out.println("Closing Failed!");
+			System.out.println(e.getMessage());
 		}
+		
+		
 	}
 	
 	public String retornValueStringBD(String value) {

@@ -7,11 +7,10 @@ import com.ufrn.imd.acaideira.data.exception.DatabaseException;
 import com.ufrn.imd.acaideira.domain.CreditCard;
 
 public class CreditCardDAO extends UtilsDAO<CreditCardDAO, CreditCard> implements DAO<CreditCard> {
-	private CreditCardDAO creditCardDAO;
+	private static CreditCardDAO creditCardDAO;
 	
 	private CreditCardDAO() { }
 	
-	@Override
 	public synchronized CreditCardDAO getInstance() {
 		if (creditCardDAO == null)
 			creditCardDAO = new CreditCardDAO();
@@ -32,7 +31,7 @@ public class CreditCardDAO extends UtilsDAO<CreditCardDAO, CreditCard> implement
 			
 			String sql = buffer.toString();
 			command.execute(sql);			
-		} catch (SQLException | ClassNotFoundException e) {
+		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			this.closeConnection();
@@ -59,7 +58,7 @@ public class CreditCardDAO extends UtilsDAO<CreditCardDAO, CreditCard> implement
 			} 
 			
 			return cc;
-		} catch (SQLException | ClassNotFoundException e) {
+		} catch (SQLException e) {
 			throw new DatabaseException(e.getMessage());
 		} finally {
 			this.closeConnection();
@@ -79,7 +78,7 @@ public class CreditCardDAO extends UtilsDAO<CreditCardDAO, CreditCard> implement
 			
 			String sql = buffer.toString();
 			command.executeUpdate(sql);
-		} catch (SQLException | ClassNotFoundException e) {
+		} catch (SQLException e) {
 			throw new DatabaseException(e.getMessage());
 		} finally {
 			this.closeConnection();
@@ -95,8 +94,6 @@ public class CreditCardDAO extends UtilsDAO<CreditCardDAO, CreditCard> implement
 			
 			command.executeUpdate(sql);
 		} catch (SQLException e) {
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} finally {
 			this.closeConnection();

@@ -12,7 +12,6 @@ public class AddressDAO extends UtilsDAO<AddressDAO, Address> implements DAO<Add
 
 	private AddressDAO () { }
 
-	@Override
 	public synchronized AddressDAO getInstance(){
 		if (addressDAO == null)
 			addressDAO = new AddressDAO();
@@ -33,7 +32,7 @@ public class AddressDAO extends UtilsDAO<AddressDAO, Address> implements DAO<Add
 			
 			String sql = buffer.toString();
 			command.execute(sql);			
-		} catch (SQLException | ClassNotFoundException e) {
+		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
 			this.closeConnection();
@@ -64,7 +63,7 @@ public class AddressDAO extends UtilsDAO<AddressDAO, Address> implements DAO<Add
 			} 
 			
 			return a;
-		} catch (SQLException | ClassNotFoundException e) {
+		} catch (SQLException e) {
 			throw new DatabaseException(e.getMessage());
 		} finally {
 			this.closeConnection();
@@ -96,7 +95,7 @@ public class AddressDAO extends UtilsDAO<AddressDAO, Address> implements DAO<Add
 			} 
 			
 			return addresses;
-		} catch (SQLException | ClassNotFoundException e) {
+		} catch (SQLException e) {
 			throw new DatabaseException(e.getMessage());
 		} finally {
 			this.closeConnection();
@@ -116,7 +115,7 @@ public class AddressDAO extends UtilsDAO<AddressDAO, Address> implements DAO<Add
 			
 			String sql = buffer.toString();
 			command.executeUpdate(sql);
-		} catch (SQLException | ClassNotFoundException e) {
+		} catch (SQLException e) {
 			throw new DatabaseException(e.getMessage());
 		} finally {
 			this.closeConnection();
@@ -132,8 +131,6 @@ public class AddressDAO extends UtilsDAO<AddressDAO, Address> implements DAO<Add
 			
 			command.executeUpdate(sql);
 		} catch (SQLException e) {
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} finally {
 			this.closeConnection();

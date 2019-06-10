@@ -8,13 +8,12 @@
 	<body>
 		<h:outputLabel value="Editing the employee: "/>
 		<h:form>
-			ID: <h:inputText value="#{employeeManagedBean.employee.id}"/> <br></br>
-			Name: <h:inputText value="#{employeeManagedBean.employee.name}"/> <br></br>
-			Date of Birthday: <h:inputText value="#{employeeManagedBean.employee.dob}">
-				<f:convertDateTime pattern="yyyy-MM-dd"/> 
-			</h:inputText> <br></br>
-			<h:commandButton value="Confirmar edição" 
-							 action="#{employeeManagedBean.confirmEdition}" />
+			<h:inputHidden value="#{employeeManagedBean.client.id_client}"/> <br></br>
+			Name: <h:inputText value="#{employeeManagedBean.client.name}"/> 			<br></br>
+			Email: <h:inputText value="#{employeeManagedBean.client.email}"/> 			<br></br>
+			CPF: <h:inputText value="#{employeeManagedBean.client.cpf}"/> 				<br></br>
+			Phone: <h:inputText value="#{employeeManagedBean.client.phone}"/> 			<br></br>
+			<h:commandButton value="Confirmar edição" action="#{employeeManagedBean.confirmEdition}" />
 		</h:form>
 	</body>      
 </html>

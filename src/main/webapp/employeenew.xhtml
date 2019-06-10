@@ -11,15 +11,17 @@
 	<h:form>
 		<h:panelGrid columns="2">
 			<h:outputLabel value="Name: "/>
-			<h:inputText value="#{employeeManagedBean.employee.name}" />
-			<h:outputLabel value="Date of Birth : " />
-			<h:inputText value="#{employeeManagedBean.employee.dob}">
-				<f:convertDateTime pattern="dd/mm/yyyy" />
-			</h:inputText>
+			<h:inputText value="#{employeeManagedBean.client.name}" />
+			<h:outputLabel value="Email: " />
+			<h:inputText value="#{employeeManagedBean.client.email}" />
+			<h:outputLabel value="Cpf: " />
+			<h:inputText value="#{employeeManagedBean.client.cpf}" />
+			<h:outputLabel value="Phone: " />
+			<h:inputText value="#{employeeManagedBean.client.phone}" />
 		</h:panelGrid>
 
 		<h:commandButton value="Add New Employee"
-			action="#{employeeManagedBean.addNewEmployee}" />
+			action="#{employeeManagedBean.addNewClient}" />
 	</h:form>
 </body>
 </html>

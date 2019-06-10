@@ -4,12 +4,11 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html">
 
-<h:head>Listando Employees</h:head>
+<h:head>Listando Clientes</h:head>
 <body>
-
 	<h:form>
-
-		<h:dataTable value="#{employeeManagedBean.employeeList}" var="emp" border="1">
+		<h:dataTable value="#{employeeManagedBean.clientList}" var="emp"
+			border="1">
 			<h:column>
 				<f:facet name="header">
 					<h:outputText value="Name" />
@@ -19,19 +18,35 @@
 
 			<h:column>
 				<f:facet name="header">
-					<h:outputText value="Date of Birth" />
+					<h:outputText value="Cpf" />
 				</f:facet>
-				<h:outputText value="#{emp.dob}" />
+				<h:outputText value="#{emp.cpf}" />
+			</h:column>
+			
+			<h:column>
+				<f:facet name="header">
+					<h:outputText value="Email" />
+				</f:facet>
+				<h:outputText value="#{emp.email}" />
+			</h:column>
+			
+			<h:column>
+				<f:facet name="header">
+					<h:outputText value="Phone" />
+				</f:facet>
+				<h:outputText value="#{emp.phone}" />
 			</h:column>
 
 			<h:column>
 				<f:facet name="header"> Edit </f:facet>
-				<h:commandButton value="Edit" action="#{employeeManagedBean.editEmployee(emp.id)}"/>
+				<h:commandButton value="Edit"
+					action="#{employeeManagedBean.editClient(emp.id_client)}" />
 			</h:column>
 
 			<h:column>
 				<f:facet name="header"> Remove </f:facet>
-				<h:commandButton value="Remove" action="#{employeeManagedBean.removeEmployee(emp.id)}"/>
+				<h:commandButton value="Remove"
+					action="#{employeeManagedBean.removeClient(emp.id_client)}" />
 			</h:column>
 
 		</h:dataTable>

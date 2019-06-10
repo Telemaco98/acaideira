@@ -21,7 +21,7 @@ public class Address {
 	 * @param complement
 	 * @param user_id
 	 */
-	public Address(int id_address, String cep, String street, String neighborhood, String city, int number, String complement, int user_id) {
+	public Address(int id_address, String cep, String street, String neighborhood, String city, int number, String complement, int id_client) {
 		this.id_address	  = id_address;
 		this.id_client 	  = id_client;
 		this.cep 		  = cep;

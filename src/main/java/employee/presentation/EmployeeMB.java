@@ -1,63 +1,99 @@
 package employee.presentation;
 
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
 
 import javax.enterprise.context.RequestScoped;
-import javax.inject.Inject;
 import javax.inject.Named;
+
+import com.ufrn.imd.acaideira.data.ClientDAO;
+import com.ufrn.imd.acaideira.data.ConnectionFactory;
+import com.ufrn.imd.acaideira.data.exception.DatabaseException;
+import com.ufrn.imd.acaideira.domain.Client;
 
 @Named(value = "employeeManagedBean")
 @RequestScoped
 public class EmployeeMB {
-	@Inject EmployeeDAO dao;
+	ClientDAO dao;
 	
 	//Auxiliary fields for JSF
-	private List<Employee> employeeList = new ArrayList<>();
-	private Employee employee = new Employee();
+	private ArrayList<Client> clientList = new ArrayList<>();
+	private Client client = new Client();
+		
+	public ArrayList<Client> getClientList() throws DatabaseException {
+		dao = ClientDAO.getInstance();
+		clientList = dao.selectAllClients();
+		return clientList;
+	}
+
+	public void setClientList(ArrayList<Client> ClientList) {
+		this.clientList = ClientList;
+	}
+
+	public Client getClient() {
+		return client;
+	}
+
+	public void setClient(Client client) {
+		this.client = client;
+	}
+
+	public String addNewClient(){
+		try {
+			System.out.println("oi1");
+			dao = ClientDAO.getInstance();
+			System.out.println("oi0");
+			dao.insert(client);
+			System.out.println("oi2");
+			clientList = dao.selectAllClients();
+			System.out.println("oi3");
+			return "employeelist";
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		
+		return null;
+	}
 	
-	public List<Employee> getEmployeeList() {
-		employeeList = dao.findEmployees();
-		return employeeList;
-	}
-
-	public void setEmployeeList(List<Employee> employeeList) {
-		this.employeeList = employeeList;
-	}
-
-	public Employee getEmployee() {
-		return employee;
-	}
-
-	public void setEmployee(Employee employee) {
-		this.employee = employee;
-	}
-
-	public String addNewEmployee() {
-		dao.addNew(employee);
-		employeeList = dao.findEmployees();
-		return "employeelist";
-	}
-	
-	public String editEmployee (Long id) {
-		Employee findEmployee = dao.findEmployee(id);
-		if(findEmployee != null) { 
-			employee = findEmployee;
+	public String editClient (int id) throws DatabaseException {
+		dao = ClientDAO.getInstance();
+		Client findedClient = dao.select(id);
+		if(findedClient != null) { 
+			client = findedClient;
 			return "employeeedit";
 		} else {
 			return null;
 		}
 	}
 	
-	public String removeEmployee (Long id) {
-		dao.remove(id);
-		employeeList = dao.findEmployees();
+	public String removeClient (int id) throws DatabaseException {
+		dao = ClientDAO.getInstance();
+		Client c = dao.select(id);
+		dao.delete(c);
+		clientList = dao.selectAllClients();
 		return "employeelist";
 	}
 	
-	public String confirmEdition () {
-		dao.updateEmployee(employee);
-		employeeList = dao.findEmployees();
+	public String confirmEdition () throws DatabaseException {
+		dao = ClientDAO.getInstance();		
+		dao.update(client);
+		clientList = dao.selectAllClients();
 		return "employeelist";
+	}
+	
+	public String testConecion () {
+		try {
+			Connection c = ConnectionFactory.getConnection();
+			System.out.println("conectei");
+			c.close();
+			System.out.println("Fechei conexao conectei");
+		} catch (DatabaseException e) {
+			System.out.println("Não consegui conectar");
+		} catch (SQLException e) {
+			System.out.println("Não consegui fechar conexao");
+		}
+		
+		return null;
 	}
 }
