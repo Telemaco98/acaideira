@@ -48,7 +48,7 @@ public class ClientDAO extends UtilsDAO<ClientDAO, Client> implements DAO<Client
 			this.startConnection();
 			
 			String sql = "SELECT * FROM CLIENT WHERE id_client = " +
-					retornValueStringBD(String.valueOf(id));  // TODO update to get the addresses of each client
+					returnValueStringBD(String.valueOf(id));  // TODO update to get the addresses of each client
 			
 			ResultSet rs = command.executeQuery(sql);
 
@@ -122,7 +122,7 @@ public class ClientDAO extends UtilsDAO<ClientDAO, Client> implements DAO<Client
 		try {
 			this.startConnection();
 			String sql = "DELETE FROM client WHERE id_client="
-					+ retornValueStringBD(String.valueOf(client.getId_client()));
+					+ returnValueStringBD(String.valueOf(client.getId_client()));
 			
 			command.executeUpdate(sql);
 		} catch (SQLException e) {
@@ -142,23 +142,23 @@ public class ClientDAO extends UtilsDAO<ClientDAO, Client> implements DAO<Client
 		StringBuffer buffer = new StringBuffer();
 		
 		buffer.append("cpf=");
-		buffer.append(retornValueStringBD(c.getCpf()));
+		buffer.append(returnValueStringBD(c.getCpf()));
 		buffer.append(", name=");
-		buffer.append(retornValueStringBD(c.getName()));
+		buffer.append(returnValueStringBD(c.getName()));
 		buffer.append(", email=");
-		buffer.append(retornValueStringBD(c.getEmail()));
+		buffer.append(returnValueStringBD(c.getEmail()));
 		buffer.append(", phone=");
-		buffer.append(retornValueStringBD(c.getPhone()));
+		buffer.append(returnValueStringBD(c.getPhone()));
 		
 		return buffer.toString();
 	}
 
 	@Override
 	protected String returnValuesBD(Client c) {
-		return retornValueStringBD(c.getCpf()) + ", " +
-				retornValueStringBD(c.getName()) + ", " +
-				retornValueStringBD(c.getEmail()) + ", " +
-				retornValueStringBD(c.getPhone());
+		return returnValueStringBD(c.getCpf()) + ", " +
+				returnValueStringBD(c.getName()) + ", " +
+				returnValueStringBD(c.getEmail()) + ", " +
+				returnValueStringBD(c.getPhone());
 	}
 	
 //	public static void main(String[] args) {

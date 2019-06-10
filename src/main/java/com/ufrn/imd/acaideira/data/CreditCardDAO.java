@@ -44,7 +44,7 @@ public class CreditCardDAO extends UtilsDAO<CreditCardDAO, CreditCard> implement
 			this.startConnection();
 			
 			String sql = "SELECT * FROM creditcard WHERE id_creditcard = " +
-					retornValueStringBD(String.valueOf(id));  // TODO update to get the addresses of each client
+					returnValueStringBD(String.valueOf(id));  // TODO update to get the addresses of each client
 			
 			ResultSet rs = command.executeQuery(sql);
 
@@ -90,7 +90,7 @@ public class CreditCardDAO extends UtilsDAO<CreditCardDAO, CreditCard> implement
 		try {
 			this.startConnection();
 			String sql = "DELETE FROM creditcard WHERE id_creditcard="
-					+ retornValueStringBD(String.valueOf(creditCard.getIdCreditCard()));
+					+ returnValueStringBD(String.valueOf(creditCard.getIdCreditCard()));
 			
 			command.executeUpdate(sql);
 		} catch (SQLException e) {
@@ -110,19 +110,19 @@ public class CreditCardDAO extends UtilsDAO<CreditCardDAO, CreditCard> implement
 		StringBuffer buffer = new StringBuffer();
 		
 		buffer.append("number=");
-		buffer.append(retornValueStringBD(cc.getNumber()));
+		buffer.append(returnValueStringBD(cc.getNumber()));
 		buffer.append(", validity=");
-		buffer.append(retornValueStringBD(cc.getValidity()));
+		buffer.append(returnValueStringBD(cc.getValidity()));
 		buffer.append(", onwer_name=");
-		buffer.append(retornValueStringBD(cc.getOwnerName()));
+		buffer.append(returnValueStringBD(cc.getOwnerName()));
 		
 		return buffer.toString();
 	}
 
 	@Override
 	protected String returnValuesBD(CreditCard cc) {
-		return retornValueStringBD(cc.getNumber()) + ", " + 
-				retornValueStringBD(cc.getValidity()) + ", " +
-				retornValueStringBD(cc.getValidity());
+		return returnValueStringBD(cc.getNumber()) + ", " + 
+				returnValueStringBD(cc.getValidity()) + ", " +
+				returnValueStringBD(cc.getValidity());
 	}
 }

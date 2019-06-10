@@ -1,8 +1,8 @@
 package com.ufrn.imd.acaideira.domain;
 
-public class Restaurante{
+public class Restaurant{
 
-	private int id_restaurante;
+	private int id;
 	
 	private String endereco;
 	
@@ -10,22 +10,22 @@ public class Restaurante{
 	
 	private String tipo;
 	
-	public Restaurante() {
+	public Restaurant() {
 		
 	}
 	
-	public Restaurante(String endereco, String nome, String tipo) {
+	public Restaurant(String endereco, String nome, String tipo) {
 		this.endereco = endereco;
 		this.nome = nome;
 		this.tipo = tipo;
 	}
 		
-	public int getId_restaurante() {
-		return id_restaurante;
+	public int getId() {
+		return id;
 	}
 
-	public void setId_restaurante(int id_restaurante) {
-		this.id_restaurante = id_restaurante;
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public String getEndereco() {

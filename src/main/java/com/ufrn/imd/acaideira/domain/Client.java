@@ -2,6 +2,14 @@ package com.ufrn.imd.acaideira.domain;
 
 import java.util.ArrayList;
 
+/**
+ * The Client class represents a person that is a user of 
+ * Acaideira as consumer
+ * 
+ * @author 	Shirley Ohara  (ohara.s.98@hotmail.com)
+ * @author 	Vitor Henrique (vitorhenrique908@gmail.com)
+ * @version 10.06.2019
+ */
 public class Client {
 	private int    id_client;
 	private String cpf;
@@ -11,11 +19,22 @@ public class Client {
 	private ArrayList<Address> 	  addresses;
 	private ArrayList<CreditCard> credit_cards;
 
+	/**
+	 * Default constructor
+	 */
 	public Client() { 
 		this.addresses	  = new ArrayList<>();
 		this.credit_cards = new ArrayList<>();
 	}
 	
+	/**
+	 * Convenience constructor
+	 * @param id
+	 * @param cpf
+	 * @param name
+	 * @param email
+	 * @param phone
+	 */
 	public Client(int id, String cpf, String name, String email, String phone) {
 		this.id_client   = id;
 		this.cpf 		  = cpf;

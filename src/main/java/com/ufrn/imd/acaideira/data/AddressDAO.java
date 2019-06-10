@@ -45,7 +45,7 @@ public class AddressDAO extends UtilsDAO<AddressDAO, Address> implements DAO<Add
 			this.startConnection();
 			
 			String sql = "SELECT * FROM address WHERE id_address = " +
-					retornValueStringBD(String.valueOf(id));
+					returnValueStringBD(String.valueOf(id));
 			
 			ResultSet rs = command.executeQuery(sql);
 
@@ -75,7 +75,7 @@ public class AddressDAO extends UtilsDAO<AddressDAO, Address> implements DAO<Add
 			this.startConnection();
 			
 			String sql = "SELECT * FROM address WHERE id_client = " +
-					retornValueStringBD(String.valueOf(id_client));
+					returnValueStringBD(String.valueOf(id_client));
 			
 			ResultSet rs = command.executeQuery(sql);
 
@@ -127,7 +127,7 @@ public class AddressDAO extends UtilsDAO<AddressDAO, Address> implements DAO<Add
 		try {
 			this.startConnection();
 			String sql = "DELETE FROM address WHERE id_address="
-					+ retornValueStringBD(String.valueOf(address.getIdAddress()));
+					+ returnValueStringBD(String.valueOf(address.getIdAddress()));
 			
 			command.executeUpdate(sql);
 		} catch (SQLException e) {
@@ -147,31 +147,31 @@ public class AddressDAO extends UtilsDAO<AddressDAO, Address> implements DAO<Add
 		StringBuffer buffer = new StringBuffer();
 		
 		buffer.append("cep=");
-		buffer.append(retornValueStringBD(a.getCep()));
+		buffer.append(returnValueStringBD(a.getCep()));
 		buffer.append(", street=");
-		buffer.append(retornValueStringBD(a.getStreet()));
+		buffer.append(returnValueStringBD(a.getStreet()));
 		buffer.append(", neighborhood=");
-		buffer.append(retornValueStringBD(a.getNeighborhood()));
+		buffer.append(returnValueStringBD(a.getNeighborhood()));
 		buffer.append(", city=");
-		buffer.append(retornValueStringBD(a.getCity()));
+		buffer.append(returnValueStringBD(a.getCity()));
 		buffer.append(", number=");
-		buffer.append(retornValueStringBD(String.valueOf(a.getNumber())));
+		buffer.append(returnValueStringBD(String.valueOf(a.getNumber())));
 		buffer.append(", complement=");
-		buffer.append(retornValueStringBD(a.getComplement()));
+		buffer.append(returnValueStringBD(a.getComplement()));
 		buffer.append(", id_client=");
-		buffer.append(retornValueStringBD(String.valueOf(a.getIdClient())));
+		buffer.append(returnValueStringBD(String.valueOf(a.getIdClient())));
 		
 		return buffer.toString();
 	}
 
 	@Override
 	protected String returnValuesBD(Address a) {
-		return retornValueStringBD(a.getCep()) + ", " + 
-				retornValueStringBD(a.getStreet()) + ", " +
-				retornValueStringBD(a.getNeighborhood()) + ", " +
-				retornValueStringBD(a.getCity()) + ", " +
-				retornValueStringBD(String.valueOf(a.getNumber())) + ", " +
-				retornValueStringBD(a.getComplement()) + ", " +
-				retornValueStringBD(String.valueOf(a.getIdClient()));
+		return returnValueStringBD(a.getCep()) + ", " + 
+				returnValueStringBD(a.getStreet()) + ", " +
+				returnValueStringBD(a.getNeighborhood()) + ", " +
+				returnValueStringBD(a.getCity()) + ", " +
+				returnValueStringBD(String.valueOf(a.getNumber())) + ", " +
+				returnValueStringBD(a.getComplement()) + ", " +
+				returnValueStringBD(String.valueOf(a.getIdClient()));
 	}
 }
