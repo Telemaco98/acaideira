@@ -268,4 +268,5 @@ public class RestaurantDAO extends UtilsDAO<RestaurantDAO, Restaurant> implement
 		return returnValueStringBD(r.getNome()) + ", " + returnValueStringBD(r.getTipo()) + ", "
 				+ returnValueStringBD(r.getEndereco());
 	}
+
 }

@@ -1,8 +1,9 @@
 package com.ufrn.imd.acadeira.vision;
 
-public interface Vision<T> {
-	public void add(T entity);
-	public void remove(T entity);
-	public void alter(T entity);
-	public void visualize(T entity);
+public interface Vision {
+	public void add() throws Exception;
+	public void remove() throws Exception;
+	public void alter() throws Exception;
+	public void visualize() throws Exception;
+	public void visualizeAll() throws Exception;
 }
