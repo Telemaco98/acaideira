@@ -41,13 +41,9 @@ public class EmployeeMB {
 
 	public String addNewClient(){
 		try {
-			System.out.println("oi1");
 			dao = ClientDAO.getInstance();
-			System.out.println("oi0");
 			dao.insert(client);
-			System.out.println("oi2");
 			clientList = dao.selectAllClients();
-			System.out.println("oi3");
 			return "employeelist";
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
