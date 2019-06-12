@@ -1,11 +1,9 @@
 package com.ufrn.imd.acadeira.vision;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 import com.ufrn.imd.acaideira.data.ProductDAO;
 import com.ufrn.imd.acaideira.data.RestaurantDAO;
@@ -55,7 +53,7 @@ public class RestaurantVision implements Vision{
 	    }
 	    
 	    if(restaurant == null) {
-	    	System.out.println("Restaurante não encontrado");
+	    	System.out.println("Restaurante nï¿½o encontrado");
 	    }
 	    else {
 	    	try {
@@ -80,7 +78,7 @@ public class RestaurantVision implements Vision{
 	    }
 	    
 	    if(restaurant == null) {
-	    	System.out.println("Restaurante não encontrado");
+	    	System.out.println("Restaurante nï¿½o encontrado");
 	    }
 	    else {
 	    	ArrayList<String> infoRestaurant = new ArrayList<String>();
@@ -116,7 +114,7 @@ public class RestaurantVision implements Vision{
 	    }
 	    
 	    if(restaurant == null) {
-	    	System.out.println("Restaurante não encontrado");
+	    	System.out.println("Restaurante nï¿½o encontrado");
 	    }
 	    else {
 	    	System.out.println(restaurant.toString());

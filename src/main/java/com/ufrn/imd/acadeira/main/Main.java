@@ -2,7 +2,6 @@ package com.ufrn.imd.acadeira.main;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.util.Scanner;
 
 import com.ufrn.imd.acadeira.vision.*;
 
