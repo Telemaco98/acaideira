@@ -52,4 +52,8 @@ public class Restaurant{
 		this.tipo = tipo;
 	}
 	
+	public String toString() {
+		return  "Id: " + this.getId() + " Nome: " +  this.getNome() + " Tipo: "+ this.getTipo() + " Endereco: "+ this.getEndereco();
+	}
+	
 }

@@ -62,6 +62,8 @@ public class Product{
 		this.idRestaurante = idRestaurante;
 	}
 	
-	
+	public String toString() {
+		return "Id: " + this.getId() + " Nome: " +  this.getNome() + " Quantidade: "+ this.getQuantidade() + " Endereco: "+ this.getPrice();
+	}
 	
 }

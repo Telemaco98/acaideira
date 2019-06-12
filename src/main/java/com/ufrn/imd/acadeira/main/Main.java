@@ -3,37 +3,62 @@ package com.ufrn.imd.acadeira.main;
 import java.util.Scanner;
 
 import com.ufrn.imd.acadeira.vision.*;
-import com.ufrn.imd.acaideira.data.RestaurantDAO;
-import com.ufrn.imd.acaideira.domain.Restaurant;
 
 public class Main {
-
-	public static void restaurantVision(Vision v) throws Exception {
-		Scanner sc = new Scanner(System.in);
+	
+	private static Scanner sc = new Scanner(System.in);
+	
+	public static void restaurantVision(RestaurantVision r) throws Exception {
 		int option = -1;
 		while(option != 0) {
-			System.out.println("1 - Adicionar restaurante \t 0 - Sair\n");
+			System.out.println("1 - Add restaurant \n 2 - Check all restaurants added \n 3 - Alter restaurant info \n 4 - Retrive products from restaurant "
+					+ "\n 5 - Remove product from restaurant \n 6 - Alter product from restaurant \n 7 - Purchases from Restaurant \n"
+					+ " 8 - Search by a parameter \n 9 - Add product in restaurant \n0 - Exit\n");
 			option = sc.nextInt();
 			switch(option) {
 				case 0:
 					System.out.println("Saindo do programa\n");
 				break;
 				case 1:
-					v.add();					
+					r.add();					
+				break;
+				case 2:
+					r.visualizeAll();
+				break;
+				case 3:
+					r.alter();
+				break;
+				case 4:
+					r.retriveProductsInRestaurant();
+				break;
+				case 5:
+					r.removeProductInRestaurant();
+				break;
+				case 6:
+					r.alterProductInRestaurant();
+				break;
+				case 7:
+					r.retrivePurchasesFromRestaurant();
+				break;
+				case 8:
+					r.searchByRestaurantParameter();
+				break;
+				case 9:
+					r.addProductInRestaurant();
 				break;
 				default:
-					System.out.println("Opção inválida\n");
+					System.out.println("Invalid option\n");
 			}
 			
 		}
 	}
 	
-	public static void main(String[] args) throws Exception{
-	    Scanner sc = new Scanner(System.in);
+	public static void main(String[] args) throws Exception{	    
 		Vision v;
+	    
 		int option = -1;
 		while(option != 0) {
-			System.out.println("1 - Restaurante \t 2 - Cliente \t 0 - Sair\n");
+			System.out.println("1 - Restaurant \n 2 - Client \n 0 - Exit\n");
 			option = sc.nextInt();
 			switch(option) {
 				case 0:
@@ -41,12 +66,12 @@ public class Main {
 				break;
 				case 1:
 					v = new RestaurantVision();
-					restaurantVision(v);
+					restaurantVision((RestaurantVision)v);
 				break;
 				case 2:
-					v = new ClientVision();
+					System.out.println("");
 				default:
-					System.out.println("Opção inválida\n");
+					System.out.println("Invalid option\n");
 			}
 			
 		}

@@ -228,4 +228,5 @@ public class PaymentDAO extends UtilsDAO<PaymentDAO, Payment> implements DAO<Pay
 		return returnValueStringBD(p.getStatus()) + ", " + returnValueStringBD(String.valueOf(p.getValor())) + ", "
 				+ returnValueStringBD(p.getTipo());
 	}
+	
 }

@@ -7,6 +7,7 @@ import java.util.List;
 
 import com.ufrn.imd.acaideira.data.exception.DatabaseException;
 import com.ufrn.imd.acaideira.domain.Product;
+import com.ufrn.imd.acaideira.domain.Purchase;
 import com.ufrn.imd.acaideira.domain.Restaurant;
 
 public class RestaurantDAO extends UtilsDAO<RestaurantDAO, Restaurant> implements DAO<Restaurant> {
@@ -196,6 +197,30 @@ public class RestaurantDAO extends UtilsDAO<RestaurantDAO, Restaurant> implement
 		}
 		return null;
 	}
+	
+	public List<Restaurant> retrieveRestaurantsByName(String name) throws DatabaseException {
+		try {
+			this.startConnection();
+			String sql = "SELECT * FROM restaurant WHERE name LIKE " + returnValueStringBD("%" + name + "%");
+			ResultSet rs = command.executeQuery(sql);
+			List<Restaurant> rest = new ArrayList<Restaurant>();
+			while (rs.next()) {
+				Restaurant r = new Restaurant();
+				r.setId(Integer.parseInt(rs.getString("id_restaurant")));
+				r.setNome(rs.getString("name"));
+				r.setTipo(rs.getString("type"));
+				r.setEndereco(rs.getString("address"));
+				rest.add(r);
+			}
+
+			return rest;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			this.closeConnection();
+		}
+		return null;
+	}
 
 	public List<Restaurant> retrieveRestaurantsByType(String type) throws DatabaseException {
 		try {
@@ -244,6 +269,30 @@ public class RestaurantDAO extends UtilsDAO<RestaurantDAO, Restaurant> implement
 		}
 		return null;
 	}
+	
+	public List<Purchase> retrievePurchaseFromRestaurant(Restaurant r) throws DatabaseException {
+		try {
+			this.startConnection();
+			String sql = "SELECT * FROM purchase WHERE id_purchase IN "
+					+ "( SELECT id_purchase FROM purchase_restaurant WHERE id_restaurant = "
+					+ returnValueStringBD("%" + r.getId() + "%") + ")";
+			ResultSet rs = command.executeQuery(sql);
+			List<Purchase> purchases = new ArrayList<Purchase>();
+			while (rs.next()) {
+				Purchase p = new Purchase();
+				p.setId(Integer.parseInt(rs.getString("id_purchase")));
+				p.setPrice(Double.parseDouble(rs.getString("price")));
+				purchases.add(p);
+			}
+
+			return purchases;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			this.closeConnection();
+		}
+		return null;
+	}
 
 	@Override
 	protected String returnFieldsBD() {
@@ -268,5 +317,5 @@ public class RestaurantDAO extends UtilsDAO<RestaurantDAO, Restaurant> implement
 		return returnValueStringBD(r.getNome()) + ", " + returnValueStringBD(r.getTipo()) + ", "
 				+ returnValueStringBD(r.getEndereco());
 	}
-
+	
 }

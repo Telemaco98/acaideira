@@ -7,6 +7,7 @@ import java.util.List;
 
 import com.ufrn.imd.acaideira.data.exception.DatabaseException;
 import com.ufrn.imd.acaideira.domain.Product;
+import com.ufrn.imd.acaideira.domain.Restaurant;
 
 public class ProductDAO extends UtilsDAO<ProductDAO, Product> implements DAO<Product> {
 	private static ProductDAO ProductDAO;
@@ -68,6 +69,32 @@ public class ProductDAO extends UtilsDAO<ProductDAO, Product> implements DAO<Pro
 		return null;
 	}
 	
+	public Product selectInRestaurant(Restaurant r, int id) throws DatabaseException {
+		try {
+			this.startConnection();
+			
+			String sql = "SELECT * FROM product WHERE id_product = "
+					+ this.returnValueStringBD(String.valueOf(id)) 
+					+ "AND id_restaurant = " + this.returnValueStringBD(String.valueOf(r.getId())) ;
+			ResultSet rs = command.executeQuery(sql);
+			Product p = new Product();
+			if (rs.next()) {
+				p.setId(Integer.parseInt(rs.getString("id_product")));
+				p.setPrice(Double.parseDouble(rs.getString("price")));
+				p.setNome(rs.getString("name"));
+				p.setIdRestaurante(Integer.parseInt(rs.getString("id_restaurant")));
+				p.setQuantidade(Integer.parseInt(rs.getString("quantity")));
+			}
+
+			return p;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			this.closeConnection();
+		}
+		return null;
+	}
+	
 	@Override
 	public void update(Product p) throws DatabaseException {
 		try {
@@ -92,6 +119,20 @@ public class ProductDAO extends UtilsDAO<ProductDAO, Product> implements DAO<Pro
 			this.startConnection();
 			String sql = "DELETE FROM product WHERE id_product="
 					+ this.returnValueStringBD(String.valueOf(p.getId()));
+			command.executeUpdate(sql);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			this.closeConnection();
+		}
+	}
+	
+	public void deleteProductInRestaurant(Product p, Restaurant r) throws DatabaseException {
+		try {
+			this.startConnection();
+			String sql = "DELETE FROM product WHERE id_product="
+					+ this.returnValueStringBD(String.valueOf(p.getId()))
+					+ "AND d_restaurant ="+this.returnValueStringBD(String.valueOf(r.getId()));
 			command.executeUpdate(sql);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -304,4 +345,5 @@ public class ProductDAO extends UtilsDAO<ProductDAO, Product> implements DAO<Pro
 		return returnValueStringBD(String.valueOf(p.getPrice())) + ", " + returnValueStringBD(p.getNome()) + ", "
 				+ returnValueStringBD(String.valueOf(p.getIdRestaurante())) + ", " + returnValueStringBD(String.valueOf(p.getQuantidade()));
 	}
+	
 }

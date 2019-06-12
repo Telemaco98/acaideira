@@ -45,6 +45,39 @@ public abstract class UtilsDAO <Type, EntityType> {
 		return value;
 	}
 	
+	public void commit() throws Exception {
+    	try {
+			this.commitTransaction();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+    	
+    }
+    
+	public void cancelTransaction() throws Exception {
+	    if (connection == null) {
+	        throw new Exception("There is no opened connection");
+	    }
+	    try {
+	    	connection.rollback();
+	    } finally {
+	    	connection.close();
+	    	connection = null;
+	    }
+	}
+
+	public void commitTransaction() throws Exception {
+	    if (connection == null) {
+	        throw new Exception("There is no opened connection");
+	    }
+	    try {
+	    	connection.commit();
+	    } finally {
+	    	connection.close();
+	    	connection = null;
+	    }
+	}
+	
 	protected abstract String returnFieldsBD();
 
 	protected abstract String returnFieldValuesBD(EntityType t);
