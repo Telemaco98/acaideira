@@ -1,12 +1,14 @@
 package com.ufrn.imd.acadeira.main;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.util.Scanner;
 
 import com.ufrn.imd.acadeira.vision.*;
 
 public class Main {
 	
-	private static Scanner sc = new Scanner(System.in);
+	private static BufferedReader reader = new BufferedReader(new InputStreamReader(System.in)); 
 	
 	public static void restaurantVision(RestaurantVision r) throws Exception {
 		int option = -1;
@@ -14,7 +16,7 @@ public class Main {
 			System.out.println("1 - Add restaurant \n 2 - Check all restaurants added \n 3 - Alter restaurant info \n 4 - Retrive products from restaurant "
 					+ "\n 5 - Remove product from restaurant \n 6 - Alter product from restaurant \n 7 - Purchases from Restaurant \n"
 					+ " 8 - Search by a parameter \n 9 - Add product in restaurant \n0 - Exit\n");
-			option = sc.nextInt();
+			option = Integer.parseInt(reader.readLine());
 			switch(option) {
 				case 0:
 					System.out.println("Saindo do programa\n");
@@ -59,7 +61,7 @@ public class Main {
 		int option = -1;
 		while(option != 0) {
 			System.out.println("1 - Restaurant \n 2 - Client \n 0 - Exit\n");
-			option = sc.nextInt();
+			option = Integer.parseInt(reader.readLine());
 			switch(option) {
 				case 0:
 					System.out.println("Saindo do programa\n");

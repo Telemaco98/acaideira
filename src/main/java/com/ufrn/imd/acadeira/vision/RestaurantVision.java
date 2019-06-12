@@ -1,5 +1,8 @@
 package com.ufrn.imd.acadeira.vision;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -14,7 +17,7 @@ import com.ufrn.imd.acaideira.domain.Restaurant;
 public class RestaurantVision implements Vision{
 	private RestaurantDAO restaurantDAO;
 	private ProductDAO productDAO;
-	private static Scanner sc = new Scanner(System.in);
+	private BufferedReader reader = new BufferedReader(new InputStreamReader(System.in)); 
 	
 	public RestaurantVision() throws DatabaseException {
 		this.restaurantDAO = RestaurantDAO.getInstance();
@@ -42,7 +45,7 @@ public class RestaurantVision implements Vision{
 	@Override
 	public void remove() throws Exception{
 		System.out.println("Type the restaurant id: ");
-		int id = sc.nextInt();
+		int id = Integer.parseInt(reader.readLine());
 	    Restaurant restaurant = null;
 	    try {
 	    	restaurant = restaurantDAO.select(id);
@@ -67,7 +70,7 @@ public class RestaurantVision implements Vision{
 	@Override
 	public void alter() throws Exception {
 		System.out.println("Type the restaurant id: ");
-		int id = sc.nextInt();
+		int id = Integer.parseInt(reader.readLine());
 	    Restaurant restaurant = null;
 	    try {
 	    	restaurant = restaurantDAO.select(id);
@@ -87,8 +90,9 @@ public class RestaurantVision implements Vision{
 			
 			ArrayList<String> par = this.askInfo(infoRestaurant,infoRestaurant.size());
 	    	
-			restaurant = new Restaurant(par.get(0),par.get(1), par.get(2));
-			
+			restaurant.setNome(par.get(0));
+			restaurant.setTipo(par.get(1));
+			restaurant.setEndereco(par.get(2));
 	    	try {
 	    		restaurantDAO.update(restaurant);
 	    		//restaurantDAO.commit();
@@ -102,7 +106,7 @@ public class RestaurantVision implements Vision{
 	@Override
 	public void visualize() throws Exception{
 		System.out.println("Type the restaurant id: ");
-		int id = sc.nextInt();
+		int id = Integer.parseInt(reader.readLine());
 	    Restaurant restaurant = null;
 	    try {
 	    	restaurant = restaurantDAO.select(id);
@@ -138,7 +142,7 @@ public class RestaurantVision implements Vision{
 	
 	public void retriveProductsInRestaurant() throws Exception{
 		System.out.println("Type the restaurant id: ");
-		int id = sc.nextInt();
+		int id = Integer.parseInt(reader.readLine());
 	    Restaurant restaurant = null;
 	    try {
 	    	restaurant = restaurantDAO.select(id);
@@ -170,7 +174,7 @@ public class RestaurantVision implements Vision{
 	
 	public void addProductInRestaurant() throws Exception{	
 		System.out.println("Type the restaurant id: ");
-		int id = sc.nextInt();
+		int id = Integer.parseInt(reader.readLine());
 	    Restaurant restaurant = null;
 	    try {
 	    	restaurant = restaurantDAO.select(id);
@@ -203,7 +207,7 @@ public class RestaurantVision implements Vision{
 	
 	public void removeProductInRestaurant() throws Exception {
 		System.out.println("Type the restaurant id: ");
-		int id = sc.nextInt();
+		int id = Integer.parseInt(reader.readLine());
 	    Restaurant restaurant = null;
 	    try {
 	    	restaurant = restaurantDAO.select(id);
@@ -213,7 +217,7 @@ public class RestaurantVision implements Vision{
 	    }
 		if(restaurant != null) {
 			System.out.println("Type the product id: ");
-		    id = sc.nextInt();
+		    id = Integer.parseInt(reader.readLine());
 		    Product product = null;
 		    try {
 		    	product = productDAO.select(id);
@@ -243,7 +247,7 @@ public class RestaurantVision implements Vision{
 	
 	public void alterProductInRestaurant() throws Exception{	
 		System.out.println("Type the restaurant id: ");
-		int id = sc.nextInt();
+		int id = Integer.parseInt(reader.readLine());
 	    Restaurant restaurant = null;
 	    try {
 	    	restaurant = restaurantDAO.select(id);
@@ -259,7 +263,7 @@ public class RestaurantVision implements Vision{
 	    
 	    if(restaurant != null) {
 			System.out.println("Type the product id: ");
-		    id = sc.nextInt();
+		    id = Integer.parseInt(reader.readLine());
 		    Product product = null;
 		    try {
 		    	product = productDAO.selectInRestaurant(restaurant,id);
@@ -270,10 +274,12 @@ public class RestaurantVision implements Vision{
 		   
 		    if(product != null) {
 		    	ArrayList<String> parameters = this.askInfo(infoProduct,infoProduct.size());
-		    	product = new Product(Integer.parseInt(parameters.get(0)), parameters.get(1), Double.parseDouble(parameters.get(2)));
+		    	product.setQuantidade(Integer.parseInt(parameters.get(0)));
+		    	product.setNome(parameters.get(1));
+		    	product.setPrice(Double.parseDouble(parameters.get(2)));
 		    	try {
 			    	productDAO.update(product);
-			    	productDAO.commit();
+			    	//productDAO.commit();
 			    }
 			    catch(DatabaseException e) {
 			    	throw new DatabaseException("Problems");
@@ -291,7 +297,7 @@ public class RestaurantVision implements Vision{
 	
 	public void retrivePurchasesFromRestaurant() throws Exception{
 		System.out.println("Type the restaurant id: ");
-		int id = sc.nextInt();
+		int id = Integer.parseInt(reader.readLine());;
 	    Restaurant restaurant = null;
 	    try {
 	    	restaurant = restaurantDAO.select(id);
@@ -331,7 +337,7 @@ public class RestaurantVision implements Vision{
 		ArrayList<String> parameterValue = new ArrayList<String>();
 		
 		System.out.println("1 - Name \t 2 - Address \t 3 - Type \n");
-		int op = sc.nextInt();
+		int op = Integer.parseInt(reader.readLine());
 		
 		switch(op) {
 			case 1:
@@ -420,13 +426,13 @@ public class RestaurantVision implements Vision{
 
 	}
 	
-	public ArrayList<String> askInfo(ArrayList<String> infoRest, int quant) {
+	public ArrayList<String> askInfo(ArrayList<String> infoRest, int quant) throws Exception {
 		ArrayList<String> par = new ArrayList<String>();
 		int i = 0;
 		do {
 			System.out.print(infoRest.get(i));
 			i++;
-			par.add(sc.nextLine());
+			par.add(reader.readLine());
 		}while(i < quant);
 		return par;
 	}

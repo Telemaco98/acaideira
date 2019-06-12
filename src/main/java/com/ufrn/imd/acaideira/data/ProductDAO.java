@@ -102,7 +102,7 @@ public class ProductDAO extends UtilsDAO<ProductDAO, Product> implements DAO<Pro
 			StringBuffer buffer = new StringBuffer();
 			buffer.append("UPDATE product SET ");
 			buffer.append(returnFieldValuesBD(p));
-			buffer.append(" WHERE id_produt=");
+			buffer.append(" WHERE id_product=");
 			buffer.append(p.getId());
 			String sql = buffer.toString();
 
@@ -132,7 +132,7 @@ public class ProductDAO extends UtilsDAO<ProductDAO, Product> implements DAO<Pro
 			this.startConnection();
 			String sql = "DELETE FROM product WHERE id_product="
 					+ this.returnValueStringBD(String.valueOf(p.getId()))
-					+ "AND d_restaurant ="+this.returnValueStringBD(String.valueOf(r.getId()));
+					+ "AND id_restaurant ="+this.returnValueStringBD(String.valueOf(r.getId()));
 			command.executeUpdate(sql);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -323,7 +323,7 @@ public class ProductDAO extends UtilsDAO<ProductDAO, Product> implements DAO<Pro
 	
 	@Override
 	protected String returnFieldsBD() {
-		return "price, name, id_restaurante, quantity";
+		return "price, name, id_restaurant, quantity";
 	}
 
 	@Override
