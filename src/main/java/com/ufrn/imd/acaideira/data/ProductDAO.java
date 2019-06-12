@@ -335,7 +335,7 @@ public class ProductDAO extends UtilsDAO<ProductDAO, Product> implements DAO<Pro
 		buffer.append(returnValueStringBD(p.getNome()));
 		buffer.append(", id_restaurant=");
 		buffer.append(returnValueStringBD(String.valueOf(p.getIdRestaurante())));
-		buffer.append(", quantidade=");
+		buffer.append(", quantity=");
 		buffer.append(returnValueStringBD(String.valueOf(p.getQuantidade())));
 		return buffer.toString();
 	}

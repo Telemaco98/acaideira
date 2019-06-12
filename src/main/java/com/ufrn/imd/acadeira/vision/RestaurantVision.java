@@ -189,6 +189,7 @@ public class RestaurantVision implements Vision{
 	    if(restaurant != null) {
 	    	ArrayList<String> parameters = this.askInfo(infoProduct,infoProduct.size());
 	    	Product product = new Product(Integer.parseInt(parameters.get(0)), parameters.get(1), Double.parseDouble(parameters.get(2)));
+	    	product.setIdRestaurante(restaurant.getId());
 	    	try {
 		    	productDAO.insert(product);
 		    	//productDAO.commit();
@@ -275,9 +276,9 @@ public class RestaurantVision implements Vision{
 		    	product.setQuantidade(Integer.parseInt(parameters.get(0)));
 		    	product.setNome(parameters.get(1));
 		    	product.setPrice(Double.parseDouble(parameters.get(2)));
+		    	product.setIdRestaurante(restaurant.getId());
 		    	try {
 			    	productDAO.update(product);
-			    	//productDAO.commit();
 			    }
 			    catch(DatabaseException e) {
 			    	throw new DatabaseException("Problems");
