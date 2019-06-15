@@ -252,7 +252,7 @@ public class RestaurantDAO extends UtilsDAO<Restaurant> implements DAO<Restauran
 		buffer.append(returnValueStringBD(r.getType()));
 		buffer.append(", password=");
 		buffer.append(returnValueStringBD(r.getType()));
-		buffer.append("email=");
+		buffer.append(", email=");
 		buffer.append(returnValueStringBD(r.getEmail()));
 		return buffer.toString();
 	}
