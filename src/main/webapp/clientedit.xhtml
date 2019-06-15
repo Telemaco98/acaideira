@@ -1,0 +1,27 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html">
+
+	<h:head><title>Editar - Cliente</title></h:head>	
+	<body>
+		<h:outputLabel value="Editing the employee: "/>
+		<h:form>
+			<h:inputHidden value="#{clientManagedBean.client.id_client}"/> <br></br>
+			<h:panelGrid columns="2">
+				<h:outputLabel value="Nome "/>
+				<h:inputText value="#{clientManagedBean.client.name}"/>
+				<h:outputLabel value="Email "/>
+				<h:inputText value="#{clientManagedBean.client.email}"/>
+				<h:outputLabel value="CPF "/>
+				<h:inputText value="#{clientManagedBean.client.cpf}"/>
+				<h:outputLabel value="Celular: "/>
+				<h:inputText value="#{clientManagedBean.client.phone}"/>
+				<h:outputLabel value="Senha " />
+				<h:inputSecret value="#{clientManagedBean.client.password}" />
+			</h:panelGrid>
+			<h:commandButton value="Confirmar edição" action="#{clientManagedBean.confirmEdition}" />
+		</h:form>
+	</body>      
+</html>

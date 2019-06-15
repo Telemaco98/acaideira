@@ -7,52 +7,52 @@
 <h:head>Listando Clientes</h:head>
 <body>
 	<h:form>
-		<h:dataTable value="#{employeeManagedBean.clientList}" var="emp"
+		<h:dataTable value="#{clientManagedBean.clientList}" var="vclient"
 			border="1">
 			<h:column>
 				<f:facet name="header">
 					<h:outputText value="Name" />
 				</f:facet>
-				<h:outputText value="#{emp.name}" />
+				<h:outputText value="#{vclient.name}" />
 			</h:column>
 
 			<h:column>
 				<f:facet name="header">
 					<h:outputText value="Cpf" />
 				</f:facet>
-				<h:outputText value="#{emp.cpf}" />
+				<h:outputText value="#{vclient.cpf}" />
 			</h:column>
 			
 			<h:column>
 				<f:facet name="header">
 					<h:outputText value="Email" />
 				</f:facet>
-				<h:outputText value="#{emp.email}" />
+				<h:outputText value="#{vclient.email}" />
 			</h:column>
 			
 			<h:column>
 				<f:facet name="header">
 					<h:outputText value="Phone" />
 				</f:facet>
-				<h:outputText value="#{emp.phone}" />
+				<h:outputText value="#{vclient.phone}" />
 			</h:column>
 
 			<h:column>
 				<f:facet name="header"> Edit </f:facet>
 				<h:commandButton value="Edit"
-					action="#{employeeManagedBean.editClient(emp.id_client)}" />
+					action="#{clientManagedBean.editClient(vclient.id_client)}" />
 			</h:column>
 
 			<h:column>
 				<f:facet name="header"> Remove </f:facet>
 				<h:commandButton value="Remove"
-					action="#{employeeManagedBean.removeClient(emp.id_client)}" />
+					action="#{clientManagedBean.removeClient(vclient.id_client)}" />
 			</h:column>
 
 		</h:dataTable>
 	</h:form>
 	<h:form>
-		<h:link outcome="employeenew.xhtml" value="Add new Client" />
+		<h:link outcome="clientregister.xhtml" value="Add new Client" />
 	</h:form>
 </body>
 </html>

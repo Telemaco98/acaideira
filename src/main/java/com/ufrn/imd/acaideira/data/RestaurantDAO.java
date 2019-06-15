@@ -30,6 +30,8 @@ public class RestaurantDAO extends UtilsDAO<Restaurant> implements DAO<Restauran
 			buffer.append(" WHERE id_restaurant=");
 			buffer.append(r.getIdRestaurant());
 			String sql = buffer.toString();
+			
+			//TODO fazer update do address tbm
 
 			command.executeUpdate(sql);
 		} catch (SQLException e) {
@@ -113,7 +115,7 @@ public class RestaurantDAO extends UtilsDAO<Restaurant> implements DAO<Restauran
 				r.setIdRestaurant(Integer.parseInt(rs.getString("id_restaurant")));
 				r.setName(rs.getString("name"));
 				r.setType(rs.getString("type"));
-				r.setType(rs.getString("password"));
+				r.setPassword(rs.getString("password"));
 				r.setEmail(rs.getString("email"));
 				
 				rest.add(r);

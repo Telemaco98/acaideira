@@ -8,18 +8,18 @@
 	<title>Restaurant Register</title>
 </h:head>
 <body>
+	<h2>Cadastro de Restaurante</h2>
+
 	<h:form>
 		<h:panelGrid columns="2">
-			<h:outputLabel value="Email: " required="true"/>
-			<h:inputText value="#{restaurantManageBean.restaurant.email}"> 
-				<f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[\p{L}\p{M}\p{N}.-]*(\.[\p{L}\p{M}]{2,})$" />
-			</h:inputText>
-			<h:outputLabel value="Nome do restaurante: " required="true"/>
+			<h:outputLabel value="Nome" required="true"/>
 			<h:inputText value="#{restaurantManageBean.restaurant.name}" />
-			<h:outputLabel value="Tipo: " />
+			<h:outputLabel value="Tipo " />
 			<h:inputText value="#{restaurantManageBean.restaurant.type}" required="true"/>
-			<h:outputLabel value="Senha: " />
-			<h:inputSecret value="#{restaurantManageBean.restaurant.password}" required="true"/>			
+			<h:outputLabel value="Email" required="true"/>
+			<h:inputText value="#{restaurantManageBean.restaurant.email}"/>
+			<h:outputLabel value="Senha " />
+			<h:inputSecret value="#{restaurantManageBean.restaurant.password}" required="true"/>	
 		</h:panelGrid>
 
 		<h:commandButton value="Confirmar"

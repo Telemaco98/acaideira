@@ -5,13 +5,19 @@
 	xmlns:h="http://java.sun.com/jsf/html">
 
 <h:head>
-	<title>Remove a Employee</title>
+	<title>Login - Client</title>
 </h:head>
 <body>
-	<h:outputLabel value="Which employee do you want remove?" />
 	<h:form>
-		<h:commandButton value="testar conxao"
-			action="#{employeeManagedBean.testConecion}" />
+		<h:panelGrid columns="2">
+			<h:outputLabel value="Email: " />
+			<h:inputText value="#{email}" />
+			<h:outputLabel value="Senha: " />
+			<h:inputSecret value="#{password}" />
+		</h:panelGrid>
+
+		<h:commandButton value="Confirmar"
+			action="#{}" />
 	</h:form>
 </body>
 </html>

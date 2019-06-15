@@ -16,4 +16,16 @@
 	<welcome-file-list>
 		<welcome-file>index.xhtml</welcome-file>
 	</welcome-file-list>
+	<!-- 
+	<filter>
+		<filter-name>LoginFilte</filter-name>
+		<filter-class>com.ufrn;imd.acaideira.presentation.LoginFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>LoginFilte</filter-name>
+		<url-pattern>/restricted/*</url-pattern>
+	</filter-mapping>
+	<session-config>
+		<session-timeout>30</session-timeout>
+	</session-config>  -->
 </web-app>

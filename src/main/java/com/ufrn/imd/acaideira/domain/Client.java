@@ -16,6 +16,7 @@ public class Client {
 	private String name;
 	private String email;
 	private String phone;
+	private String password;
 	private ArrayList<Address> 	  addresses;
 	private ArrayList<CreditCard> credit_cards;
 
@@ -35,7 +36,7 @@ public class Client {
 	 * @param email
 	 * @param phone
 	 */
-	public Client(int id, String cpf, String name, String email, String phone) {
+	public Client(int id, String cpf, String name, String email, String phone, String password) {
 		this.id_client   = id;
 		this.cpf 		  = cpf;
 		this.name 		  = name;		
@@ -45,8 +46,8 @@ public class Client {
 		this.credit_cards = new ArrayList<>();
 	}
 	
-	public Client(int id, String cpf, String name, String email, String phone, ArrayList<Address> addresses, ArrayList<String> phones, ArrayList<CreditCard> credit_cards) {
-		this(id, cpf, name, email, phone);
+	public Client(int id, String cpf, String name, String email, String phone, String password, ArrayList<Address> addresses, ArrayList<CreditCard> credit_cards) {
+		this(id, cpf, name, email, phone, password);
 		this.addresses	  = addresses;
 		this.credit_cards = credit_cards;
 	}
@@ -71,6 +72,10 @@ public class Client {
 		return phone;
 	}
 	
+	public String getPassword() {
+		return password;
+	}
+	
 	public void setId_client(int id_client) {
 		this.id_client = id_client;
 	}
@@ -89,6 +94,10 @@ public class Client {
 	
 	public void setPhone(String phone) {
 		this.phone = phone;
+	}
+	
+	public void setPassword(String password) {
+		this.password = password;
 	}
 	
 	public ArrayList<Address> getAddresses() {

@@ -1,4 +1,4 @@
-package employee.presentation;
+package com.ufrn.imd.acaideira.presentation;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -12,9 +12,9 @@ import com.ufrn.imd.acaideira.data.ConnectionFactory;
 import com.ufrn.imd.acaideira.data.exception.DatabaseException;
 import com.ufrn.imd.acaideira.domain.Client;
 
-@Named(value = "employeeManagedBean")
+@Named(value = "clientManagedBean")
 @RequestScoped
-public class EmployeeMB {
+public class ClientMB {
 	ClientDAO dao;
 	
 	//Auxiliary fields for JSF
@@ -44,7 +44,7 @@ public class EmployeeMB {
 			dao = ClientDAO.getInstance();
 			dao.insert(client);
 			clientList = dao.selectAllClients();
-			return "employeelist";
+			return "clientlist";
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
@@ -57,7 +57,7 @@ public class EmployeeMB {
 		Client findedClient = dao.retrieve(id);
 		if(findedClient != null) { 
 			client = findedClient;
-			return "employeeedit";
+			return "clientedit";
 		} else {
 			return null;
 		}
@@ -68,14 +68,14 @@ public class EmployeeMB {
 		Client c = dao.retrieve(id);
 		dao.delete(c);
 		clientList = dao.selectAllClients();
-		return "employeelist";
+		return "clientlist";
 	}
 	
 	public String confirmEdition () throws DatabaseException {
 		dao = ClientDAO.getInstance();		
 		dao.update(client);
 		clientList = dao.selectAllClients();
-		return "employeelist";
+		return "clientlist";
 	}
 	
 	public String testConecion () {
