@@ -9,15 +9,15 @@
 </h:head>
 <body>
 	<h:form>
-		<h:panelGrid columns="2">
-			<h:outputLabel value="Email: " />
-			<h:inputText value="#{email}" />
-			<h:outputLabel value="Senha: " />
-			<h:inputSecret value="#{password}" />
+		<h:panelGrid columns="1">
+			<h2> <h:link outcome="index.xhtml" value="Home"/> </h2>
 		</h:panelGrid>
+	</h:form>
+	
 
-		<h:commandButton value="Confirmar"
-			action="#{}" />
+	<h:form>
+		<h3>Seja bem-vindo <h:outputLabel value="#{loginManagedBean.client.name}" /> </h3>
+		<h4><h:outputLabel value="#{loginManagedBean.client.email}" /> </h4>
 	</h:form>
 </body>
 </html>

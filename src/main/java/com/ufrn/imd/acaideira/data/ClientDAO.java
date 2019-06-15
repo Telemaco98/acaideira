@@ -5,7 +5,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import com.ufrn.imd.acaideira.data.exception.DatabaseException;
+import com.ufrn.imd.acaideira.domain.Address;
 import com.ufrn.imd.acaideira.domain.Client;
+import com.ufrn.imd.acaideira.domain.CreditCard;
 
 public class ClientDAO extends UtilsDAO<Client> implements DAO<Client> {
 	private static ClientDAO clientDAO;
@@ -60,7 +62,13 @@ public class ClientDAO extends UtilsDAO<Client> implements DAO<Client> {
 				String password = rs.getString("password");
 				String phone 	= rs.getString("phone");
 				
-				c = new Client(id, cpf, name, email, phone, password);
+				AddressDAO addressDAO = AddressDAO.getInstance();
+				ArrayList<Address> addresses = addressDAO.retrieveAllClientAddresses(id);
+				
+				CreditCardDAO creditCardDAO = CreditCardDAO.getInstance();
+				ArrayList<CreditCard> creditcards = creditCardDAO.retrieveAllClientCreditCards(id); 
+				
+				c = new Client(id, cpf, name, email, phone, password, addresses, creditcards);
 			} 
 			
 			return c;
@@ -71,7 +79,41 @@ public class ClientDAO extends UtilsDAO<Client> implements DAO<Client> {
 		}  
 	}
 	
-	public ArrayList<Client> selectAllClients () throws DatabaseException {
+	public Client retrieve(String email, String password) throws DatabaseException {
+		try {
+			this.startConnection();
+			
+			String sql = "SELECT * FROM CLIENT WHERE email = " +
+					returnValueStringBD(email) + 
+					" AND password = " + returnValueStringBD(password); 
+			
+			ResultSet rs = command.executeQuery(sql);
+
+			Client c = null;
+			if (rs.next()) {
+				int id 			= Integer.parseInt(rs.getString("id_client"));
+				String cpf  	= rs.getString("cpf");
+				String name 	= rs.getString("name");
+				String phone 	= rs.getString("phone");
+
+				AddressDAO addressDAO = AddressDAO.getInstance();
+				ArrayList<Address> addresses = addressDAO.retrieveAllClientAddresses(id);
+				
+				CreditCardDAO creditCardDAO = CreditCardDAO.getInstance();
+				ArrayList<CreditCard> creditcards = creditCardDAO.retrieveAllClientCreditCards(id); 
+				
+				c = new Client(id, cpf, name, email, phone, password, addresses, creditcards);
+			} 
+			
+			return c;
+		} catch (SQLException e) {
+			throw new DatabaseException(e.getMessage());
+		} finally {
+			this.closeConnection();
+		}
+	}
+	
+	public ArrayList<Client> retrieveAllClients () throws DatabaseException {
 		try {
 			this.startConnection();
 			
@@ -108,7 +150,7 @@ public class ClientDAO extends UtilsDAO<Client> implements DAO<Client> {
 			buffer.append("UPDATE client SET ");
 			buffer.append(returnFieldValuesBD(client));
 			buffer.append(" WHERE id_client=");
-			buffer.append(client.getId_client());
+			buffer.append(client.getIdClient());
 			
 			// TODO atualizar endereços e creditcards
 			
@@ -126,7 +168,7 @@ public class ClientDAO extends UtilsDAO<Client> implements DAO<Client> {
 		try {
 			this.startConnection();
 			String sql = "DELETE FROM client WHERE id_client="
-					+ returnValueStringBD(String.valueOf(client.getId_client()));
+					+ returnValueStringBD(String.valueOf(client.getIdClient()));
 			
 			command.executeUpdate(sql);
 		} catch (SQLException e) {

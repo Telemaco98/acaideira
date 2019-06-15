@@ -2,6 +2,7 @@ package com.ufrn.imd.acaideira.data;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import com.ufrn.imd.acaideira.data.exception.DatabaseException;
 import com.ufrn.imd.acaideira.domain.CreditCard;
@@ -11,7 +12,7 @@ public class CreditCardDAO extends UtilsDAO<CreditCard> implements DAO<CreditCar
 	
 	private CreditCardDAO() { }
 	
-	public synchronized CreditCardDAO getInstance() {
+	public synchronized static CreditCardDAO getInstance() {
 		if (creditCardDAO == null)
 			creditCardDAO = new CreditCardDAO();
 		return creditCardDAO;
@@ -58,6 +59,36 @@ public class CreditCardDAO extends UtilsDAO<CreditCard> implements DAO<CreditCar
 			} 
 			
 			return cc;
+		} catch (SQLException e) {
+			throw new DatabaseException(e.getMessage());
+		} finally {
+			this.closeConnection();
+		}
+	}
+	
+	public ArrayList<CreditCard> retrieveAllClientCreditCards (int id_client) throws DatabaseException {
+		try {
+			this.startConnection();
+			
+			String sql = "SELECT * FROM creditcard, creditcard_client "
+					+ "WHERE creditcard.id_creditcard = creditcard_client.id_creditcard and "
+					+ "creditcard_client.id_client = " + returnValueStringBD(String.valueOf(id_client));
+			
+			ResultSet rs = command.executeQuery(sql);
+
+			ArrayList<CreditCard> creditcards = new ArrayList<>();
+			while (rs.next()) {
+				int    id_cc	  = Integer.parseInt(rs.getString("creditcard.id_creditcard"));
+				String number 	  = rs.getString("creditcard.number");
+				String validity	  = rs.getString("creditcard.validity");
+				String owner_name = rs.getString("creditcard.owner_name");
+				
+				CreditCard cc = new CreditCard(id_cc, number, validity, owner_name);
+				
+				creditcards.add(cc);
+			} 
+			
+			return creditcards;
 		} catch (SQLException e) {
 			throw new DatabaseException(e.getMessage());
 		} finally {

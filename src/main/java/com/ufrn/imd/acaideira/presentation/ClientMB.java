@@ -23,7 +23,7 @@ public class ClientMB {
 		
 	public ArrayList<Client> getClientList() throws DatabaseException {
 		dao = ClientDAO.getInstance();
-		clientList = dao.selectAllClients();
+		clientList = dao.retrieveAllClients();
 		return clientList;
 	}
 
@@ -43,7 +43,7 @@ public class ClientMB {
 		try {
 			dao = ClientDAO.getInstance();
 			dao.insert(client);
-			clientList = dao.selectAllClients();
+			clientList = dao.retrieveAllClients();
 			return "clientlist";
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
@@ -67,14 +67,14 @@ public class ClientMB {
 		dao = ClientDAO.getInstance();
 		Client c = dao.retrieve(id);
 		dao.delete(c);
-		clientList = dao.selectAllClients();
+		clientList = dao.retrieveAllClients();
 		return "clientlist";
 	}
 	
 	public String confirmEdition () throws DatabaseException {
 		dao = ClientDAO.getInstance();		
 		dao.update(client);
-		clientList = dao.selectAllClients();
+		clientList = dao.retrieveAllClients();
 		return "clientlist";
 	}
 	

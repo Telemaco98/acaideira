@@ -11,21 +11,21 @@ import java.util.ArrayList;
  * @version 10.06.2019
  */
 public class Client {
-	private int    id_client;
+	private int    idClient;
 	private String cpf;
 	private String name;
 	private String email;
 	private String phone;
 	private String password;
 	private ArrayList<Address> 	  addresses;
-	private ArrayList<CreditCard> credit_cards;
+	private ArrayList<CreditCard> creditcards;
 
 	/**
 	 * Default constructor
 	 */
 	public Client() { 
 		this.addresses	  = new ArrayList<>();
-		this.credit_cards = new ArrayList<>();
+		this.creditcards = new ArrayList<>();
 	}
 	
 	/**
@@ -37,23 +37,23 @@ public class Client {
 	 * @param phone
 	 */
 	public Client(int id, String cpf, String name, String email, String phone, String password) {
-		this.id_client   = id;
+		this.idClient     = id;
 		this.cpf 		  = cpf;
 		this.name 		  = name;		
 		this.email  	  = email;
 		this.phone  	  = phone;
 		this.addresses	  = new ArrayList<>();
-		this.credit_cards = new ArrayList<>();
+		this.creditcards = new ArrayList<>();
 	}
 	
-	public Client(int id, String cpf, String name, String email, String phone, String password, ArrayList<Address> addresses, ArrayList<CreditCard> credit_cards) {
+	public Client(int id, String cpf, String name, String email, String phone, String password, ArrayList<Address> addresses, ArrayList<CreditCard> creditcards) {
 		this(id, cpf, name, email, phone, password);
 		this.addresses	  = addresses;
-		this.credit_cards = credit_cards;
+		this.creditcards  = creditcards;
 	}
 
-	public int getId_client() {
-		return id_client;
+	public int getIdClient() {
+		return idClient;
 	}
 	
 	public String getCpf() {
@@ -76,8 +76,16 @@ public class Client {
 		return password;
 	}
 	
+	public ArrayList<Address> getAddresses() {
+		return addresses;
+	}
+	
+	public ArrayList<CreditCard> getCreditCards() {
+		return creditcards;
+	}
+	
 	public void setId_client(int id_client) {
-		this.id_client = id_client;
+		this.idClient = id_client;
 	}
 	
 	public void setCpf(String cpf) {
@@ -100,16 +108,16 @@ public class Client {
 		this.password = password;
 	}
 	
-	public ArrayList<Address> getAddresses() {
-		return addresses;
+	public void setAddresses(ArrayList<Address> addresses) {
+		this.addresses = addresses;
 	}
 	
-	public ArrayList<CreditCard> getCredit_cards() {
-		return credit_cards;
+	public void setCreditcards(ArrayList<CreditCard> creditcards) {
+		this.creditcards = creditcards;
 	}
 	
 	@Override
 	public String toString() {
-		return "[ id = " + this.id_client + ", name = "+ this.name + ", email = " + this.email + ", phone = " + this.phone + " ]";
+		return "[ id = " + this.idClient + ", name = "+ this.name + ", email = " + this.email + ", phone = " + this.phone + " ]";
 	}
 }

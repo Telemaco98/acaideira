@@ -154,7 +154,7 @@ public class PaymentDAO extends UtilsDAO<Payment> implements DAO<Payment> {
 		try {
 			this.startConnection();
 			String sql = "SELECT id_payment FROM purchase WHERE id_client = "
-					+ returnValueStringBD(String.valueOf(client.getId_client()));
+					+ returnValueStringBD(String.valueOf(client.getIdClient()));
 			ResultSet rs = command.executeQuery(sql);
 			List<String> id_payments = new ArrayList<String>();
 			while (rs.next()) {
