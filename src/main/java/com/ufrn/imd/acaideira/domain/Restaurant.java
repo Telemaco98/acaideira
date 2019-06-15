@@ -1,55 +1,82 @@
 package com.ufrn.imd.acaideira.domain;
 
-public class Restaurant{
+import java.util.List;
 
-	private int id;
+public class Restaurant {
+	private int 	idRestaurant;
+	private String 	email;
+	private String 	name;
+	private String 	type;
+	private String  password;
+	private List<Address> addresses;
 	
-	private String endereco;
+	public Restaurant() { }
 	
-	private String nome;
+	public Restaurant(String email, String name, List<Address> addresses, String type, String password) {
+		this.email 	   = email;
+		this.name	   = name;
+		this.addresses = addresses;
+		this.type 	   = type;
+		this.password  = password;
+	}
 	
-	private String tipo;
-	
-	public Restaurant() {
+	public Restaurant(int idRestaurant, String email, String name, List<Address> addresses, String type, String password) {
+		this (email, name, addresses, type, password);
+		this.idRestaurant = idRestaurant;
+	}
 		
+	public int getIdRestaurant() {
+		return idRestaurant;
 	}
 	
-	public Restaurant(String endereco, String nome, String tipo) {
-		this.endereco = endereco;
-		this.nome = nome;
-		this.tipo = tipo;
-	}
-		
-	public int getId() {
-		return id;
+	public String getEmail() {
+		return email;
 	}
 
-	public void setId(int id) {
-		this.id = id;
+	public String getName() {
+		return name;
+	}
+	
+	public List<Address> getAddresses() {
+		return addresses;
 	}
 
-	public String getEndereco() {
-		return endereco;
+	public void setIdRestaurant(int idRestaurant) {
+		this.idRestaurant = idRestaurant;
 	}
 	
-	public void setEndereco(String endereco) {
-		this.endereco = endereco;
+	public String getType() {
+		return type;
 	}
 	
-	public String getNome() {
-		return nome;
+	public String getPassword() {
+		return password;
 	}
 	
-	public void setNome(String nome) {
-		this.nome = nome;
+	public void setEmail(String email) {
+		this.email = email;
 	}
 	
-	public String getTipo() {
-		return tipo;
+	public void setName(String name) {
+		this.name = name;
 	}
 	
-	public void setTipo(String tipo) {
-		this.tipo = tipo;
+	public void setAddresses(List<Address> addresses) {
+		this.addresses = addresses;
 	}
 	
+	public void setType(String type) {
+		this.type = type;
+	}
+	
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	
+	@Override
+	public String toString() {
+		return "[ email= " + email + 
+				" name= " + name + 
+				", type= " + type + " ]";
+	}
 }

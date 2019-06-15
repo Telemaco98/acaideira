@@ -54,7 +54,7 @@ public class EmployeeMB {
 	
 	public String editClient (int id) throws DatabaseException {
 		dao = ClientDAO.getInstance();
-		Client findedClient = dao.select(id);
+		Client findedClient = dao.retrieve(id);
 		if(findedClient != null) { 
 			client = findedClient;
 			return "employeeedit";
@@ -65,7 +65,7 @@ public class EmployeeMB {
 	
 	public String removeClient (int id) throws DatabaseException {
 		dao = ClientDAO.getInstance();
-		Client c = dao.select(id);
+		Client c = dao.retrieve(id);
 		dao.delete(c);
 		clientList = dao.selectAllClients();
 		return "employeelist";

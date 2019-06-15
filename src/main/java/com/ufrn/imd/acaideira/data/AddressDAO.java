@@ -7,31 +7,33 @@ import java.util.ArrayList;
 import com.ufrn.imd.acaideira.data.exception.DatabaseException;
 import com.ufrn.imd.acaideira.domain.Address;
 
-public class AddressDAO extends UtilsDAO<AddressDAO, Address> implements DAO<Address> {
+public class AddressDAO extends UtilsDAO<Address> implements DAO<Address> {
 	private static AddressDAO addressDAO;
 
 	private AddressDAO () { }
 
-	public synchronized AddressDAO getInstance(){
+	public synchronized static AddressDAO getInstance(){
 		if (addressDAO == null)
 			addressDAO = new AddressDAO();
 		return addressDAO;
 	}
 
-	@Override
-	public void insert(Address address) throws DatabaseException {
+	public void insert (Address address) throws DatabaseException {
 		try {
 			this.startConnection();
 			
 			StringBuffer buffer = new StringBuffer();
 			buffer.append("INSERT INTO address (");
-			buffer.append(this.returnFieldsBD());
+			if (address.getIdRestaurant() != -1)
+				buffer.append(this.returnFieldsBD() + ", id_restaurant");
+			else
+				buffer.append(this.returnFieldsBD() + ", id_client");
 			buffer.append(") VALUES (");
 			buffer.append(returnValuesBD(address));
 			buffer.append(")");
 			
 			String sql = buffer.toString();
-			command.execute(sql);			
+			command.execute(sql);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -40,7 +42,7 @@ public class AddressDAO extends UtilsDAO<AddressDAO, Address> implements DAO<Add
 	}
 
 	@Override
-	public Address select(int id) throws DatabaseException {
+	public Address retrieve(int id) throws DatabaseException {
 		try {
 			this.startConnection();
 			
@@ -51,50 +53,23 @@ public class AddressDAO extends UtilsDAO<AddressDAO, Address> implements DAO<Add
 
 			Address a = null;
 			if (rs.next()) {
-				String cep  		= rs.getString("cep");
-				String street 		= rs.getString("street");
-				String neighborhood = rs.getString("neighborhood");
-				String city 		= rs.getString("city");
-				int    number 		= Integer.parseInt(rs.getString("number"));
-				String complement   = rs.getString("complement");
-				int    id_client	= Integer.parseInt(rs.getString("id_user"));
+				String cep  		 = rs.getString("cep");
+				String street 		 = rs.getString("street");
+				String neighborhood  = rs.getString("neighborhood");
+				String city 		 = rs.getString("city");
+				int    number 		 = Integer.parseInt(rs.getString("number"));
+				String complement    = rs.getString("complement");
+				String id_restaurant = rs.getString("id_restaurant");
+				String id_client = rs.getString("id_client");
 				
-				a = new Address(id, cep, street, neighborhood, city, number, complement, id_client);
+				a = new Address(id, cep, street, neighborhood, city, number, complement);
+				if (id_restaurant != null)
+					a.setIdRestaurant(Integer.parseInt(id_restaurant));
+				else
+					a.setIdClient(Integer.parseInt(id_client));
 			} 
 			
 			return a;
-		} catch (SQLException e) {
-			throw new DatabaseException(e.getMessage());
-		} finally {
-			this.closeConnection();
-		}
-	}
-	
-	public ArrayList<Address> selectAllClientAddresses (int id_client) throws DatabaseException {
-		try {
-			this.startConnection();
-			
-			String sql = "SELECT * FROM address WHERE id_client = " +
-					returnValueStringBD(String.valueOf(id_client));
-			
-			ResultSet rs = command.executeQuery(sql);
-
-			ArrayList<Address> addresses = new ArrayList<Address>();
-			while (rs.next()) {
-				int    id_address	= Integer.parseInt(rs.getString("id_address"));
-				String cep  		= rs.getString("cep");
-				String street 		= rs.getString("street");
-				String neighborhood = rs.getString("neighborhood");
-				String city 		= rs.getString("city");
-				int    number 		= Integer.parseInt(rs.getString("number"));
-				String complement   = rs.getString("complement");
-				
-				
-				Address a = new Address(id_address, cep, street, neighborhood, city, number, complement, id_client);
-				addresses.add(a);
-			} 
-			
-			return addresses;
 		} catch (SQLException e) {
 			throw new DatabaseException(e.getMessage());
 		} finally {
@@ -136,10 +111,74 @@ public class AddressDAO extends UtilsDAO<AddressDAO, Address> implements DAO<Add
 			this.closeConnection();
 		}		
 	}
+	
+	public ArrayList<Address> retrieveAllClientAddresses (int id_client) throws DatabaseException {
+		try {
+			this.startConnection();
+			
+			String sql = "SELECT * FROM address WHERE id_client = " +
+					returnValueStringBD(String.valueOf(id_client)) ;
+			
+			ResultSet rs = command.executeQuery(sql);
 
+			ArrayList<Address> addresses = new ArrayList<Address>();
+			while (rs.next()) {
+				int    id_address	= Integer.parseInt(rs.getString("id_address"));
+				String cep  		= rs.getString("cep");
+				String street 		= rs.getString("street");
+				String neighborhood = rs.getString("neighborhood");
+				String city 		= rs.getString("city");
+				int    number 		= Integer.parseInt(rs.getString("number"));
+				String complement   = rs.getString("complement");
+				
+				Address a = new Address(id_address, cep, street, neighborhood, city, number, complement);
+				a.setIdClient(id_client);
+				addresses.add(a);
+			} 
+			
+			return addresses;
+		} catch (SQLException e) {
+			throw new DatabaseException(e.getMessage());
+		} finally {
+			this.closeConnection();
+		}
+	}
+	
+	public ArrayList<Address> retrieveAllRestaurantAddresses (int id_restaurant) throws DatabaseException {
+		try {
+			this.startConnection();
+			
+			String sql = "SELECT * FROM address WHERE id_restaurant = " +
+					returnValueStringBD(String.valueOf(id_restaurant)) ;
+			
+			ResultSet rs = command.executeQuery(sql);
+
+			ArrayList<Address> addresses = new ArrayList<Address>();
+			while (rs.next()) {
+				int    id_address	= Integer.parseInt(rs.getString("id_address"));
+				String cep  		= rs.getString("cep");
+				String street 		= rs.getString("street");
+				String neighborhood = rs.getString("neighborhood");
+				String city 		= rs.getString("city");
+				int    number 		= Integer.parseInt(rs.getString("number"));
+				String complement   = rs.getString("complement");
+				
+				Address a = new Address(id_address, cep, street, neighborhood, city, number, complement);
+				a.setIdRestaurant(id_restaurant);;
+				addresses.add(a);
+			} 
+			
+			return addresses;
+		} catch (SQLException e) {
+			throw new DatabaseException(e.getMessage());
+		} finally {
+			this.closeConnection();
+		}
+	}
+	
 	@Override
 	protected String returnFieldsBD() {
-		return "cep, street, neighborhood, city, number, complements, id_client";
+		return "cep, street, neighborhood, city, number, complement";
 	}
 
 	@Override
@@ -158,15 +197,30 @@ public class AddressDAO extends UtilsDAO<AddressDAO, Address> implements DAO<Add
 		buffer.append(returnValueStringBD(String.valueOf(a.getNumber())));
 		buffer.append(", complement=");
 		buffer.append(returnValueStringBD(a.getComplement()));
-		buffer.append(", id_client=");
-		buffer.append(returnValueStringBD(String.valueOf(a.getIdClient())));
+		
+		if (a.getIdRestaurant() != -1) {
+			buffer.append(", id_restaurant=");
+			buffer.append(returnValueStringBD(String.valueOf(a.getIdRestaurant())));
+		} else {
+			buffer.append(", id_client=");
+			buffer.append(returnValueStringBD(String.valueOf(a.getIdClient())));
+		}
 		
 		return buffer.toString();
 	}
 
 	@Override
 	protected String returnValuesBD(Address a) {
-		return returnValueStringBD(a.getCep()) + ", " + 
+		if (a.getIdClient() == -1)
+			return returnValueStringBD(a.getCep()) + ", " + 
+				returnValueStringBD(a.getStreet()) + ", " +
+				returnValueStringBD(a.getNeighborhood()) + ", " +
+				returnValueStringBD(a.getCity()) + ", " +
+				returnValueStringBD(String.valueOf(a.getNumber())) + ", " +
+				returnValueStringBD(a.getComplement()) + ", " +
+				returnValueStringBD(String.valueOf(a.getIdRestaurant()));
+		else 
+			return returnValueStringBD(a.getCep()) + ", " + 
 				returnValueStringBD(a.getStreet()) + ", " +
 				returnValueStringBD(a.getNeighborhood()) + ", " +
 				returnValueStringBD(a.getCity()) + ", " +

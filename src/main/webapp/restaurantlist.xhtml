@@ -1,0 +1,40 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html">
+
+<h:head>Listando Restaurantes</h:head>
+<body>
+	<h:form>
+		<h:dataTable value="#{restaurantManageBean.restaurantList}" var="rest"
+			border="1">
+			<h:column>
+				<f:facet name="header">
+					<h:outputText value="Nome do Restaurante" />
+				</f:facet>
+				<h:outputText value="#{rest.name}" />
+			</h:column>
+			
+			<h:column>
+				<f:facet name="header">
+					<h:outputText value="Email" />
+				</f:facet>
+				<h:outputText value="#{rest.email}" />
+			</h:column>
+			
+
+			<h:column>
+				<f:facet name="header">
+					<h:outputText value="Type" />
+				</f:facet>
+				<h:outputText value="#{rest.type}" />
+			</h:column>
+
+		</h:dataTable>
+	</h:form>
+	<h:form>
+		<h:link outcome="restaurantregister.xhtml" value="Add new Restaurant" />
+	</h:form>
+</body>
+</html>

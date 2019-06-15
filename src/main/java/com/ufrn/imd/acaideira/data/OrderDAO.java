@@ -8,7 +8,7 @@ import java.util.List;
 import com.ufrn.imd.acaideira.data.exception.DatabaseException;
 import com.ufrn.imd.acaideira.domain.Order;
 
-public class OrderDAO extends UtilsDAO<OrderDAO, Order> implements DAO<Order> {
+public class OrderDAO extends UtilsDAO<Order> implements DAO<Order> {
 	private static OrderDAO orderDAO;
 
 	private OrderDAO() throws DatabaseException {
@@ -42,7 +42,7 @@ public class OrderDAO extends UtilsDAO<OrderDAO, Order> implements DAO<Order> {
 	}
 
 	@Override
-	public Order select(int id) throws DatabaseException {
+	public Order retrieve(int id) throws DatabaseException {
 		try {
 			this.startConnection();
 

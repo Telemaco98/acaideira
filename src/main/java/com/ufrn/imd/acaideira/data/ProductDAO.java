@@ -8,7 +8,7 @@ import java.util.List;
 import com.ufrn.imd.acaideira.data.exception.DatabaseException;
 import com.ufrn.imd.acaideira.domain.Product;
 
-public class ProductDAO extends UtilsDAO<ProductDAO, Product> implements DAO<Product> {
+public class ProductDAO extends UtilsDAO<Product> implements DAO<Product> {
 	private static ProductDAO ProductDAO;
 
 	private ProductDAO() throws DatabaseException { }
@@ -43,7 +43,7 @@ public class ProductDAO extends UtilsDAO<ProductDAO, Product> implements DAO<Pro
 	}
 
 	@Override
-	public Product select(int id) throws DatabaseException {
+	public Product retrieve(int id) throws DatabaseException {
 		try {
 			this.startConnection();
 			

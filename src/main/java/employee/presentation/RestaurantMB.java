@@ -15,8 +15,22 @@ import com.ufrn.imd.acaideira.domain.Restaurant;
 public class RestaurantMB {
 	RestaurantDAO dao;
 	
-	private List<Restaurant> restaurantList = new ArrayList<>();
+	private List<Restaurant> restaurantList = new ArrayList<Restaurant>();
 	private Restaurant restaurant 			= new Restaurant();
+	
+	public List<Restaurant> getRestaurantList() {
+		try {
+			dao = RestaurantDAO.getInstance();
+			restaurantList = dao.retrieveRestaurants();
+			
+			System.out.println(restaurantList.toString());
+			
+			return restaurantList;
+		} catch (DatabaseException e) {
+			System.out.println("I didn't get the restaurants list");
+		}
+		return null;
+	}
 	
 	public Restaurant getRestaurant() {
 		return restaurant;
@@ -26,28 +40,22 @@ public class RestaurantMB {
 		this.restaurant = restaurant;
 	}
 	
-	public ArrayList<Restaurant> getRestaurantList() {
-		try {
-			dao = RestaurantDAO.getInstance();
-			restaurantList = dao.retrieveRestaurantes();
-			return null;
-		} catch (DatabaseException e) {
-			System.out.println("I didn't get the restaurants list");
-		}
-		return null;
-	}
 	
 	public void setRestaurantList(List<Restaurant> restaurantList) {
 		this.restaurantList = restaurantList;
 	}
 	
-	public void addNewRestaurant() {
+	public String addNewRestaurant() {
 		try {
 			dao = RestaurantDAO.getInstance();
 			dao.insert(restaurant);
-			restaurantList = dao.retrieveRestaurantes();
+			
+			restaurantList = dao.retrieveRestaurants();			
+			return "restaurantlist";
 		} catch (DatabaseException e) {
 			System.out.println(e.getMessage());
 		}
-	}	
+		
+		return null;
+	}
 }

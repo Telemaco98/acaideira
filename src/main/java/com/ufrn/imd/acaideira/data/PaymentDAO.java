@@ -10,7 +10,7 @@ import com.ufrn.imd.acaideira.domain.Client;
 import com.ufrn.imd.acaideira.domain.Order;
 import com.ufrn.imd.acaideira.domain.Payment;
 
-public class PaymentDAO extends UtilsDAO<PaymentDAO, Payment> implements DAO<Payment> {
+public class PaymentDAO extends UtilsDAO<Payment> implements DAO<Payment> {
 	private static PaymentDAO paymentDAO;
 
 	private PaymentDAO() { }
@@ -41,7 +41,7 @@ public class PaymentDAO extends UtilsDAO<PaymentDAO, Payment> implements DAO<Pay
 	}
 
 	@Override
-	public Payment select(int id) throws DatabaseException {
+	public Payment retrieve(int id) throws DatabaseException {
 		try {
 			this.startConnection();
 
@@ -163,7 +163,7 @@ public class PaymentDAO extends UtilsDAO<PaymentDAO, Payment> implements DAO<Pay
 			}
 			List<Payment> payments = new ArrayList<Payment>();
 			for (String id : id_payments) {
-				Payment p = this.select(Integer.parseInt(id));
+				Payment p = this.retrieve(Integer.parseInt(id));
 				payments.add(p);
 			}
 			return payments;
@@ -195,7 +195,7 @@ public class PaymentDAO extends UtilsDAO<PaymentDAO, Payment> implements DAO<Pay
 			}
 			List<Payment> payments = new ArrayList<Payment>();
 			for (String id : id_payments) {
-				Payment pa = this.select(Integer.parseInt(id));
+				Payment pa = this.retrieve(Integer.parseInt(id));
 				payments.add(pa);
 			}
 			return payments;

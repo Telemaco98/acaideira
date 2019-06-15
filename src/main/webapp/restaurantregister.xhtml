@@ -10,18 +10,20 @@
 <body>
 	<h:form>
 		<h:panelGrid columns="2">
-			<h:outputLabel value="Name: "/>
-			<h:inputText value="#{employeeManagedBean.restaurant.name}" />
-			<h:outputLabel value="Type: " />
-			<h:inputText value="#{employeeManagedBean.restaurant.email}" />
-			<h:outputLabel value="Address: " />
-			<h:inputText value="#{employeeManagedBean.restaurant.cpf}" />
-			<h:outputLabel value="Password: " />
-			<h:inputText value="#{restaurantManagedBean.restaurant.phone}" />
+			<h:outputLabel value="Email: " required="true"/>
+			<h:inputText value="#{restaurantManageBean.restaurant.email}"> 
+				<f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[\p{L}\p{M}\p{N}.-]*(\.[\p{L}\p{M}]{2,})$" />
+			</h:inputText>
+			<h:outputLabel value="Nome do restaurante: " required="true"/>
+			<h:inputText value="#{restaurantManageBean.restaurant.name}" />
+			<h:outputLabel value="Tipo: " />
+			<h:inputText value="#{restaurantManageBean.restaurant.type}" required="true"/>
+			<h:outputLabel value="Senha: " />
+			<h:inputSecret value="#{restaurantManageBean.restaurant.password}" required="true"/>			
 		</h:panelGrid>
 
-		<h:commandButton value="Confitm"
-			action="#{restaurantManagedBean.addNewRestaurant}" />
+		<h:commandButton value="Confirmar"
+			action="#{restaurantManageBean.addNewRestaurant}" />
 	</h:form>
 </body>
 </html>

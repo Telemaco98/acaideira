@@ -6,7 +6,7 @@ import java.sql.SQLException;
 import com.ufrn.imd.acaideira.data.exception.DatabaseException;
 import com.ufrn.imd.acaideira.domain.CreditCard;
 
-public class CreditCardDAO extends UtilsDAO<CreditCardDAO, CreditCard> implements DAO<CreditCard> {
+public class CreditCardDAO extends UtilsDAO<CreditCard> implements DAO<CreditCard> {
 	private static CreditCardDAO creditCardDAO;
 	
 	private CreditCardDAO() { }
@@ -39,7 +39,7 @@ public class CreditCardDAO extends UtilsDAO<CreditCardDAO, CreditCard> implement
 	}
 
 	@Override
-	public CreditCard select(int id) throws DatabaseException {
+	public CreditCard retrieve(int id) throws DatabaseException {
 		try {
 			this.startConnection();
 			

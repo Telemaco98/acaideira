@@ -6,11 +6,11 @@ import java.sql.Statement;
 
 import com.ufrn.imd.acaideira.data.exception.DatabaseException;
 
-public abstract class UtilsDAO <Type, EntityType> {
+abstract class UtilsDAO <EntityType> {
 	protected Connection connection; 
 	protected Statement command;
 	
-	public UtilsDAO() { }
+	protected UtilsDAO() { }
 	
 	protected void startConnection() throws DatabaseException {
 		try {
@@ -38,7 +38,7 @@ public abstract class UtilsDAO <Type, EntityType> {
 		
 	}
 	
-	public String returnValueStringBD(String value) {
+	public static String returnValueStringBD(String value) {
 		if (value != null && !"".equals(value)) value = "'" + value + "'";
 		else value = "'" + "'";
 		

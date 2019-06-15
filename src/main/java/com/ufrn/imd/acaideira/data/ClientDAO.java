@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import com.ufrn.imd.acaideira.data.exception.DatabaseException;
 import com.ufrn.imd.acaideira.domain.Client;
 
-public class ClientDAO extends UtilsDAO<ClientDAO, Client> implements DAO<Client> {
+public class ClientDAO extends UtilsDAO<Client> implements DAO<Client> {
 	private static ClientDAO clientDAO;
 	
 	private ClientDAO () throws DatabaseException { 
@@ -43,7 +43,7 @@ public class ClientDAO extends UtilsDAO<ClientDAO, Client> implements DAO<Client
 	}
 
 	@Override
-	public Client select(int id) throws DatabaseException {
+	public Client retrieve(int id) throws DatabaseException {
 		try {
 			this.startConnection();
 			
