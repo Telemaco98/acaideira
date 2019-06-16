@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+<body>
+	<ui:composition>
+		<div class="navbar navbar-expand-lg navbar-light bg-light">
+			<h:link class="navbar-brand"  outcome="index.xhtml" value="Açaídeira"/>
+
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<ul class="navbar-nav mr-auto">
+					<li class="nav-item active">
+						<h:link class="nav-link" outcome="index.xhtml" value="Home" />
+					</li>
+					<li class="nav-item">
+						<h:link class="nav-link" outcome="restaurantlogin.xhtml" value="Restaurante" />
+					</li>
+					<li class="nav-item">
+						<h:link class="nav-link" outcome="menu.xhtml" value="Cardápio" />
+					</li>
+				</ul>
+				<form class="form-inline my-2 my-lg-0">
+					<h:inputText class="form-control mr-sm-2" type="search" aria-label="Search">
+						<f:passThroughAttribute name="placeholder" value="Pesquisar" />
+					</h:inputText>
+					<h:commandButton class="btn btn-outline-success my-2 my-sm-0" value="Pesquisar" />
+				</form>
+			</div>
+		</div>
+	</ui:composition>
+</body>
+</html>

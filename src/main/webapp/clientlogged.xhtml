@@ -5,15 +5,17 @@
 	xmlns:h="http://java.sun.com/jsf/html">
 
 <h:head>
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+		integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" />
 	<title>Logged</title>
 </h:head>
 <body>
-	<h:form>
-		<h:panelGrid columns="1">
-			<h2> <h:link outcome="index.xhtml" value="Home"/> </h2>
-		</h:panelGrid>
-	</h:form>
-	
+	<div class="header">
+		<ui:insert name="header">
+			<ui:include src="layout/header_withou_search.xhtml"></ui:include>
+		</ui:insert>
+	</div>	
 
 	<h:form>
 		<h3>Seja bem-vindo <h:outputLabel value="#{loginManagedBean.client.name}" /> </h3>

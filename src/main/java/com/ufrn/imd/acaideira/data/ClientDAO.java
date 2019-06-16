@@ -103,7 +103,7 @@ public class ClientDAO extends UtilsDAO<Client> implements DAO<Client> {
 				ArrayList<CreditCard> creditcards = creditCardDAO.retrieveAllClientCreditCards(id); 
 				
 				c = new Client(id, cpf, name, email, phone, password, addresses, creditcards);
-			} 
+			}
 			
 			return c;
 		} catch (SQLException e) {
