@@ -5,8 +5,12 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.xml.crypto.Data;
+
 import com.ufrn.imd.acaideira.data.exception.DatabaseException;
+import com.ufrn.imd.acaideira.domain.Client;
 import com.ufrn.imd.acaideira.domain.Order;
+import com.ufrn.imd.acaideira.domain.Product;
 
 public class OrderDAO extends UtilsDAO<OrderDAO, Order> implements DAO<Order> {
 	private static OrderDAO orderDAO;
@@ -116,6 +120,28 @@ public class OrderDAO extends UtilsDAO<OrderDAO, Order> implements DAO<Order> {
 		return null;
 	}
 
+	public List<Order> retrievePaymentsBYId(Client client) throws DatabaseException {
+		try {
+			this.startConnection();
+			String sql = "SELECT * FROM order_client JOIM order WHERE id_client = `"+client.getId_client()+"`";
+			ResultSet rs = command.executeQuery(sql);
+			List<Order> payments = new ArrayList<Order>();
+			while (rs.next()) {
+				Order p = new Order();
+				p.setId(Integer.parseInt(rs.getString("id_order")));
+				p.setStatus(rs.getString("status"));
+				payments.add(p);
+			}
+
+			return payments;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			this.closeConnection();
+		}
+		return null;
+	}
+
 	public List<Order> retrievePaymentsByType(String type) throws DatabaseException {
 		try {
 			this.startConnection();
@@ -155,5 +181,48 @@ public class OrderDAO extends UtilsDAO<OrderDAO, Order> implements DAO<Order> {
 	protected String returnValuesBD(Order order) {
 		return returnValueStringBD(order.getStatus());
 	}
+	
+	public void creatOrderClient(int clientID, int orderID) throws DatabaseException{
+		try {
+			this.startConnection();
+			String sql = "INSERT INTO order_client(`id_client`, `id_order`) VALUES("+clientID+","+orderID+")";
+			command.executeUpdate(sql);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			closeConnection();
+		}
 
+	}
+	public Order selectOrderbyClient(int idClient) throws DatabaseException{
+		try {
+			this.startConnection();
+			String sql = "select * from order_client JOIN order WHERE id_client = "+ idClient+" ORDER BY id_client desc limit 1";
+			ResultSet rs = command.executeQuery(sql);
+			Order p = new Order();
+			if (rs.next()) {
+				p.setId(Integer.parseInt(rs.getString("id_order")));
+				p.setStatus(rs.getString("status"));
+			}
+
+			return p;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			this.closeConnection();
+		}
+		return null;
+	}
+	
+	public void addToCart(Product product, Order order, int qtd) throws DatabaseException{
+		try {
+			this.startConnection();
+			String sql = "INSERT INTO product_order(`id_product`, `id_order`, `quantity`) VALUES()";
+			command.executeUpdate(sql);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			this.closeConnection();
+		}
+	}
 }
