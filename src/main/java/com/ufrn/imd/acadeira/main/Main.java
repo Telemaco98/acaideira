@@ -8,9 +8,7 @@ import com.ufrn.imd.acadeira.vision.*;
 public class Main {
 	
 	private static BufferedReader reader = new BufferedReader(new InputStreamReader(System.in)); 
-	public static void clientVision(ClientVision c) throws Exception{
-		
-	}
+	
 	public static void restaurantVision(RestaurantVision r) throws Exception {
 		int option = -1;
 		while(option != 0) {

@@ -13,10 +13,10 @@ import com.ufrn.imd.acaideira.data.exception.DatabaseException;
  */
 public class ConnectionFactory {
 	private static final String timezone = "?useTimezone=true&serverTimezone=UTC";
-	private static final String bd = "mydb";
+	private static final String bd = "db_project";
 	private static final String url = "jdbc:mysql://localhost:3306/" + bd + timezone;
 	private static final String user = "root";
-	private static final String psw = "batata123";
+	private static final String psw = "telemaco98";
 	private static final String driver = "com.mysql.cj.jdbc.Driver";
 	
 	public static Connection getConnection() throws DatabaseException {

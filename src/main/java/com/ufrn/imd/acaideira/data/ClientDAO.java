@@ -57,10 +57,9 @@ public class ClientDAO extends UtilsDAO<ClientDAO, Client> implements DAO<Client
 				String cpf  = rs.getString("cpf");
 				String name = rs.getString("name");
 				String email = rs.getString("email");
-				String password = rs.getString("password");
 				String phone = rs.getString("phone");
 				
-				c = new Client(id, cpf, name, email, password, phone);
+				c = new Client(id, cpf, name, email, phone);
 			} 
 			
 			return c;
@@ -84,10 +83,9 @@ public class ClientDAO extends UtilsDAO<ClientDAO, Client> implements DAO<Client
 				String cpf  = rs.getString("cpf");
 				String name = rs.getString("name");
 				String email = rs.getString("email");
-				String password = rs.getString("password");
 				String phone = rs.getString("phone");
 				
-				Client c = new Client(id, cpf, name, password, email, phone);
+				Client c = new Client(id, cpf, name, email, phone);
 				clients.add(c);
 			}
 			
@@ -118,7 +116,7 @@ public class ClientDAO extends UtilsDAO<ClientDAO, Client> implements DAO<Client
 			this.closeConnection();
 		}		
 	}
-	
+
 	@Override
 	public void delete(Client client) throws DatabaseException {
 		try {
@@ -136,7 +134,7 @@ public class ClientDAO extends UtilsDAO<ClientDAO, Client> implements DAO<Client
 	
 	@Override
 	protected String returnFieldsBD() {
-		return "cpf, name, email, password, phone";
+		return "cpf, name, email, phone";
 	}
 
 	@Override
@@ -149,8 +147,6 @@ public class ClientDAO extends UtilsDAO<ClientDAO, Client> implements DAO<Client
 		buffer.append(returnValueStringBD(c.getName()));
 		buffer.append(", email=");
 		buffer.append(returnValueStringBD(c.getEmail()));
-		buffer.append(", password=");
-		buffer.append(returnValueStringBD(c.getPassword()));
 		buffer.append(", phone=");
 		buffer.append(returnValueStringBD(c.getPhone()));
 		
@@ -162,11 +158,8 @@ public class ClientDAO extends UtilsDAO<ClientDAO, Client> implements DAO<Client
 		return returnValueStringBD(c.getCpf()) + ", " +
 				returnValueStringBD(c.getName()) + ", " +
 				returnValueStringBD(c.getEmail()) + ", " +
-				returnValueStringBD(c.getPassword()) + ", " +
 				returnValueStringBD(c.getPhone());
 	}
-	
-	
 	
 //	public static void main(String[] args) {
 //		Client c = new Client();
