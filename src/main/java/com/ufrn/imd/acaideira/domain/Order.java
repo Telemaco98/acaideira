@@ -24,6 +24,10 @@ public class Order {
 		this.id = id;
 		this.status = status;
 	}
+	
+	public Order(String status) {
+		this.status = status;
+	}
 
 	/**
 	 * 
