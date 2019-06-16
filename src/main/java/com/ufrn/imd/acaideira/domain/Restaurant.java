@@ -1,5 +1,6 @@
 package com.ufrn.imd.acaideira.domain;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Restaurant {
@@ -10,9 +11,11 @@ public class Restaurant {
 	private String  password;
 	private List<Address> addresses;
 	
-	public Restaurant() { }
+	public Restaurant() { 
+		this.addresses = new ArrayList<Address>();
+	}
 	
-	public Restaurant(String email, String name, List<Address> addresses, String type, String password) {
+	public Restaurant(String email, String name, String type, String password, List<Address> addresses) {
 		this.email 	   = email;
 		this.name	   = name;
 		this.addresses = addresses;
@@ -20,8 +23,8 @@ public class Restaurant {
 		this.password  = password;
 	}
 	
-	public Restaurant(int idRestaurant, String email, String name, List<Address> addresses, String type, String password) {
-		this (email, name, addresses, type, password);
+	public Restaurant(int idRestaurant, String email, String name, String type, String password, List<Address> addresses) {
+		this (email, name, type, password, addresses);
 		this.idRestaurant = idRestaurant;
 	}
 		

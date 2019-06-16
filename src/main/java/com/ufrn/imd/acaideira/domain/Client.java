@@ -84,7 +84,7 @@ public class Client {
 		return creditcards;
 	}
 	
-	public void setId_client(int id_client) {
+	public void setIdClient(int id_client) {
 		this.idClient = id_client;
 	}
 	

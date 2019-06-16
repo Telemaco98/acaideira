@@ -23,8 +23,6 @@ public class RestaurantMB {
 			dao = RestaurantDAO.getInstance();
 			restaurantList = dao.retrieveRestaurants();
 			
-			System.out.println(restaurantList.toString());
-			
 			return restaurantList;
 		} catch (DatabaseException e) {
 			System.out.println("I didn't get the restaurants list");

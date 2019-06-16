@@ -7,12 +7,18 @@
 <h:head></h:head> 
 <body> 
 	<h:form>
-		<h:link outcome="clientregister.xhtml" value="Registrar-se como cliente"/> <br></br>
-		<h:link outcome="clientlist.xhtml" value="Listar Clientes Registrados"/> <br></br>
-		<h:link outcome="test_bd_connection.xhtml" value=" Testar conexão com banco de dados"/> <br></br>
-		<h:link outcome="restaurantregister.xhtml" value=" Add Restaurant"/> <br></br>
-		<h:link outcome="restaurantlist.xhtml" value="List restaurant"/> <br></br> <br></br>
-		<h:link outcome="clientlogin.xhtml" value="Login"/> <br></br>
+		<h:panelGrid columns="1">
+			<h:link outcome="clientregister.xhtml" value="Registrar-se"/>
+			<h:link outcome="restaurantregister.xhtml" value="Registrar-se como Restaurante"/> <br></br>
+			
+			<h:link outcome="clientlist.xhtml" value="Listar Clientes Registrados"/>
+			<h:link outcome="restaurantlist.xhtml" value="Listar Restaurantes Registrados"/> <br></br>
+			
+			<h:link outcome="test_bd_connection.xhtml" value=" Testar conexão com banco de dados"/> <br></br>
+			
+			<h:link outcome="clientlogin.xhtml" value="Login"/>
+			<h:link outcome="restaurantlogin.xhtml" value="Login como Restaurante"/>
+		</h:panelGrid>
 	</h:form>
 </body> 
 </html>

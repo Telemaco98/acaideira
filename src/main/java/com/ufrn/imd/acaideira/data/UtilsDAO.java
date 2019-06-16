@@ -38,7 +38,7 @@ abstract class UtilsDAO <EntityType> {
 		
 	}
 	
-	public static String returnValueStringBD(String value) {
+	public String returnValueStringBD(String value) {
 		if (value != null && !"".equals(value)) value = "'" + value + "'";
 		else value = "'" + "'";
 		

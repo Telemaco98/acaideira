@@ -5,7 +5,7 @@
 	xmlns:h="http://java.sun.com/jsf/html">
 
 <h:head>
-	<title>Login - Client</title>
+	<title>Logged</title>
 </h:head>
 <body>
 	<h:form>
@@ -17,7 +17,9 @@
 
 	<h:form>
 		<h3>Seja bem-vindo <h:outputLabel value="#{loginManagedBean.client.name}" /> </h3>
-		<h4><h:outputLabel value="#{loginManagedBean.client.email}" /> </h4>
+		<h4><h:outputLabel value="#{loginManagedBean.client.email}" /> </h4> <br></br>
+		
+		<h:commandButton value="Sair" action="#{loginManagedBean.logout}" />
 	</h:form>
 </body>
 </html>

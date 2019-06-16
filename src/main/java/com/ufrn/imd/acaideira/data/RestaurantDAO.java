@@ -73,7 +73,8 @@ public class RestaurantDAO extends UtilsDAO<Restaurant> implements DAO<Restauran
 				r.setIdRestaurant(id);
 				r.setName(rs.getString("name"));
 				r.setType(rs.getString("type"));
-				r.setName(rs.getString("email"));
+				r.setEmail(rs.getString("email"));
+				r.setPassword(rs.getString("password"));
 				
 				AddressDAO addressDAO = AddressDAO.getInstance();
 				List<Address> addresses = addressDAO.retrieveAllRestaurantAddresses(id);
@@ -88,6 +89,36 @@ public class RestaurantDAO extends UtilsDAO<Restaurant> implements DAO<Restauran
 			this.closeConnection();
 		}
 		return null;
+	}
+	
+	public Restaurant retrieve(String email, String psw) throws DatabaseException {
+		try {
+			this.startConnection();
+
+			String sql = "SELECT * FROM restaurant WHERE email = " +
+					returnValueStringBD(email) + 
+					" AND password = " + returnValueStringBD(psw);
+			ResultSet rs = command.executeQuery(sql);
+			
+			Restaurant restaurant = null;
+			
+			if (rs.next()) {
+				int id 		 	= Integer.parseInt(rs.getString("id_restaurant"));
+				String name  	= rs.getString("name");
+				String type  	= rs.getString("type");
+				
+				AddressDAO addressDAO = AddressDAO.getInstance();
+				List<Address> addresses = addressDAO.retrieveAllRestaurantAddresses(id);
+				
+				restaurant = new Restaurant(id, email, name, type, psw, addresses);
+			}
+			
+			return restaurant;
+		} catch (SQLException e) {
+			throw new DatabaseException(e.getMessage());
+		} finally {
+			this.closeConnection();
+		}
 	}
 
 	public void delete(Restaurant r) throws DatabaseException {
@@ -142,9 +173,9 @@ public class RestaurantDAO extends UtilsDAO<Restaurant> implements DAO<Restauran
 				Product p = new Product();
 				p.setId(Integer.parseInt(rs.getString("id_product")));
 				p.setPrice(Double.parseDouble(rs.getString("price")));
-				p.setNome(rs.getString("name"));
-				p.setIdRestaurante(Integer.parseInt(rs.getString("id_restaurant")));
-				p.setQuantidade(Integer.parseInt(rs.getString("quantity")));
+				p.setName(rs.getString("name"));
+				p.setIdRestaurant(Integer.parseInt(rs.getString("id_restaurant")));
+				p.setAmount(Integer.parseInt(rs.getString("quantity")));
 				products.add(p);
 			}
 
@@ -169,9 +200,9 @@ public class RestaurantDAO extends UtilsDAO<Restaurant> implements DAO<Restauran
 				Product p = new Product();
 				p.setId(Integer.parseInt(rs.getString("id_product")));
 				p.setPrice(Double.parseDouble(rs.getString("price")));
-				p.setNome(rs.getString("name"));
-				p.setIdRestaurante(Integer.parseInt(rs.getString("id_restaurant")));
-				p.setQuantidade(Integer.parseInt(rs.getString("quantity")));
+				p.setName(rs.getString("name"));
+				p.setIdRestaurant(Integer.parseInt(rs.getString("id_restaurant")));
+				p.setAmount(Integer.parseInt(rs.getString("quantity")));
 				products.add(p);
 			}
 
@@ -196,9 +227,9 @@ public class RestaurantDAO extends UtilsDAO<Restaurant> implements DAO<Restauran
 				Product p = new Product();
 				p.setId(Integer.parseInt(rs.getString("id_product")));
 				p.setPrice(Double.parseDouble(rs.getString("price")));
-				p.setNome(rs.getString("name"));
-				p.setIdRestaurante(Integer.parseInt(rs.getString("id_restaurant")));
-				p.setQuantidade(Integer.parseInt(rs.getString("quantity")));
+				p.setName(rs.getString("name"));
+				p.setIdRestaurant(Integer.parseInt(rs.getString("id_restaurant")));
+				p.setAmount(Integer.parseInt(rs.getString("quantity")));
 				products.add(p);
 			}
 

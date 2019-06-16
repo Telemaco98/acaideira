@@ -1,0 +1,79 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html">
+
+<h:head>
+	<title>Logged - Restaurant</title>
+</h:head>
+<body>
+	<h:form>
+		<h:panelGrid columns="2">
+			<h:link outcome="index.xhtml" value="Home"/>
+			<h:commandButton value="Sair" action="#{loginRestaurantMB.logout}" />
+		</h:panelGrid>
+	</h:form>
+	
+
+	<h:form>
+		<h3>Seja bem-vindo <h:outputLabel value="#{loginRestaurantMB.restaurant.name}" /> </h3>
+		<h4><h:outputLabel value="#{loginRestaurantMB.restaurant.email}" /> </h4> <br></br>
+		
+		<h3>Tabela de Produtos</h3>
+		<h:inputHidden value="#{loginRestaurantMB.restaurant.idRestaurant}"/>
+		<h:commandButton value="Cadastrar Produto" action="#{loginRestaurantMB.addNewProduct}" />
+		
+		
+		<h:dataTable value="#{loginRestaurantMB.productList}" var="prod" border="1">
+			<h:column>
+				<f:facet name="header">
+					<h:outputText value="Nome" />
+				</f:facet>
+				<h:outputText value="#{prod.name}" />
+			</h:column>
+			
+			<h:column>
+				<f:facet name="header">
+					<h:outputText value="Preço" />
+				</f:facet>
+				<h:outputText value="#{prod.price}" />
+			</h:column>
+			
+			<h:column>
+				<f:facet name="header">
+					<h:outputText value="Quantidade" />
+				</f:facet>
+				<h:outputText value="#{prod.amount}" />
+			</h:column>
+			
+			<h:column>
+				<f:facet name="header">
+					<h:outputText value="Tipo" />
+				</f:facet>
+				<h:outputText value="#{prod.type}" />
+			</h:column>
+			
+			<h:column>
+				<f:facet name="header">
+					<h:outputText value="Descrição" />
+				</f:facet>
+				<h:outputText value="#{prod.description}" />
+			</h:column>
+			
+			<!-- <h:column>
+				<f:facet name="header"> Edit </f:facet>
+				<h:commandButton value="Edit"
+					action="#{loginRestaurantMB.editClient(vclient.id_client)}" />
+			</h:column>
+
+			<h:column>
+				<f:facet name="header"> Remove </f:facet>
+				<h:commandButton value="Remove"
+					action="#{loginRestaurantMB.removeClient(vclient.id_client)}" />
+			</h:column>  -->
+		</h:dataTable>
+	</h:form>
+	
+</body>
+</html>

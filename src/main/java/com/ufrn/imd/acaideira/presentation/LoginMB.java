@@ -56,4 +56,8 @@ public class LoginMB {
 		return null;
 	}
 
+	public String logout() {
+		client = null;
+		return "clientlogin";
+	}
 }
