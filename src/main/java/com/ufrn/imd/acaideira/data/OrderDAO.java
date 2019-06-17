@@ -117,7 +117,7 @@ public class OrderDAO extends UtilsDAO<OrderDAO, Order> implements DAO<Order> {
 	public List<Order> retrievePaymentsBYId(Client client) throws DatabaseException {
 		try {
 			this.startConnection();
-			String sql = "SELECT * FROM order_client JOIM `order` WHERE id_client = "+client.getId_client();
+			String sql = "SELECT * FROM `order_client` JOIN `order` on `order`.id_order = `order_client`.id_order WHERE id_client = "+client.getId_client();
 			ResultSet rs = command.executeQuery(sql);
 			List<Order> payments = new ArrayList<Order>();
 			while (rs.next()) {
