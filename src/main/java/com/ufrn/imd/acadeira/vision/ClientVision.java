@@ -273,16 +273,17 @@ public class ClientVision implements Vision{
 		} catch (DatabaseException e) {
 			throw new DatabaseException("erro");
 		}if(order != null) {
-			if(order.getStatus() == "waiting") {
-				float total = orderDAO.valueToPay(order);
+			if(order.getStatus().equals("waiting")) {
+				double total = orderDAO.valueToPay(order);
 				System.out.println("the value total to pay is: " + total);
 				System.out.println("Insert the value to pay");
-				float payment = Float.parseFloat(reader.readLine());				
+				double payment = Float.parseFloat(reader.readLine());				
 				total = total - payment;
 				if (total <= 0) {
 					order.setStatus("paid");
+					orderDAO.update(order);
 				}
-				float totalf = orderDAO.valueToPay(order);
+				double totalf = orderDAO.valueToPay(order);
 				System.out.println("the value total to pay is: " + totalf);
 			} else {
 				System.out.println("already paid");

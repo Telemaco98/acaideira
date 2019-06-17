@@ -67,11 +67,10 @@ public class OrderDAO extends UtilsDAO<OrderDAO, Order> implements DAO<Order> {
 		try {
 			this.startConnection();
 			StringBuffer buffer = new StringBuffer();
-			buffer.append("INSERT INTO order (");
-			buffer.append(this.returnFieldsBD());
-			buffer.append(") VALUES(");
-			buffer.append(returnValuesBD(order));
-			buffer.append(")");
+			buffer.append("UPDATE `order` SET ");
+			buffer.append(returnFieldValuesBD(order));
+			buffer.append(" WHERE id_order=");
+			buffer.append(order.getId());
 			String sql = buffer.toString();
 			command.executeUpdate(sql);
 		} catch (SQLException e) {
@@ -244,15 +243,15 @@ public class OrderDAO extends UtilsDAO<OrderDAO, Order> implements DAO<Order> {
 		}
 	}
 	
-	public float valueToPay(Order order) throws DatabaseException{
+	public double valueToPay(Order order) throws DatabaseException{
 		try {
 			this.startConnection();
 			String sql = "SELECT * FROM product_order JOIN product WHERE id_order = "+order.getId();
 			ResultSet rs = command.executeQuery(sql);
-			float total = 0;
+			double total = 0;
 			if(rs.next()) {
-				int value = Integer.parseInt(rs.getString("price"));
-				total += value * (Integer.parseInt(rs.getString("quantity")));
+				double value = Double.parseDouble(rs.getString("price"));
+				total += value * (Double.parseDouble(rs.getString("product_order.quantity")));
 			}
 			return total;
 		} catch (SQLException e) {
