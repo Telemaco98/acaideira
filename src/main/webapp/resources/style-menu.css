@@ -1,0 +1,59 @@
+.menu {
+	width: 100%;
+}
+
+.sidebar {
+  height: 100%;
+  width: 260px;
+  position: fixed;
+  z-index: 1;
+  top: 20;
+  left: 0;
+  background-color: #473267;
+  overflow-x: hidden;
+  padding-top: 10px;
+}
+
+.sidebar-title {
+	padding-bottom: 10px;
+}
+
+.dropdown-divider {
+	margin: 10px;
+}
+
+.item-sidebar {
+	width: 100%;
+	background: none;
+	border: none;
+	padding: 3px 0px 3px 25px;
+	text-decoration: none;
+	font-size: 15px;
+	color: #a1a1a1;
+	display: block;
+}
+
+.item-sidebar-title {
+	width: 100%;
+	background: none;
+	border: none;
+	padding: 6px 0px 3px 0px;
+	text-decoration: none;
+	font-size: 20px;
+	color: #D1D1D1;
+	display: block;
+}
+
+.item-sidebar:hover {
+  color: #f1f1f1;
+}
+
+.main {
+  margin-left: 260px; /* Same as the width of the sidenav */
+  padding: 0px 10px;
+}
+
+@media screen and (max-height: 450px) {
+  .sidebar {padding-top: 15px;}
+  .sidebar a {font-size: 18px;}
+}

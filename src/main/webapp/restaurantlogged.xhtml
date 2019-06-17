@@ -3,26 +3,30 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html">
-
 <h:head>
-	<title>Logged - Restaurant</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+		integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" />
+	<title>Restaurante</title>
+	<link rel="stylesheet" type="text/css" href="./resources/style.css"/>
 </h:head>
 <body>
-	<h:form>
-		<h:panelGrid columns="2">
-			<h:link outcome="index.xhtml" value="Home"/>
-			<h:commandButton value="Sair" action="#{loginRestaurantMB.logout}" />
-		</h:panelGrid>
-	</h:form>
+	<div class="header">
+		<ui:insert name="header">
+			<ui:include src="layout/header-logged-restaurant.xhtml"></ui:include>
+		</ui:insert>
+	</div>	
 	
 
 	<h:form>
 		<h3>Seja bem-vindo <h:outputLabel value="#{loginRestaurantMB.restaurant.name}" /> </h3>
 		<h4><h:outputLabel value="#{loginRestaurantMB.restaurant.email}" /> </h4> <br></br>
 		
-		<h3>Tabela de Produtos</h3>
 		<h:inputHidden value="#{loginRestaurantMB.restaurant.idRestaurant}"/>
-		<h:commandButton value="Cadastrar Produto" action="#{loginRestaurantMB.addNewProduct}" />
+		<h:panelGrid columns="2">
+			<h3>Tabela de Produtos</h3>
+			<h:commandButton class="btn btn-success" image="./resources/images/add.png"  title="Adicionar Novo Produto" action="#{loginRestaurantMB.addNewProduct}" />
+		</h:panelGrid>
 		
 		
 		<h:dataTable value="#{loginRestaurantMB.productList}" var="prod" border="1">

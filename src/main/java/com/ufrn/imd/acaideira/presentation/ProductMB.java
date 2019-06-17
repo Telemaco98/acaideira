@@ -4,7 +4,6 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Named;
 
 import com.ufrn.imd.acaideira.data.ProductDAO;
-import com.ufrn.imd.acaideira.data.exception.DatabaseException;
 import com.ufrn.imd.acaideira.domain.Product;
 
 @Named(value = "productManagedBean")

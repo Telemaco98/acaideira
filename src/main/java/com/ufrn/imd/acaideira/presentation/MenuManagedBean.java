@@ -15,9 +15,13 @@ import com.ufrn.imd.acaideira.domain.Product;
 public class MenuManagedBean {
 	ProductDAO productDAO;
 	
+	boolean nofilter = true;
 	List<Product> products = new ArrayList<Product>();
+	List<Product> productsAsc = new ArrayList<Product>();
 	
 	public List<Product> getProducts() {
+		if(!nofilter)
+			return products;
 		try {
 			productDAO = ProductDAO.getInstance();
 			products = productDAO.retrieveProducts();
@@ -26,10 +30,59 @@ public class MenuManagedBean {
 		} catch (DatabaseException e) {
 			System.out.println(e.getMessage());
 		}
+		
 		return null;
 	}
 	
 	public void setProductDAO(ProductDAO productDAO) {
 		this.productDAO = productDAO;
+	}
+	
+	public String productsAsc () {
+		try {
+			nofilter = false;
+			productDAO = ProductDAO.getInstance();
+			products = productDAO.retrieveProductsByNameAsc();
+			return null;
+		} catch (DatabaseException e) {
+			System.out.println(e.getMessage());
+		}
+		return null;
+	}
+	
+	public String productsDesc () {
+		try {
+			nofilter = false;
+			productDAO = ProductDAO.getInstance();
+			products = productDAO.retrieveProductsByNameDesc();
+			return null;
+		} catch (DatabaseException e) {
+			System.out.println(e.getMessage());
+		}
+		return null;
+	}
+	
+	public String productsPrice (double value) {
+		try {
+			nofilter = false;
+			productDAO = ProductDAO.getInstance();
+			products = productDAO.retrieveProductsByPrice(value);
+			return null;
+		} catch (DatabaseException e) {
+			System.out.println(e.getMessage());
+		}
+		return null;
+	}
+	
+	public String productsType (String type) {
+		try {
+			nofilter = false;
+			productDAO = ProductDAO.getInstance();
+			products = productDAO.retrieveProductsByType(type);
+			return null;
+		} catch (DatabaseException e) {
+			System.out.println(e.getMessage());
+		}
+		return null;
 	}
 }

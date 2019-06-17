@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public enum ProductType {
-	Beverage, Meat, Condiments, Sauce, Dessest, Snack;
+	Beverage, Meat, Condiment, Sauce, Dessest, Snack;
 	
 	public static ProductType StrToProductType (String str) {
 		ProductType pType;
@@ -17,7 +17,7 @@ public enum ProductType {
 					pType = ProductType.Meat;
 					break;
 				case "Condiments":
-					pType = ProductType.Condiments;
+					pType = ProductType.Condiment;
 					break;	
 				case "Sauce":
 					pType = ProductType.Sauce;

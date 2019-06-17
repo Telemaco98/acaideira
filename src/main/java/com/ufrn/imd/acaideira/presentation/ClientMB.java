@@ -44,7 +44,7 @@ public class ClientMB {
 			dao = ClientDAO.getInstance();
 			dao.insert(client);
 			clientList = dao.retrieveAllClients();
-			return "clientlist";
+			return "clientlogin";
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}

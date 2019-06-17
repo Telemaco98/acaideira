@@ -9,3 +9,21 @@
     top: 10%;
     width: 100%;
 }
+
+.bg-purple {
+	background: #473267 !important;
+}
+
+.outline-purple {
+	border: solid 1px #473267; 
+}
+
+.text-purple {
+	color: #473267;
+}
+
+.client-register {
+	position: absolute;
+    top: 20%;
+    width: 100%;
+}

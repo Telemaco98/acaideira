@@ -1,13 +1,18 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html" lang="pt">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html" lang="pt">
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 	<link rel="stylesheet"
 		href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
 		integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
-		crossorigin="anonymous"/>
+		crossorigin="anonymous" />
 	<title>Cardápio</title>
-	<link rel="stylesheet" type="text/css" href="./resources/style.css"/>
+	<link rel="stylesheet" type="text/css" href="./resources/style.css" />
+	
+	<link rel="stylesheet" type="text/css" href="./resources/style-menu.css"/>
 </head>
 <body>
 	<div class="header">
@@ -15,40 +20,76 @@
 			<ui:include src="./layout/header.xhtml"></ui:include>
 		</ui:insert>
 	</div>
-	
-	<div id="menu">
-		<h:form>
-			<h:dataTable value="#{menuManagedBean.products}" var="prod"
-				border="1">
-				<h:column>
-					<f:facet name="header">
-						<h:outputText value="Name" />
-					</f:facet>
-					<h:outputText value="#{prod.name}" />
-				</h:column>
-	
-				<h:column>
-					<f:facet name="header">
-						<h:outputText value="Preço" />
-					</f:facet>
-					<h:outputText value="#{prod.price}" />
-				</h:column>
-				
-				<h:column>
-					<f:facet name="header">
-						<h:outputText value="Tipo" />
-					</f:facet>
-					<h:outputText value="#{prod.type}" />
-				</h:column>
-				
-				<h:column>
-					<f:facet name="header">
-						<h:outputText value="Descrição" />
-					</f:facet>
-					<h:outputText value="#{prod.description}" />
-				</h:column>	
-			</h:dataTable>
-		</h:form>
+
+	<div class="container-fluid menu">
+		<div class="row">
+			<div class="sidebar">
+				<h3 class="text-center text-white sidebar-title">Filtro</h3>
+				<div>
+					<div class="dropdown-divider"></div>
+					<h:outputLabel class="text-center item-sidebar-title" value="Ordem Alfabética" />
+					<h:form>
+						<h:commandButton class="text-left item-sidebar" value="[A - Z]" action="#{menuManagedBean.productsAsc}" />
+						<h:commandButton class="text-left item-sidebar" value="[Z - A]" action="#{menuManagedBean.productsDesc}" />
+					</h:form>
+					
+					<div class="dropdown-divider"></div>
+					<h:outputLabel class="text-center item-sidebar-title" value="Preço" />
+					<h:form>
+						<h:commandButton class="text-left item-sidebar" value="0 a 5" action="#{menuManagedBean.productsPrice(5)}" />
+						<h:commandButton class="text-left item-sidebar" value="0 a 10" action="#{menuManagedBean.productsPrice(10)}" />
+						<h:commandButton class="text-left item-sidebar" value="0 a 20" action="#{menuManagedBean.productsPrice(20)}" />
+						<h:commandButton class="text-left item-sidebar" value="0 a 40" action="#{menuManagedBean.productsPrice(30)}" />
+						<h:commandButton class="text-left item-sidebar" value="0 a 70" action="#{menuManagedBean.productsPrice(70)}" />
+					</h:form>
+					
+					<div class="dropdown-divider"></div>
+					<h:outputLabel class="text-center item-sidebar-title" value="Tipo" />
+					<h:form>
+						<h:commandButton class="text-left item-sidebar" value="Lanches" action="#{menuManagedBean.productsType(Snack)}" />
+						<h:commandButton class="text-left item-sidebar" value="Bebidas" action="#{menuManagedBean.productsPrice(Beverage)}" />
+						<h:commandButton class="text-left item-sidebar" value="Carne" action="#{menuManagedBean.productsPrice(Meat)}" />
+						<h:commandButton class="text-left item-sidebar" value="Salsa" action="#{menuManagedBean.productsPrice(Sauce)}" />
+						<h:commandButton class="text-left item-sidebar" value="Condimentos" action="#{menuManagedBean.productsPrice(Condiment)}" />
+						<h:commandButton class="text-left item-sidebar" value="Sobremesa" action="#{menuManagedBean.productsPrice(Dessest)}" />
+					</h:form>
+				</div>
+			</div>
+			
+			<div class="main">
+				<h:form>
+					<h:dataTable value="#{menuManagedBean.products}" var="prod" border="2">
+						<h:column>
+							<f:facet name="header">
+								<h:outputText value="Nome" />
+							</f:facet>
+							<h:outputText value="#{prod.name}" />
+						</h:column>
+						
+						<h:column>
+							<f:facet name="header">
+								<h:outputText value="Tipo" />
+							</f:facet>
+							<h:outputText value="#{prod.type}" />
+						</h:column>
+						
+						<h:column>
+							<f:facet name="header">
+								<h:outputText value="Preço" />
+							</f:facet>
+							<h:outputText value="#{prod.price}" />
+						</h:column>
+						
+						<h:column>
+							<f:facet name="header">
+								<h:outputText value="Description" />
+							</f:facet>
+							<h:outputText value="#{prod.description}" />
+						</h:column>
+					</h:dataTable>
+				</h:form>
+			</div>
+		</div>
 	</div>
 </body>
 </html>

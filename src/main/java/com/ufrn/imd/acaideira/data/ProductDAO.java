@@ -165,8 +165,8 @@ public class ProductDAO extends UtilsDAO<Product> implements DAO<Product> {
 	public List<Product> retrieveProductsByPrice(double valor) throws DatabaseException {
 		try {
 			this.startConnection();
-			String sql = "SELECT * FROM product WHERE price="
-			+ this.returnValueStringBD(String.valueOf(valor));
+			String sql = "SELECT * FROM product WHERE price<="
+			+ this.returnValueStringBD(String.valueOf(valor)) + "ORDER BY name ASC";
 			ResultSet rs = command.executeQuery(sql);
 			
 			List<Product> products = new ArrayList<Product>();
@@ -284,6 +284,36 @@ public class ProductDAO extends UtilsDAO<Product> implements DAO<Product> {
 		}
 	}
 	
+	public List<Product> retrieveProductsByType(String name) throws DatabaseException {
+		try {
+			this.startConnection();
+			String sql = "SELECT * FROM product WHERE type=" + this.returnValueStringBD(name) +
+					"ORDER BY name ASC";
+			ResultSet rs = command.executeQuery(sql);
+			List<Product> products = new ArrayList<Product>();
+			while (rs.next()) {
+				int    id_product  = Integer.parseInt(rs.getString("id_product"));
+				double price 	   = Double.parseDouble(rs.getString("price"));
+				String name_bd 	   = rs.getString("name");
+				int    amount	   = Integer.parseInt(rs.getString("amount"));
+				String type_str    = rs.getString("type");
+				String description = rs.getString("description");
+				int id_restaurant  = Integer.parseInt(rs.getString("id_restaurant"));
+				
+				ProductType type = ProductType.StrToProductType(type_str); 
+
+				Product p = new Product(id_product, price, name_bd, amount, type, description, id_restaurant);
+				products.add(p);
+			}
+
+			return products;
+		} catch (SQLException e) {
+			throw new DatabaseException(e.getMessage());
+		} finally {
+			this.closeConnection();
+		}
+	}
+	
 	public List<Product> retrieveProductsByName(String name) throws DatabaseException {
 		try {
 			this.startConnection();
@@ -292,6 +322,66 @@ public class ProductDAO extends UtilsDAO<Product> implements DAO<Product> {
 			ResultSet rs = command.executeQuery(sql);
 			List<Product> products = new ArrayList<Product>();
 			while (rs.next()) {
+				int    id_product  = Integer.parseInt(rs.getString("id_product"));
+				double price 	   = Double.parseDouble(rs.getString("price"));
+				String name_bd 	   = rs.getString("name");
+				int    amount	   = Integer.parseInt(rs.getString("amount"));
+				String type_str    = rs.getString("type");
+				String description = rs.getString("description");
+				int id_restaurant  = Integer.parseInt(rs.getString("id_restaurant"));
+				
+				ProductType type = ProductType.StrToProductType(type_str); 
+
+				Product p = new Product(id_product, price, name_bd, amount, type, description, id_restaurant);
+				products.add(p);
+			}
+
+			return products;
+		} catch (SQLException e) {
+			throw new DatabaseException(e.getMessage());
+		} finally {
+			this.closeConnection();
+		}
+	}
+	
+	public List<Product> retrieveProductsByNameAsc() throws DatabaseException {
+		try {
+			this.startConnection();
+			String sql = "SELECT * FROM product ORDER BY name ASC";
+			ResultSet rs = command.executeQuery(sql);
+			
+			List<Product> products = new ArrayList<Product>();
+			while (rs.next()) {				
+				int    id_product  = Integer.parseInt(rs.getString("id_product"));
+				double price 	   = Double.parseDouble(rs.getString("price"));
+				String name_bd 	   = rs.getString("name");
+				int    amount	   = Integer.parseInt(rs.getString("amount"));
+				String type_str    = rs.getString("type");
+				String description = rs.getString("description");
+				int id_restaurant  = Integer.parseInt(rs.getString("id_restaurant"));
+				
+				ProductType type = ProductType.StrToProductType(type_str); 
+
+				Product p = new Product(id_product, price, name_bd, amount, type, description, id_restaurant);
+				products.add(p);
+			}
+
+			return products;
+		} catch (SQLException e) {
+			throw new DatabaseException(e.getMessage());
+		} finally {
+			this.closeConnection();
+		}
+	}
+	
+	public List<Product> retrieveProductsByNameDesc() throws DatabaseException {
+		try {
+			this.startConnection();
+			String sql = "SELECT * FROM product ORDER BY name DESC";
+			ResultSet rs = command.executeQuery(sql);
+			
+			List<Product> products = new ArrayList<Product>();
+			while (rs.next()) {				
 				int    id_product  = Integer.parseInt(rs.getString("id_product"));
 				double price 	   = Double.parseDouble(rs.getString("price"));
 				String name_bd 	   = rs.getString("name");
