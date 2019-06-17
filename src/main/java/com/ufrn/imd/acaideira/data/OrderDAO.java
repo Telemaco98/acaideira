@@ -177,10 +177,11 @@ public class OrderDAO extends UtilsDAO<OrderDAO, Order> implements DAO<Order> {
 		return returnValueStringBD(order.getStatus());
 	}
 	
-	public void creatOrderClient(int clientID, int orderID) throws DatabaseException{
+	public void creatOrderClient(Client client, Order order) throws DatabaseException{
 		try {
 			this.startConnection();
-			String sql = "INSERT INTO order_client(`id_client`, `id_order`) VALUES("+clientID+","+orderID+")";
+			String sql = "INSERT INTO order_client(`id_client`, `id_order`) VALUES("+returnValueStringBD(String.valueOf(client.getId_client()))+","
+			+returnValueStringBD(String.valueOf(order.getId()))+")";
 			command.executeUpdate(sql);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -210,6 +211,7 @@ public class OrderDAO extends UtilsDAO<OrderDAO, Order> implements DAO<Order> {
 	}
 	
 	public void addToCart(Product product, Order order, int qtd) throws DatabaseException{
+		
 		try {
 			this.startConnection();
 			String sql = "INSERT INTO product_order (`id_product`,`id_order`,`quantity`) VALUES("
@@ -259,6 +261,25 @@ public class OrderDAO extends UtilsDAO<OrderDAO, Order> implements DAO<Order> {
 			this.closeConnection();
 		}
 		return 0;
+	}
+
+	public Order lastOrder() throws Exception{
+		try {
+			this.startConnection();
+			String sql = "select * from `order` ORDER BY id_order desc limit 1";
+			ResultSet rs = command.executeQuery(sql);
+			Order p = new Order();
+			if (rs.next()) {
+				p.setId(Integer.parseInt(rs.getString("id_order")));
+				p.setStatus(rs.getString("status"));
+			}
+			return p;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			this.closeConnection();
+		}
+		return null;
 	}
 	
 }

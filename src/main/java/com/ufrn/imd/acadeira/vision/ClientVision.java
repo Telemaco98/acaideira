@@ -10,11 +10,9 @@ import com.ufrn.imd.acaideira.data.OrderDAO;
 import com.ufrn.imd.acaideira.data.ProductDAO;
 import com.ufrn.imd.acaideira.data.RestaurantDAO;
 import com.ufrn.imd.acaideira.data.exception.DatabaseException;
-import com.ufrn.imd.acaideira.domain.Address;
 import com.ufrn.imd.acaideira.domain.Client;
 import com.ufrn.imd.acaideira.domain.Order;
 import com.ufrn.imd.acaideira.domain.Product;
-import com.ufrn.imd.acaideira.domain.CreditCard;
 import com.ufrn.imd.acaideira.domain.Restaurant;
 
 public class ClientVision implements Vision{
@@ -173,7 +171,10 @@ public class ClientVision implements Vision{
 				orderDAO.insert(order);
 			} catch(DatabaseException e) {
 				throw new DatabaseException("Problems");
-			}			
+			}
+			order = orderDAO.lastOrder();
+			orderDAO.creatOrderClient(client, order);
+			
 		} else {
 			System.out.println("Client not found");
 		}
@@ -231,7 +232,7 @@ public class ClientVision implements Vision{
 			} catch (DatabaseException e) {
 				throw new DatabaseException("Erro");
 			} if(clientShared != null) {
-				orderDAO.creatOrderClient(idClient, idOrder);
+				orderDAO.creatOrderClient(clientShared, order);
 			}
 		}
 	}
