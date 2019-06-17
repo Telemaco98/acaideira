@@ -2,6 +2,8 @@ package com.ufrn.imd.acadeira.vision;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.math.BigInteger;
+import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,7 +17,8 @@ import com.ufrn.imd.acaideira.domain.Restaurant;
 public class RestaurantVision implements Vision{
 	private RestaurantDAO restaurantDAO;
 	private ProductDAO productDAO;
-	private BufferedReader reader = new BufferedReader(new InputStreamReader(System.in)); 
+	private BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+	private Usuario user;
 	
 	public RestaurantVision() throws DatabaseException {
 		this.restaurantDAO = RestaurantDAO.getInstance();
@@ -28,10 +31,12 @@ public class RestaurantVision implements Vision{
 		infoRestaurant.add("Name: ");
 		infoRestaurant.add("Type: ");
 		infoRestaurant.add("Address: ");
+		infoRestaurant.add("Email: ");
+		infoRestaurant.add("Password: ");
 		
 		ArrayList<String> par = askInfo(infoRestaurant,infoRestaurant.size());
 		
-		Restaurant r = new Restaurant(par.get(0),par.get(1), par.get(2));
+		Restaurant r = new Restaurant(par.get(0),par.get(1), par.get(2),par.get(3),toMD5(par.get(4)));
 		try {
 			restaurantDAO.insert(r);
 			//restaurantDAO.commit();
@@ -42,6 +47,7 @@ public class RestaurantVision implements Vision{
 	
 	@Override
 	public void remove() throws Exception{
+		restaurantDAO.setUser(user);
 		System.out.println("Type the restaurant id: ");
 		int id = Integer.parseInt(reader.readLine());
 	    Restaurant restaurant = null;
@@ -53,7 +59,7 @@ public class RestaurantVision implements Vision{
 	    }
 	    
 	    if(restaurant == null) {
-	    	System.out.println("Restaurante nï¿½o encontrado");
+	    	System.out.println("Restaurante nao encontrado");
 	    }
 	    else {
 	    	try {
@@ -67,6 +73,7 @@ public class RestaurantVision implements Vision{
 
 	@Override
 	public void alter() throws Exception {
+		restaurantDAO.setUser(user);
 		System.out.println("Type the restaurant id: ");
 		int id = Integer.parseInt(reader.readLine());
 	    Restaurant restaurant = null;
@@ -78,7 +85,7 @@ public class RestaurantVision implements Vision{
 	    }
 	    
 	    if(restaurant == null) {
-	    	System.out.println("Restaurante nï¿½o encontrado");
+	    	System.out.println("Restaurante nao encontrado");
 	    }
 	    else {
 	    	ArrayList<String> infoRestaurant = new ArrayList<String>();
@@ -103,6 +110,7 @@ public class RestaurantVision implements Vision{
 
 	@Override
 	public void visualize() throws Exception{
+		restaurantDAO.setUser(user);
 		System.out.println("Type the restaurant id: ");
 		int id = Integer.parseInt(reader.readLine());
 	    Restaurant restaurant = null;
@@ -114,7 +122,7 @@ public class RestaurantVision implements Vision{
 	    }
 	    
 	    if(restaurant == null) {
-	    	System.out.println("Restaurante nï¿½o encontrado");
+	    	System.out.println("Restaurante nao encontrado");
 	    }
 	    else {
 	    	System.out.println(restaurant.toString());
@@ -124,7 +132,8 @@ public class RestaurantVision implements Vision{
 	@Override
 	public void visualizeAll() throws Exception {
 		System.out.println("Added restaurants");
-		List<Restaurant> restaurants = restaurantDAO.retrieveRestaurantes();
+		restaurantDAO.setUser(user);
+		List<Restaurant> restaurants = restaurantDAO.retrieveRestaurants();
 		int sizeListRestaurants = restaurants.size();
 		if(sizeListRestaurants != 0) {
 			System.out.println("Restaurants added");
@@ -139,6 +148,7 @@ public class RestaurantVision implements Vision{
 	}
 	
 	public void retriveProductsInRestaurant() throws Exception{
+		restaurantDAO.setUser(user);
 		System.out.println("Type the restaurant id: ");
 		int id = Integer.parseInt(reader.readLine());
 	    Restaurant restaurant = null;
@@ -171,6 +181,7 @@ public class RestaurantVision implements Vision{
 	}
 	
 	public void addProductInRestaurant() throws Exception{	
+		restaurantDAO.setUser(user);
 		System.out.println("Type the restaurant id: ");
 		int id = Integer.parseInt(reader.readLine());
 	    Restaurant restaurant = null;
@@ -205,6 +216,7 @@ public class RestaurantVision implements Vision{
 	}
 	
 	public void removeProductInRestaurant() throws Exception {
+		restaurantDAO.setUser(user);
 		System.out.println("Type the restaurant id: ");
 		int id = Integer.parseInt(reader.readLine());
 	    Restaurant restaurant = null;
@@ -244,7 +256,8 @@ public class RestaurantVision implements Vision{
 		
 	}
 	
-	public void alterProductInRestaurant() throws Exception{	
+	public void alterProductInRestaurant() throws Exception{
+		restaurantDAO.setUser(user);
 		System.out.println("Type the restaurant id: ");
 		int id = Integer.parseInt(reader.readLine());
 	    Restaurant restaurant = null;
@@ -295,6 +308,7 @@ public class RestaurantVision implements Vision{
 	}
 	
 	public void retrivePurchasesFromRestaurant() throws Exception{
+		restaurantDAO.setUser(user);
 		System.out.println("Type the restaurant id: ");
 		int id = Integer.parseInt(reader.readLine());;
 	    Restaurant restaurant = null;
@@ -332,6 +346,7 @@ public class RestaurantVision implements Vision{
 	}
 	
 	public void searchByRestaurantParameter() throws Exception {
+		restaurantDAO.setUser(user);
 		ArrayList<String> parameter = new ArrayList<String>();
 		ArrayList<String> parameterValue = new ArrayList<String>();
 		
@@ -384,7 +399,7 @@ public class RestaurantVision implements Vision{
 	public void retriveRestaurantsByType(String type) throws DatabaseException {
 		List<Restaurant> restaurants = new ArrayList<Restaurant>();
 		try {
-			restaurants = restaurantDAO.retrieveRestaurantsByName(type);
+			restaurants = restaurantDAO.retrieveRestaurantsByType(type);
     	}
     	catch(DatabaseException e) {
     		throw new DatabaseException("Problems when trying to search for products");
@@ -425,6 +440,28 @@ public class RestaurantVision implements Vision{
 
 	}
 	
+	public void searchCredentials() throws Exception {
+		ArrayList<String> infoRestaurant = new ArrayList<String>();
+		infoRestaurant.add("Email: ");
+		infoRestaurant.add("Password: ");
+		
+		ArrayList<String> par = askInfo(infoRestaurant,infoRestaurant.size());
+		Restaurant r;
+		try {
+			r = restaurantDAO.searchCrediatials(par.get(0),toMD5(par.get(1)));
+		}catch(Exception e) {
+			throw new DatabaseException("Problems when trying to log in");
+		}
+		
+		if(r != null) {
+			this.user = new Usuario(r.getEmail(),r.getPassword());
+		}
+		else {
+			System.out.println("Usuário não encontrado");
+		}
+		
+	}
+	
 	public ArrayList<String> askInfo(ArrayList<String> infoRest, int quant) throws Exception {
 		ArrayList<String> par = new ArrayList<String>();
 		int i = 0;
@@ -434,6 +471,26 @@ public class RestaurantVision implements Vision{
 			par.add(reader.readLine());
 		}while(i < quant);
 		return par;
+	}
+	
+
+	public Usuario getUser() {
+		return user;
+	}
+
+	public void setUser(Usuario user) {
+		this.user = user;
+	}
+
+	public String toMD5(String texto) throws Exception{
+		MessageDigest m=MessageDigest.getInstance("MD5");
+	    m.update(texto.getBytes(),0,texto.length());
+		return new BigInteger(1,m.digest()).toString(16);
+	}
+	
+	public void logOut() {
+		this.user = null;
+		restaurantDAO.setUser(user);
 	}
 
 }

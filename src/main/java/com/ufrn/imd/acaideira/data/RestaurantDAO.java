@@ -9,11 +9,21 @@ import com.ufrn.imd.acaideira.data.exception.DatabaseException;
 import com.ufrn.imd.acaideira.domain.Product;
 import com.ufrn.imd.acaideira.domain.Purchase;
 import com.ufrn.imd.acaideira.domain.Restaurant;
+import com.ufrn.imd.acadeira.vision.Usuario;
 
 public class RestaurantDAO extends UtilsDAO<RestaurantDAO, Restaurant> implements DAO<Restaurant> {
 	private static RestaurantDAO restaurantDAO;
-
+	private com.ufrn.imd.acadeira.vision.Usuario user;
+	
 	private RestaurantDAO() throws DatabaseException { }
+	
+	public Usuario getUser() {
+		return user;
+	}
+
+	public void setUser(Usuario user) {
+		this.user = user;
+	}
 
 	public static synchronized RestaurantDAO getInstance() throws DatabaseException {
 		if (restaurantDAO == null)
@@ -28,7 +38,9 @@ public class RestaurantDAO extends UtilsDAO<RestaurantDAO, Restaurant> implement
 			buffer.append("UPDATE restaurant SET ");
 			buffer.append(returnFieldValuesBD(r));
 			buffer.append(" WHERE id_restaurant=");
-			buffer.append(r.getId());
+			buffer.append(returnValueStringBD(String.valueOf(r.getId())));
+			buffer.append(" AND email=");
+			buffer.append(returnValueStringBD(user.getEmail()));
 			String sql = buffer.toString();
 
 			command.executeUpdate(sql);
@@ -62,14 +74,18 @@ public class RestaurantDAO extends UtilsDAO<RestaurantDAO, Restaurant> implement
 		try {
 			this.startConnection();
 
-			String sql = "SELECT * FROM restaurant WHERE id_restaurant = " + returnValueStringBD(String.valueOf(id));
+			String sql = "SELECT * FROM restaurant WHERE id_restaurant = " + returnValueStringBD(String.valueOf(id))
+			+ " AND email=" + returnValueStringBD(user.getEmail());
 			ResultSet rs = command.executeQuery(sql);
-			Restaurant r = new Restaurant();
+			Restaurant r = null;
 			if (rs.next()) {
+				r = new Restaurant();
 				r.setId(Integer.parseInt(rs.getString("id_restaurant")));
 				r.setNome(rs.getString("name"));
 				r.setTipo(rs.getString("type"));
 				r.setEndereco(rs.getString("address"));
+				r.setEmail(rs.getString("email"));
+				r.setPassword(rs.getString("password"));
 			}
 
 			return r;
@@ -84,7 +100,8 @@ public class RestaurantDAO extends UtilsDAO<RestaurantDAO, Restaurant> implement
 	public void delete(Restaurant r) throws DatabaseException {
 		try {
 			this.startConnection();
-			String sql = "DELETE FROM restaurant WHERE id_restaurant=" + returnValueStringBD(String.valueOf(r.getId()));
+			String sql = "DELETE FROM restaurant WHERE id_restaurant=" + returnValueStringBD(String.valueOf(r.getId()))
+			+ "AND email=" + returnValueStringBD(user.getEmail());
 			command.executeUpdate(sql);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -93,10 +110,10 @@ public class RestaurantDAO extends UtilsDAO<RestaurantDAO, Restaurant> implement
 		}
 	}
 
-	public List<Restaurant> retrieveRestaurantes() throws DatabaseException {
+	public List<Restaurant> retrieveRestaurants() throws DatabaseException {
 		try {
 			this.startConnection();
-			String sql = "SELECT * FROM restaurant";
+			String sql = "SELECT * FROM restaurant WHERE email=" +  returnValueStringBD(user.getEmail());
 			ResultSet rs = command.executeQuery(sql);
 			List<Restaurant> rest = new ArrayList<Restaurant>();
 			while (rs.next()) {
@@ -105,6 +122,8 @@ public class RestaurantDAO extends UtilsDAO<RestaurantDAO, Restaurant> implement
 				r.setNome(rs.getString("name"));
 				r.setTipo(rs.getString("type"));
 				r.setEndereco(rs.getString("address"));
+				r.setEmail(rs.getString("email"));
+				r.setPassword(rs.getString("password"));
 				rest.add(r);
 			}
 
@@ -122,7 +141,6 @@ public class RestaurantDAO extends UtilsDAO<RestaurantDAO, Restaurant> implement
 			this.startConnection();
 			String sql = "SELECT * FROM product WHERE id_restaurant = "
 					+ returnValueStringBD(String.valueOf(r.getId()));
-			;
 			ResultSet rs = command.executeQuery(sql);
 			List<Product> products = new ArrayList<>();
 			while (rs.next()) {
@@ -148,6 +166,7 @@ public class RestaurantDAO extends UtilsDAO<RestaurantDAO, Restaurant> implement
 		try {
 			this.startConnection();
 			String sql = "SELECT * FROM product WHERE name LIKE " + returnValueStringBD("%" + name + "%")
+					+ "AND email=" + returnValueStringBD(user.getEmail())
 					+ " AND id_restaurant=" + returnValueStringBD("%" + String.valueOf(r.getId()) + "%")
 					+ "ORDER BY Name DESC";
 			ResultSet rs = command.executeQuery(sql);
@@ -175,6 +194,7 @@ public class RestaurantDAO extends UtilsDAO<RestaurantDAO, Restaurant> implement
 		try {
 			this.startConnection();
 			String sql = "SELECT * FROM product WHERE name LIKE " + returnValueStringBD("%" + name + "%")
+					+ "AND email=" + returnValueStringBD(user.getEmail())
 					+ " AND id_restaurant=" + returnValueStringBD("%" + String.valueOf(r.getId()) + "%")
 					+ " ORDER BY Name Asc";
 			ResultSet rs = command.executeQuery(sql);
@@ -293,10 +313,37 @@ public class RestaurantDAO extends UtilsDAO<RestaurantDAO, Restaurant> implement
 		}
 		return null;
 	}
+	
+	public Restaurant searchCrediatials(String email, String password) throws DatabaseException{
+		try {
+			this.startConnection();
+
+			String sql = "SELECT * FROM restaurant WHERE email = " + returnValueStringBD(email)
+			+ " AND password=" + returnValueStringBD(password);
+			ResultSet rs = command.executeQuery(sql);
+			Restaurant r = null;
+			if (rs.next()) {
+				r = new Restaurant();
+				r.setId(Integer.parseInt(rs.getString("id_restaurant")));
+				r.setNome(rs.getString("name"));
+				r.setTipo(rs.getString("type"));
+				r.setEndereco(rs.getString("address"));
+				r.setEmail(rs.getString("email"));
+				r.setPassword(rs.getString("password"));
+			}
+
+			return r;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			this.closeConnection();
+		}
+		return null;
+	}
 
 	@Override
 	protected String returnFieldsBD() {
-		return "name, type, address";
+		return "name, type, address, email, password";
 	}
 
 	@Override
@@ -309,13 +356,18 @@ public class RestaurantDAO extends UtilsDAO<RestaurantDAO, Restaurant> implement
 		buffer.append(returnValueStringBD(r.getTipo()));
 		buffer.append(", address=");
 		buffer.append(returnValueStringBD(r.getEndereco()));
+		buffer.append(", email=");
+		buffer.append(returnValueStringBD(r.getEmail()));
+		buffer.append(", password=");
+		buffer.append(returnValueStringBD(r.getPassword()));
 		return buffer.toString();
 	}
 
 	@Override
 	protected String returnValuesBD(Restaurant r) {
 		return returnValueStringBD(r.getNome()) + ", " + returnValueStringBD(r.getTipo()) + ", "
-				+ returnValueStringBD(r.getEndereco());
+				+ returnValueStringBD(r.getEndereco()) + ", " + returnValueStringBD(r.getEmail())
+				+ ", " + returnValueStringBD(r.getPassword());
 	}
 		
 }

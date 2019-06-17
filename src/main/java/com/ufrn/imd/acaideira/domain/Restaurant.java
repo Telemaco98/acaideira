@@ -9,14 +9,20 @@ public class Restaurant{
 	private String nome;
 	
 	private String tipo;
+
+	private String email;
+
+	private String password;
 	
 	public Restaurant() {
 		
 	}
 	
-	public Restaurant(String endereco, String nome, String tipo) {
+	public Restaurant(String endereco, String nome, String tipo, String email, String password) {
 		this.endereco = endereco;
 		this.nome = nome;
+		this.email = email;
+		this.password = password;
 		this.tipo = tipo;
 	}
 		
@@ -51,7 +57,23 @@ public class Restaurant{
 	public void setTipo(String tipo) {
 		this.tipo = tipo;
 	}
-	
+		
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
 	public String toString() {
 		return  "Id: " + this.getId() + " Nome: " +  this.getNome() + " Tipo: "+ this.getTipo() + " Endereco: "+ this.getEndereco();
 	}

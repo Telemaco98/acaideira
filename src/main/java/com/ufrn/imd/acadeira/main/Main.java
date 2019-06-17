@@ -12,9 +12,7 @@ public class Main {
 	public static void restaurantVision(RestaurantVision r) throws Exception {
 		int option = -1;
 		while(option != 0) {
-			System.out.println("1 - Add restaurant \n 2 - Check all restaurants added \n 3 - Alter restaurant info \n 4 - Retrive products from restaurant "
-					+ "\n 5 - Remove product from restaurant \n 6 - Alter product from restaurant \n 7 - Purchases from Restaurant \n"
-					+ " 8 - Search by a parameter \n 9 - Add product in restaurant \n0 - Exit\n");
+			System.out.println("\n 1 - Add restaurant \n 2 - Log in \n 3- Search restaurant by parameter \n 0 - Exit\n");
 			option = Integer.parseInt(reader.readLine());
 			switch(option) {
 				case 0:
@@ -24,28 +22,16 @@ public class Main {
 					r.add();					
 				break;
 				case 2:
-					r.visualizeAll();
+					r.searchCredentials();
+					if(r.getUser() != null){
+						logIn(r);
+					}
+					else {
+						System.out.println("Crendentials not found");
+					}
 				break;
 				case 3:
-					r.alter();
-				break;
-				case 4:
-					r.retriveProductsInRestaurant();
-				break;
-				case 5:
-					r.removeProductInRestaurant();
-				break;
-				case 6:
-					r.alterProductInRestaurant();
-				break;
-				case 7:
-					r.retrivePurchasesFromRestaurant();
-				break;
-				case 8:
 					r.searchByRestaurantParameter();
-				break;
-				case 9:
-					r.addProductInRestaurant();
 				break;
 				default:
 					System.out.println("Invalid option\n");
@@ -54,12 +40,57 @@ public class Main {
 		}
 	}
 	
+	public static void logIn(RestaurantVision r) throws Exception{
+		
+		int option = -1;
+		while(option != 0) {
+			System.out.println("\n 1 - Alter restaurant info \n 2 - Retrive products from restaurant "
+					+ "\n 3 - Remove product from restaurant \n 4 - Alter product from restaurant \n 5 - Purchases from Restaurant \n"
+					+ " 6 - Add product in restaurant \n 7 - Retrive all my restaurants \n 8 - Remove restaurant"
+					+ "\n 0 - Log out");
+			
+			option = Integer.parseInt(reader.readLine());
+			switch(option) {
+				case 0:
+					System.out.println("Loging out\n");
+				break;
+				case 1:
+					r.alter();
+				break;
+				case 2:
+					r.retriveProductsInRestaurant();
+				break;
+				case 3:
+					r.removeProductInRestaurant();
+				break;
+				case 4:
+					r.alterProductInRestaurant();
+				break;
+				case 5:
+					r.retrivePurchasesFromRestaurant();
+				break;
+				case 6:
+					r.addProductInRestaurant();
+				break;
+				case 7:
+					r.visualizeAll();
+				break;
+				case 8:
+					r.remove();
+				break;
+				default:
+					System.out.println("Invalid option\n");
+			}
+		}
+	}
+	
+	
 	public static void main(String[] args) throws Exception{	    
 		Vision v;
 	    
 		int option = -1;
 		while(option != 0) {
-			System.out.println("1 - Restaurant \n 2 - Client \n 0 - Exit\n");
+			System.out.println("\n 1 - Restaurant \n 2 - Client \n 0 - Exit\n");
 			option = Integer.parseInt(reader.readLine());
 			switch(option) {
 				case 0:
