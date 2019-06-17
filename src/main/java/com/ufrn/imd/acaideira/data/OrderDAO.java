@@ -13,10 +13,7 @@ import com.ufrn.imd.acaideira.domain.Product;
 public class OrderDAO extends UtilsDAO<OrderDAO, Order> implements DAO<Order> {
 	private static OrderDAO orderDAO;
 
-	private OrderDAO() throws DatabaseException {
-		super();
-		this.connection = ConnectionFactory.getConnection();
-	}
+	private OrderDAO() throws DatabaseException { }
 
 	public static synchronized OrderDAO getInstance() throws DatabaseException {
 		if (orderDAO == null)
@@ -29,7 +26,7 @@ public class OrderDAO extends UtilsDAO<OrderDAO, Order> implements DAO<Order> {
 		try {
 			this.startConnection();
 			StringBuffer buffer = new StringBuffer();
-			buffer.append("INSERT INTO order(");
+			buffer.append("INSERT INTO order (");
 			buffer.append(returnFieldsBD());
 			buffer.append(") VALUES (");
 			buffer.append(returnValuesBD(order));
@@ -70,12 +67,12 @@ public class OrderDAO extends UtilsDAO<OrderDAO, Order> implements DAO<Order> {
 		try {
 			this.startConnection();
 			StringBuffer buffer = new StringBuffer();
-			buffer.append("UPDATE order SET ");
-			buffer.append(returnFieldValuesBD(order));
-			buffer.append(" WHERE id_order=");
-			buffer.append(order.getId());
+			buffer.append("INSERT INTO order (");
+			buffer.append(this.returnFieldsBD());
+			buffer.append(") VALUES(");
+			buffer.append(returnValuesBD(order));
+			buffer.append(")");
 			String sql = buffer.toString();
-
 			command.executeUpdate(sql);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -164,7 +161,7 @@ public class OrderDAO extends UtilsDAO<OrderDAO, Order> implements DAO<Order> {
 
 	@Override
 	protected String returnFieldsBD() {
-		return "status";
+		return "`status`";
 	}
 
 	@Override
