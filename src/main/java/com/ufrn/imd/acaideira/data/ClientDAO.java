@@ -31,8 +31,7 @@ public class ClientDAO extends UtilsDAO<ClientDAO, Client> implements DAO<Client
 			buffer.append(this.returnFieldsBD());
 			buffer.append(") VALUES (");
 			buffer.append(returnValuesBD(client));
-			buffer.append(")");
-			
+			buffer.append(")");		
 			String sql = buffer.toString();
 			command.execute(sql);			
 		} catch (SQLException e) {
@@ -59,8 +58,9 @@ public class ClientDAO extends UtilsDAO<ClientDAO, Client> implements DAO<Client
 				String email = rs.getString("email");
 				String password = rs.getString("password");
 				String phone = rs.getString("phone");
+				String address = rs.getString("phone");
 				
-				c = new Client(id, cpf, name, email, password, phone);
+				c = new Client(id, cpf, name, email, password, phone, address);
 			} 
 			
 			return c;
@@ -86,8 +86,9 @@ public class ClientDAO extends UtilsDAO<ClientDAO, Client> implements DAO<Client
 				String email = rs.getString("email");
 				String password = rs.getString("password");
 				String phone = rs.getString("phone");
+				String address = rs.getString("address");
 				
-				Client c = new Client(id, cpf, name, password, email, phone);
+				Client c = new Client(id, cpf, name, password, email, phone, address);
 				clients.add(c);
 			}
 			

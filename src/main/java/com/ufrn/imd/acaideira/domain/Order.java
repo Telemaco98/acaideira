@@ -5,6 +5,7 @@ package com.ufrn.imd.acaideira.domain;
  * 
  * @author Shirley Ohara  (ohara.s.98@hotmail.com)
  * @author Vitor Henrique (vitorhenrique908@gmail.com)
+ * @author João Victor (jooeu40jv@gmail.com)
  */
 public class Order {
 	private int 	id;
@@ -47,5 +48,9 @@ public class Order {
 
 	public void setStatus(String status) {
 		this.status = status;
+	}
+	@Override
+	public String toString() {
+		return "[id= "+this.id+", status = "+this.status+" ]";
 	}
 }

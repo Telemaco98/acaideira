@@ -16,6 +16,7 @@ public class OrderDAO extends UtilsDAO<OrderDAO, Order> implements DAO<Order> {
 	private static OrderDAO orderDAO;
 
 	private OrderDAO() throws DatabaseException {
+		super();
 		this.connection = ConnectionFactory.getConnection();
 	}
 
@@ -29,10 +30,9 @@ public class OrderDAO extends UtilsDAO<OrderDAO, Order> implements DAO<Order> {
 	public void insert(Order order) throws DatabaseException {
 		try {
 			this.startConnection();
-
 			StringBuffer buffer = new StringBuffer();
-			buffer.append("INSERT INTO order (");
-			buffer.append(returnFieldsBD());
+			buffer.append("INSERT INTO restaurant (");
+			buffer.append(this.returnFieldsBD());
 			buffer.append(") VALUES (");
 			buffer.append(returnValuesBD(order));
 			buffer.append(")");
@@ -43,7 +43,7 @@ public class OrderDAO extends UtilsDAO<OrderDAO, Order> implements DAO<Order> {
 		} finally {
 			closeConnection();
 		}
-	}
+}
 
 	@Override
 	public Order select(int id) throws DatabaseException {
@@ -217,7 +217,10 @@ public class OrderDAO extends UtilsDAO<OrderDAO, Order> implements DAO<Order> {
 	public void addToCart(Product product, Order order, int qtd) throws DatabaseException{
 		try {
 			this.startConnection();
-			String sql = "INSERT INTO product_order(`id_product`, `id_order`, `quantity`) VALUES()";
+			String sql = "INSERT INTO product_order(`id_product`, `id_order`, `quantity`) VALUES(`"
+			+product.getId()+ "`,`"
+			+order.getId() + "`,`"
+			+qtd+"`)";
 			command.executeUpdate(sql);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -225,4 +228,42 @@ public class OrderDAO extends UtilsDAO<OrderDAO, Order> implements DAO<Order> {
 			this.closeConnection();
 		}
 	}
+	public void repeatOrderProducts(Order order) throws DatabaseException{
+		try{
+			this.startConnection();
+			String sql = "SELECT * FROM product_order JOIN product WHERE id_order = `"+order.getId()+"`";
+			ResultSet rs = command.executeQuery(sql);
+			List<Product> products = new ArrayList<Product>();
+			if(rs.next()) {
+				Product p = new Product();
+				p.setId(Integer.parseInt(rs.getString("id_order")));
+				p.setQuantidade(Integer.parseInt(rs.getString("product_order.quantity")));
+				products.add(p);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			this.closeConnection();
+		}
+	}
+	
+	public float valueToPay(Order order) throws DatabaseException{
+		try {
+			this.startConnection();
+			String sql = "SELECT * FROM product_order JOIN product WHERE id_order = `"+order.getId()+"`";
+			ResultSet rs = command.executeQuery(sql);
+			float total = 0;
+			if(rs.next()) {
+				int value = Integer.parseInt(rs.getString("price"));
+				total += value * (Integer.parseInt(rs.getString("quantity")));
+			}
+			return total;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			this.closeConnection();
+		}
+		return 0;
+	}
+	
 }

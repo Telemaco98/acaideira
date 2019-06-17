@@ -18,14 +18,13 @@ public class Client {
 	private String email;
 	private String password;
 	private String phone;
-	private ArrayList<Address> 	  addresses;
+	private String addresses;
 	private ArrayList<CreditCard> credit_cards;
 
 	/**
 	 * Default constructor
 	 */
 	public Client() { 
-		this.addresses	  = new ArrayList<>();
 		this.credit_cards = new ArrayList<>();
 	}
 	
@@ -37,31 +36,31 @@ public class Client {
 	 * @param email
 	 * @param password
 	 * @param phone
+	 * @param address
 	 */
-	public Client(int id, String name, String cpf, String email, String password, String phone) {
+	public Client(int id, String name, String cpf, String email, String password, String phone, String address) {
 		this.id_client   = id;
 		this.cpf 		  = cpf;
 		this.name 		  = name;		
 		this.email  	  = email;
 		this.password 	  = password;
 		this.phone  	  = phone;
-		this.addresses	  = new ArrayList<>();
+		this.addresses	  = address;
 		this.credit_cards = new ArrayList<>();
 	}
 	
-	public Client( String name, String cpf, String email, String password, String phone) {
+	public Client( String name, String cpf, String email, String password, String phone, String addresses) {
 		this.cpf 		  = cpf;
 		this.name 		  = name;		
 		this.email  	  = email;
 		this.password 	  = password;
 		this.phone  	  = phone;
-		this.addresses	  = new ArrayList<>();
+		this.addresses	  = addresses;
 		this.credit_cards = new ArrayList<>();
 	}
 	
-	public Client(int id, String name, String cpf, String email, String password, String phone, ArrayList<Address> addresses, ArrayList<String> phones, ArrayList<CreditCard> credit_cards) {
-		this(id, cpf, name, email, password, phone);
-		this.addresses	  = addresses;
+	public Client(int id, String name, String cpf, String email, String password, String phone, String addresses, ArrayList<String> phones, ArrayList<CreditCard> credit_cards) {
+		this(id, cpf, name, email, password, phone, addresses);
 		this.credit_cards = credit_cards;
 	}
 
@@ -112,17 +111,21 @@ public class Client {
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
-	
-	public ArrayList<Address> getAddresses() {
+		
+	public String getAddresses() {
 		return addresses;
 	}
-	
+
+	public void setAddresses(String addresses) {
+		this.addresses = addresses;
+	}
+
 	public ArrayList<CreditCard> getCredit_cards() {
 		return credit_cards;
 	}
 	
 	@Override
 	public String toString() {
-		return "[ id = " + this.id_client + ", name = "+ this.name + ", email = " + this.email + ", password ="+ this.password + ", phone = " + this.phone + " ]";
+		return "[ id = " + this.id_client + ", name = "+ this.name + ", email = " + this.email + ", password ="+ this.password + ", phone = " + this.phone + ", addresses = "+ this.addresses+ " ]";
 	}
 }
