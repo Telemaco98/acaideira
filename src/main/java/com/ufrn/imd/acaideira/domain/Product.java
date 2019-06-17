@@ -87,6 +87,10 @@ public class Product {
 		this.type = type;
 	}
 	
+	public void setType(String type) {
+		this.type = ProductType.StrToProductType(type);
+	}
+	
 	public String getDescription() {
 		return description;
 	}

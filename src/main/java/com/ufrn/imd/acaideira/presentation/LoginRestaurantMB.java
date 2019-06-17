@@ -11,6 +11,7 @@ import com.ufrn.imd.acaideira.data.RestaurantDAO;
 import com.ufrn.imd.acaideira.data.exception.DatabaseException;
 import com.ufrn.imd.acaideira.domain.Product;
 import com.ufrn.imd.acaideira.domain.Restaurant;
+import com.ufrn.imd.acaideira.enums.ProductType;
 
 @Named(value = "loginRestaurantMB")
 @RequestScoped
@@ -20,9 +21,11 @@ public class LoginRestaurantMB {
 	
 	private String email;
 	private String psw;
+	private String pt_str;
 	private Restaurant restaurant 	  = new Restaurant();
 	private Product    product 		  = new Product();
 	private List<Product> productList = new ArrayList<Product>();
+	private List<ProductType> productsType = ProductType.ValuesList();
 
 	public String getEmail() {
 		return email;
@@ -32,12 +35,25 @@ public class LoginRestaurantMB {
 		return psw;
 	}
 	
+	public String getPt_str() {
+		return pt_str;
+	}
+	
+	public void setPt_str(String pt_str) {
+		this.pt_str = pt_str;
+		product.setType(pt_str);
+	}
+	
 	public Restaurant getRestaurant() {
 		return restaurant;
 	}
 	
 	public Product getProduct() {
 		return product;
+	}
+	
+	public List<ProductType> getProductsType() {
+		return productsType;
 	}
 	
 	public List<Product> getProductList() {

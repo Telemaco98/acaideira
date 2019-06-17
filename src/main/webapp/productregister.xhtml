@@ -10,11 +10,15 @@
 		<h:form><h:inputHidden value="#{loginRestaurantMB.restaurant.idRestaurant}"/>
 			<h:panelGrid columns="2">
 				<h:outputLabel value="Nome "/>
-				<h:inputText value="#{loginRestaurantMB.product.name}"/>
+				<h:inputText value="#{loginRestaurantMB.product.name}" required="true" requiredMessage="Valor é obrigatório"/>
 				<h:outputLabel value="Preço"/>
-				<h:inputText value="#{loginRestaurantMB.product.price}"/>
+				<h:inputText value="#{loginRestaurantMB.product.price}" required="true" requiredMessage="Valor é obrigatório"/>
 				<h:outputLabel value="Quantidade"/>
-				<h:inputText value="#{loginRestaurantMB.product.amount}"/>
+				<h:inputText value="#{loginRestaurantMB.product.amount}" required="true" requiredMessage="Valor é obrigatório"/>
+				<h:outputLabel value="Tipo"/>
+				<h:selectOneMenu value="#{loginRestaurantMB.pt_str}" required="true" requiredMessage="Valor é obrigatório">  
+	                <f:selectItems value="#{loginRestaurantMB.productsType}" var="t" itemLabel="#{t}" itemValue="#{t}"/>  
+            	</h:selectOneMenu>  
 				<h:outputLabel value="Descrição"/>
 				<h:inputTextarea cols="21" rows="2" value="#{loginRestaurantMB.product.description}"/>	
 			</h:panelGrid>

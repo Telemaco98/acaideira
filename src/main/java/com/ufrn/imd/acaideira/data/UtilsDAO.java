@@ -16,9 +16,7 @@ abstract class UtilsDAO <EntityType> {
 		try {
 			connection = ConnectionFactory.getConnection();
 			command = connection.createStatement();
-			System.out.println("Connection Success!");
 		} catch (SQLException e) {
-			System.out.println("Connection Failed!");
 			System.out.println(e.getMessage());
 		}
 	}
@@ -29,9 +27,7 @@ abstract class UtilsDAO <EntityType> {
 				command.close();
 			if (connection.isReadOnly())
 				connection.close();
-			System.out.println("Closing Success!");
 		} catch (SQLException e) {
-			System.out.println("Closing Failed!");
 			System.out.println(e.getMessage());
 		}
 		

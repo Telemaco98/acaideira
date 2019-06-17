@@ -16,7 +16,7 @@ public enum ProductType {
 				case "Meat":
 					pType = ProductType.Meat;
 					break;
-				case "Condiments":
+				case "Condiment":
 					pType = ProductType.Condiment;
 					break;	
 				case "Sauce":

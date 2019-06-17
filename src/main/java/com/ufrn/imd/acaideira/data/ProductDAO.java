@@ -258,7 +258,8 @@ public class ProductDAO extends UtilsDAO<Product> implements DAO<Product> {
 		try {
 			this.startConnection();
 			String sql = "SELECT * FROM product WHERE price="
-			+ this.returnValueStringBD(String.valueOf(quant)) + "ORDER BY price DESC";
+			+ this.returnValueStringBD(String.valueOf(quant)) + " ORDER BY price DESC";
+			
 			ResultSet rs = command.executeQuery(sql);
 			List<Product> products = new ArrayList<Product>();
 			while (rs.next()) {
@@ -284,25 +285,23 @@ public class ProductDAO extends UtilsDAO<Product> implements DAO<Product> {
 		}
 	}
 	
-	public List<Product> retrieveProductsByType(String name) throws DatabaseException {
+	public List<Product> retrieveProductsByType(ProductType type) throws DatabaseException {
 		try {
 			this.startConnection();
-			String sql = "SELECT * FROM product WHERE type=" + this.returnValueStringBD(name) +
-					"ORDER BY name ASC";
+			String sql = "SELECT * FROM product WHERE type=" + this.returnValueStringBD(type.toString()) +
+					" ORDER BY name ASC";
 			ResultSet rs = command.executeQuery(sql);
+			
 			List<Product> products = new ArrayList<Product>();
 			while (rs.next()) {
 				int    id_product  = Integer.parseInt(rs.getString("id_product"));
 				double price 	   = Double.parseDouble(rs.getString("price"));
-				String name_bd 	   = rs.getString("name");
+				String name 	   = rs.getString("name");
 				int    amount	   = Integer.parseInt(rs.getString("amount"));
-				String type_str    = rs.getString("type");
 				String description = rs.getString("description");
 				int id_restaurant  = Integer.parseInt(rs.getString("id_restaurant"));
-				
-				ProductType type = ProductType.StrToProductType(type_str); 
 
-				Product p = new Product(id_product, price, name_bd, amount, type, description, id_restaurant);
+				Product p = new Product(id_product, price, name, amount, type, description, id_restaurant);
 				products.add(p);
 			}
 
@@ -466,5 +465,10 @@ public class ProductDAO extends UtilsDAO<Product> implements DAO<Product> {
 				returnValueStringBD(String.valueOf(p.getType())) + ", " + 
 				returnValueStringBD(p.getDescription()) + ", " + 
 				returnValueStringBD(String.valueOf(p.getIdRestaurant()));
+	}
+	
+	public static void main(String[] args) throws DatabaseException {
+		ProductDAO p = ProductDAO.getInstance();
+		System.out.println( p.retrieveProductsByType(ProductType.Snack).toString() );
 	}
 }

@@ -46,12 +46,18 @@
 					<div class="dropdown-divider"></div>
 					<h:outputLabel class="text-center item-sidebar-title" value="Tipo" />
 					<h:form>
-						<h:commandButton class="text-left item-sidebar" value="Lanches" action="#{menuManagedBean.productsType(Snack)}" />
-						<h:commandButton class="text-left item-sidebar" value="Bebidas" action="#{menuManagedBean.productsPrice(Beverage)}" />
-						<h:commandButton class="text-left item-sidebar" value="Carne" action="#{menuManagedBean.productsPrice(Meat)}" />
-						<h:commandButton class="text-left item-sidebar" value="Salsa" action="#{menuManagedBean.productsPrice(Sauce)}" />
-						<h:commandButton class="text-left item-sidebar" value="Condimentos" action="#{menuManagedBean.productsPrice(Condiment)}" />
-						<h:commandButton class="text-left item-sidebar" value="Sobremesa" action="#{menuManagedBean.productsPrice(Dessest)}" />
+						<h:commandButton class="text-left item-sidebar" value="Lanches" action="#{menuManagedBean.productsType}">
+							<f:param name="typeStr" value="Snacke" /> </h:commandButton>
+						<h:commandButton class="text-left item-sidebar" value="Bebidas" action="#{menuManagedBean.productsType}" >
+							<f:param name="typeStr" value="Beverage" /> </h:commandButton>
+						<h:commandButton class="text-left item-sidebar" value="Carnes"  action="#{menuManagedBean.productsType}" >
+							<f:param name="typeStr" value="Meat" /> </h:commandButton>
+						<h:commandButton class="text-left item-sidebar" value="Salsas"  action="#{menuManagedBean.productsType}" >
+							<f:param name="typeStr" value="Sauce" /> </h:commandButton>
+						<h:commandButton class="text-left item-sidebar" value="Condimentos" action="#{menuManagedBean.productsType}" >
+							<f:param name="typeStr" value="Condiment" /> </h:commandButton>
+						<h:commandButton class="text-left item-sidebar" value="Sobremesas" action="#{menuManagedBean.productsType}" >
+							<f:param name="typeStr" value="Dessest" /> </h:commandButton>
 					</h:form>
 				</div>
 			</div>

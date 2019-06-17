@@ -4,11 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.enterprise.context.RequestScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Named;
 
 import com.ufrn.imd.acaideira.data.ProductDAO;
 import com.ufrn.imd.acaideira.data.exception.DatabaseException;
 import com.ufrn.imd.acaideira.domain.Product;
+import com.ufrn.imd.acaideira.enums.ProductType;
 
 @Named(value = "menuManagedBean")
 @RequestScoped
@@ -74,11 +76,12 @@ public class MenuManagedBean {
 		return null;
 	}
 	
-	public String productsType (String type) {
+	public String productsType () {
 		try {
+			String type = (String) FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get( "typeStr" );
 			nofilter = false;
 			productDAO = ProductDAO.getInstance();
-			products = productDAO.retrieveProductsByType(type);
+			products = productDAO.retrieveProductsByType(ProductType.StrToProductType(type));
 			return null;
 		} catch (DatabaseException e) {
 			System.out.println(e.getMessage());
