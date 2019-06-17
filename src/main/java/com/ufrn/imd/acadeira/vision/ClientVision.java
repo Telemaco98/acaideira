@@ -256,6 +256,8 @@ public class ClientVision implements Vision{
 					System.out.println(single);
 				}
 			}
+		}else {
+			System.out.println("client not found");
 		}
 	}
 	
@@ -270,7 +272,7 @@ public class ClientVision implements Vision{
 		} catch (DatabaseException e) {
 			throw new DatabaseException("erro");
 		}if(order != null) {
-			if(order.getStatus().equals("waiting")) {
+			if(order.getStatus() == "waiting") {
 				float total = orderDAO.valueToPay(order);
 				System.out.println("the value total to pay is: " + total);
 				System.out.println("Insert the value to pay");
@@ -279,6 +281,8 @@ public class ClientVision implements Vision{
 				if (total <= 0) {
 					order.setStatus("paid");
 				}
+				float totalf = orderDAO.valueToPay(order);
+				System.out.println("the value total to pay is: " + totalf);
 			} else {
 				System.out.println("already paid");
 			}
@@ -311,6 +315,8 @@ public class ClientVision implements Vision{
 				Product product = productDAO.select(producti.getId());
 				orderDAO.addToCart(product, order, producti.getQuantidade());
 			}
+		} else {
+			System.out.println("client not found");
 		}
 	}
 	
@@ -343,6 +349,8 @@ public class ClientVision implements Vision{
 	    		System.out.println("No have products in this restaurant!");
 	    	}
 			
+		} else {
+			System.out.println("restaurant not found");
 		}
 	}
 	
@@ -395,5 +403,22 @@ public class ClientVision implements Vision{
 		}while(i < size);
 		return par;
 	}
-	
+	public void showOrders() throws Exception{
+		List<Order> orders= new ArrayList<Order>();		
+		try {
+			orders =  orderDAO.retrievePayments();
+		} catch (DatabaseException e) {
+			throw new DatabaseException("erro");
+		}
+		int sizeOrder = orders.size();
+		if (sizeOrder > 0) {
+			System.out.println("-----List of products:");
+			for(Order order:orders) {
+				System.out.println(order);
+			}
+		} else {
+			System.out.println("No have this product in the restaurants list");
+		}
+
+	}	
 }

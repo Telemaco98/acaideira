@@ -14,7 +14,8 @@ public class Main {
 		while (option !=0) {
 			System.out.println("1 - add client \n 2 - visualize client \n 3 - remove client \n 4 - alter client \n"
 					+ "5 - creat order \n 6 - add product in order \n 7 - share order \n 8 - history of order \n"
-					+ "9 - pay account \n 10 - repeat order \n 11 - see menu \n 12 - find product by name \n 13 - details of a product");
+					+ "9 - pay account \n 10 - repeat order \n 11 - see menu \n 12 - find product by name \n 13 - details of a product \n"
+					+ "14 - show all order \n0-Exit to previous menu ");
 			option = Integer.parseInt(reader.readLine());
 			switch (option) {
 			case 0:
@@ -57,6 +58,9 @@ public class Main {
 				c.findProduct();
 			case 13:
 				c.detailsProduct();
+				break;
+			case 14:
+				c.showOrders();
 				break;
 			default:
 				System.out.println("Invalid option\n");

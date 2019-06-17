@@ -6,9 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.ufrn.imd.acaideira.data.exception.DatabaseException;
-import com.ufrn.imd.acaideira.domain.Client;
-import com.ufrn.imd.acaideira.domain.Order;
 import com.ufrn.imd.acaideira.domain.Product;
+import com.ufrn.imd.acaideira.domain.Order;
+import com.ufrn.imd.acaideira.domain.Client;
 
 public class OrderDAO extends UtilsDAO<OrderDAO, Order> implements DAO<Order> {
 	private static OrderDAO orderDAO;
@@ -26,7 +26,7 @@ public class OrderDAO extends UtilsDAO<OrderDAO, Order> implements DAO<Order> {
 		try {
 			this.startConnection();
 			StringBuffer buffer = new StringBuffer();
-			buffer.append("INSERT INTO order (");
+			buffer.append("INSERT INTO `order` (");
 			buffer.append(returnFieldsBD());
 			buffer.append(") VALUES (");
 			buffer.append(returnValuesBD(order));
@@ -45,7 +45,7 @@ public class OrderDAO extends UtilsDAO<OrderDAO, Order> implements DAO<Order> {
 		try {
 			this.startConnection();
 
-			String sql = "SELECT * FROM order WHERE id_order = " + returnValueStringBD(String.valueOf(id));
+			String sql = "SELECT * FROM `order` WHERE id_order = " + returnValueStringBD(String.valueOf(id));
 			ResultSet rs = command.executeQuery(sql);
 			Order p = new Order();
 			if (rs.next()) {
@@ -84,7 +84,7 @@ public class OrderDAO extends UtilsDAO<OrderDAO, Order> implements DAO<Order> {
 	public void delete(Order order) throws DatabaseException {
 		try {
 			this.startConnection();
-			String sql = "DELETE FROM order WHERE id_order=" + returnValueStringBD(String.valueOf(order.getId()));
+			String sql = "DELETE FROM `order` WHERE id_order=" + returnValueStringBD(String.valueOf(order.getId()));
 			command.executeUpdate(sql);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -96,7 +96,7 @@ public class OrderDAO extends UtilsDAO<OrderDAO, Order> implements DAO<Order> {
 	public List<Order> retrievePayments() throws DatabaseException {
 		try {
 			this.startConnection();
-			String sql = "SELECT * FROM order";
+			String sql = "SELECT * FROM `order`";
 			ResultSet rs = command.executeQuery(sql);
 			List<Order> payments = new ArrayList<Order>();
 			while (rs.next()) {
@@ -118,7 +118,7 @@ public class OrderDAO extends UtilsDAO<OrderDAO, Order> implements DAO<Order> {
 	public List<Order> retrievePaymentsBYId(Client client) throws DatabaseException {
 		try {
 			this.startConnection();
-			String sql = "SELECT * FROM order_client JOIM order WHERE id_client = `"+client.getId_client()+"`";
+			String sql = "SELECT * FROM order_client JOIM `order` WHERE id_client = "+client.getId_client();
 			ResultSet rs = command.executeQuery(sql);
 			List<Order> payments = new ArrayList<Order>();
 			while (rs.next()) {
@@ -140,7 +140,7 @@ public class OrderDAO extends UtilsDAO<OrderDAO, Order> implements DAO<Order> {
 	public List<Order> retrievePaymentsByType(String type) throws DatabaseException {
 		try {
 			this.startConnection();
-			String sql = "SELECT * FROM order WHERE type=" + this.returnValueStringBD("%" + type + "%");
+			String sql = "SELECT * FROM `order` WHERE type=" + this.returnValueStringBD("%" + type + "%");
 			ResultSet rs = command.executeQuery(sql);
 			List<Order> payments = new ArrayList<Order>();
 			while (rs.next()) {
@@ -192,7 +192,7 @@ public class OrderDAO extends UtilsDAO<OrderDAO, Order> implements DAO<Order> {
 	public Order selectOrderbyClient(int idClient) throws DatabaseException{
 		try {
 			this.startConnection();
-			String sql = "select * from order_client JOIN order WHERE id_client = "+ idClient+" ORDER BY id_client desc limit 1";
+			String sql = "select * from order_client JOIN `order` WHERE id_client = "+ idClient+" ORDER BY id_client desc limit 1";
 			ResultSet rs = command.executeQuery(sql);
 			Order p = new Order();
 			if (rs.next()) {
@@ -212,10 +212,10 @@ public class OrderDAO extends UtilsDAO<OrderDAO, Order> implements DAO<Order> {
 	public void addToCart(Product product, Order order, int qtd) throws DatabaseException{
 		try {
 			this.startConnection();
-			String sql = "INSERT INTO product_order(`id_product`, `id_order`, `quantity`) VALUES(`"
-			+product.getId()+ "`,`"
-			+order.getId() + "`,`"
-			+qtd+"`)";
+			String sql = "INSERT INTO product_order(`id_product`, `id_order`, `quantity`) VALUES("
+			+product.getId()+ ","
+			+order.getId() + ","
+			+qtd+")";
 			command.executeUpdate(sql);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -245,7 +245,7 @@ public class OrderDAO extends UtilsDAO<OrderDAO, Order> implements DAO<Order> {
 	public float valueToPay(Order order) throws DatabaseException{
 		try {
 			this.startConnection();
-			String sql = "SELECT * FROM product_order JOIN product WHERE id_order = `"+order.getId()+"`";
+			String sql = "SELECT * FROM product_order JOIN product WHERE id_order = "+order.getId();
 			ResultSet rs = command.executeQuery(sql);
 			float total = 0;
 			if(rs.next()) {
