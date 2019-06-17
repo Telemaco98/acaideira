@@ -212,10 +212,10 @@ public class OrderDAO extends UtilsDAO<OrderDAO, Order> implements DAO<Order> {
 	public void addToCart(Product product, Order order, int qtd) throws DatabaseException{
 		try {
 			this.startConnection();
-			String sql = "INSERT INTO product_order(`id_product`, `id_order`, `quantity`) VALUES("
-			+product.getId()+ ","
-			+order.getId() + ","
-			+qtd+")";
+			String sql = "INSERT INTO product_order (`id_product`,`id_order`,`quantity`) VALUES("
+			+returnValueStringBD(String.valueOf(product.getId()))+ ","
+			+returnValueStringBD(String.valueOf(order.getId())) + ","
+			+returnValueStringBD(String.valueOf(qtd))+")";
 			command.executeUpdate(sql);
 		} catch (SQLException e) {
 			e.printStackTrace();
