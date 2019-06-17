@@ -26,6 +26,9 @@ public class ClientVision implements Vision{
 	
 	public ClientVision() throws DatabaseException{
 		this.clientDAO = ClientDAO.getInstance();
+		this.productDAO = ProductDAO.getInstance();
+		this.orderDAO = OrderDAO.getInstance();
+		this.restaurantDAO = RestaurantDAO.getInstance();
 	}
 	//ok
 	@Override
@@ -159,10 +162,7 @@ public class ClientVision implements Vision{
 		int idClient= Integer.parseInt(reader.readLine());
 		Client client = null;
 		
-		Order order = new Order("waiting");
-
-		System.out.println("alguma coisa" + order.toString());
-		
+		Order order = new Order("waiting");		
     	try {
 			client = clientDAO.select(idClient);
 		}catch (DatabaseException e) {

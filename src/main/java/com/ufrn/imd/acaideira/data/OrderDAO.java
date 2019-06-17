@@ -5,8 +5,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.xml.crypto.Data;
-
 import com.ufrn.imd.acaideira.data.exception.DatabaseException;
 import com.ufrn.imd.acaideira.domain.Client;
 import com.ufrn.imd.acaideira.domain.Order;
@@ -31,8 +29,8 @@ public class OrderDAO extends UtilsDAO<OrderDAO, Order> implements DAO<Order> {
 		try {
 			this.startConnection();
 			StringBuffer buffer = new StringBuffer();
-			buffer.append("INSERT INTO restaurant (");
-			buffer.append(this.returnFieldsBD());
+			buffer.append("INSERT INTO order(");
+			buffer.append(returnFieldsBD());
 			buffer.append(") VALUES (");
 			buffer.append(returnValuesBD(order));
 			buffer.append(")");
