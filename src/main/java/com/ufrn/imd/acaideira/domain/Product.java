@@ -39,12 +39,12 @@ public class Product {
 		this.idRestaurant 	= idRestaurant;
 	}
 
-	public int getId() {
+	public int getIdProduct() {
 		return idProduct;
 	}
 
-	public void setId(int id) {
-		this.idProduct = id;
+	public void setIdProduct(int idProduct) {
+		this.idProduct = idProduct;
 	}
 
 	public double getPrice() {

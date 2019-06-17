@@ -11,8 +11,8 @@
 		crossorigin="anonymous" />
 	<title>Cardápio</title>
 	<link rel="stylesheet" type="text/css" href="./resources/style.css" />
-	
 	<link rel="stylesheet" type="text/css" href="./resources/style-menu.css"/>
+	
 </head>
 <body>
 	<div class="header">
@@ -64,6 +64,8 @@
 			
 			<div class="main">
 				<h:form>
+					<!-- <c:forEach var="prod" items="#{menuManagedBean.products}"> -->
+          
 					<h:dataTable value="#{menuManagedBean.products}" var="prod" border="2">
 						<h:column>
 							<f:facet name="header">
@@ -92,7 +94,21 @@
 							</f:facet>
 							<h:outputText value="#{prod.description}" />
 						</h:column>
+						
+						<h:column>
+							<f:facet name="header">
+								<h:outputText value="Adicionar ao carrinho" />
+							</f:facet>
+							
+							<h:outputLabel value="Quantidade" />
+							<h:inputText name="#{prod.idProduct}" value="#{orderManagedBean.amount}" maxlength="#{prod.amount}"/>
+							
+							<h:commandButton class="btn btn-success text-center" image="./resources/images/shopping_cart.png" title="Adicionar ao Carrinho" >
+								<f:param name="id_prod" value="#{prod.idProduct}" />
+							</h:commandButton>
+						</h:column>
 					</h:dataTable>
+					<!-- </c:forEach> -->
 				</h:form>
 			</div>
 		</div>

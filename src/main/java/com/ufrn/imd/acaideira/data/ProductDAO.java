@@ -108,7 +108,7 @@ public class ProductDAO extends UtilsDAO<Product> implements DAO<Product> {
 			buffer.append("UPDATE product SET ");
 			buffer.append(returnFieldValuesBD(p));
 			buffer.append(" WHERE id_produt=");
-			buffer.append(p.getId());
+			buffer.append(p.getIdProduct());
 			String sql = buffer.toString();
 
 			command.executeUpdate(sql);
@@ -123,7 +123,7 @@ public class ProductDAO extends UtilsDAO<Product> implements DAO<Product> {
 		try {
 			this.startConnection();
 			String sql = "DELETE FROM product WHERE id_product="
-					+ this.returnValueStringBD(String.valueOf(p.getId()));
+					+ this.returnValueStringBD(String.valueOf(p.getIdProduct()));
 			command.executeUpdate(sql);
 		} catch (SQLException e) {
 			throw new DatabaseException(e.getMessage());
@@ -445,7 +445,7 @@ public class ProductDAO extends UtilsDAO<Product> implements DAO<Product> {
 		buffer.append("price=");
 		buffer.append(returnValueStringBD(String.valueOf(p.getPrice())));
 		buffer.append(", name=");
-		buffer.append(returnValueStringBD(String.valueOf(p.getIdRestaurant())));
+		buffer.append(returnValueStringBD(String.valueOf(p.getName())));
 		buffer.append(", amount=");
 		buffer.append(returnValueStringBD(String.valueOf(p.getAmount())));
 		buffer.append(", type=");
@@ -453,7 +453,7 @@ public class ProductDAO extends UtilsDAO<Product> implements DAO<Product> {
 		buffer.append(", description=");
 		buffer.append(returnValueStringBD(String.valueOf(p.getDescription())));
 		buffer.append(", id_restaurant=");
-		buffer.append(returnValueStringBD(p.getName()));
+		buffer.append(returnValueStringBD(String.valueOf(p.getIdRestaurant())));
 		return buffer.toString();
 	}
 	
@@ -467,8 +467,8 @@ public class ProductDAO extends UtilsDAO<Product> implements DAO<Product> {
 				returnValueStringBD(String.valueOf(p.getIdRestaurant()));
 	}
 	
-	public static void main(String[] args) throws DatabaseException {
-		ProductDAO p = ProductDAO.getInstance();
-		System.out.println( p.retrieveProductsByType(ProductType.Snack).toString() );
-	}
+//	public static void main(String[] args) throws DatabaseException {
+//		ProductDAO p = ProductDAO.getInstance();
+//		System.out.println( p.retrieveProductsByType(ProductType.Snack).toString() );
+//	}
 }

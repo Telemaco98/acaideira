@@ -171,7 +171,7 @@ public class RestaurantDAO extends UtilsDAO<Restaurant> implements DAO<Restauran
 			List<Product> products = new ArrayList<>();
 			while (rs.next()) {
 				Product p = new Product();
-				p.setId(Integer.parseInt(rs.getString("id_product")));
+				p.setIdProduct(Integer.parseInt(rs.getString("id_product")));
 				p.setPrice(Double.parseDouble(rs.getString("price")));
 				p.setName(rs.getString("name"));
 				p.setIdRestaurant(Integer.parseInt(rs.getString("id_restaurant")));
@@ -198,7 +198,7 @@ public class RestaurantDAO extends UtilsDAO<Restaurant> implements DAO<Restauran
 			List<Product> products = new ArrayList<>();
 			while (rs.next()) {
 				Product p = new Product();
-				p.setId(Integer.parseInt(rs.getString("id_product")));
+				p.setIdProduct(Integer.parseInt(rs.getString("id_product")));
 				p.setPrice(Double.parseDouble(rs.getString("price")));
 				p.setName(rs.getString("name"));
 				p.setIdRestaurant(Integer.parseInt(rs.getString("id_restaurant")));
@@ -225,7 +225,7 @@ public class RestaurantDAO extends UtilsDAO<Restaurant> implements DAO<Restauran
 			List<Product> products = new ArrayList<>();
 			while (rs.next()) {
 				Product p = new Product();
-				p.setId(Integer.parseInt(rs.getString("id_product")));
+				p.setIdProduct(Integer.parseInt(rs.getString("id_product")));
 				p.setPrice(Double.parseDouble(rs.getString("price")));
 				p.setName(rs.getString("name"));
 				p.setIdRestaurant(Integer.parseInt(rs.getString("id_restaurant")));
