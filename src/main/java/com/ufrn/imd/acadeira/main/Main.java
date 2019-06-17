@@ -9,6 +9,65 @@ public class Main {
 	
 	private static BufferedReader reader = new BufferedReader(new InputStreamReader(System.in)); 
 	
+	public static void clientVision(ClientVision c) throws Exception{
+		int option = -1;
+		while (option !=0) {
+			System.out.println("1 - add client \n 2 - visualize client \n 3 - remove client \n 4 - alter client \n"
+					+ "5 - creat order \n 6 - add product in order \n 7 - share order \n 8 - history of order \n"
+					+ "9 - pay account \n 10 - repeat order \n 11 - see menu \n 12 - find product by name \n 13 - details of a product \n"
+					+ "14 - show all order \n0-Exit to previous menu ");
+			option = Integer.parseInt(reader.readLine());
+			switch (option) {
+			case 0:
+				System.out.println("saindo do cliente");
+				break;
+			case 1:
+				c.add();
+				break;
+			case 2:
+				c.visualize();
+				break;
+			case 3:
+				c.remove();
+				break;
+			case 4:
+				c.alter();
+				break;
+			case 5:
+				c.createOrder();
+				break;
+			case 6:
+				c.addProductOrder();
+				break;
+			case 7:
+				c.shareOrder();
+				break;
+			case 8:
+				c.history();
+				break;
+			case 9:
+				c.payAccount();
+				break;
+			case 10:
+				c.repeatOrder();
+				break;
+			case 11:
+				c.seeMenu();
+				break;
+			case 12:
+				c.findProduct();
+			case 13:
+				c.detailsProduct();
+				break;
+			case 14:
+				c.showOrders();
+				break;
+			default:
+				System.out.println("Invalid option\n");
+			}
+		}
+	}
+	
 	public static void restaurantVision(RestaurantVision r) throws Exception {
 		int option = -1;
 		while(option != 0) {
@@ -101,7 +160,8 @@ public class Main {
 					restaurantVision((RestaurantVision)v);
 				break;
 				case 2:
-					System.out.println("");
+					v = new ClientVision();
+					clientVision((ClientVision)v);
 				default:
 					System.out.println("Invalid option\n");
 			}

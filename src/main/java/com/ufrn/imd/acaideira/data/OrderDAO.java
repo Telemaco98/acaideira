@@ -5,19 +5,15 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.xml.crypto.Data;
-
 import com.ufrn.imd.acaideira.data.exception.DatabaseException;
-import com.ufrn.imd.acaideira.domain.Client;
-import com.ufrn.imd.acaideira.domain.Order;
 import com.ufrn.imd.acaideira.domain.Product;
+import com.ufrn.imd.acaideira.domain.Order;
+import com.ufrn.imd.acaideira.domain.Client;
 
 public class OrderDAO extends UtilsDAO<OrderDAO, Order> implements DAO<Order> {
 	private static OrderDAO orderDAO;
 
-	private OrderDAO() throws DatabaseException {
-		this.connection = ConnectionFactory.getConnection();
-	}
+	private OrderDAO() throws DatabaseException { }
 
 	public static synchronized OrderDAO getInstance() throws DatabaseException {
 		if (orderDAO == null)
@@ -29,9 +25,8 @@ public class OrderDAO extends UtilsDAO<OrderDAO, Order> implements DAO<Order> {
 	public void insert(Order order) throws DatabaseException {
 		try {
 			this.startConnection();
-
 			StringBuffer buffer = new StringBuffer();
-			buffer.append("INSERT INTO order (");
+			buffer.append("INSERT INTO `order` (");
 			buffer.append(returnFieldsBD());
 			buffer.append(") VALUES (");
 			buffer.append(returnValuesBD(order));
@@ -43,14 +38,14 @@ public class OrderDAO extends UtilsDAO<OrderDAO, Order> implements DAO<Order> {
 		} finally {
 			closeConnection();
 		}
-	}
+}
 
 	@Override
 	public Order select(int id) throws DatabaseException {
 		try {
 			this.startConnection();
 
-			String sql = "SELECT * FROM order WHERE id_order = " + returnValueStringBD(String.valueOf(id));
+			String sql = "SELECT * FROM `order` WHERE id_order = " + returnValueStringBD(String.valueOf(id));
 			ResultSet rs = command.executeQuery(sql);
 			Order p = new Order();
 			if (rs.next()) {
@@ -72,12 +67,11 @@ public class OrderDAO extends UtilsDAO<OrderDAO, Order> implements DAO<Order> {
 		try {
 			this.startConnection();
 			StringBuffer buffer = new StringBuffer();
-			buffer.append("UPDATE order SET ");
+			buffer.append("UPDATE `order` SET ");
 			buffer.append(returnFieldValuesBD(order));
 			buffer.append(" WHERE id_order=");
 			buffer.append(order.getId());
 			String sql = buffer.toString();
-
 			command.executeUpdate(sql);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -89,7 +83,7 @@ public class OrderDAO extends UtilsDAO<OrderDAO, Order> implements DAO<Order> {
 	public void delete(Order order) throws DatabaseException {
 		try {
 			this.startConnection();
-			String sql = "DELETE FROM order WHERE id_order=" + returnValueStringBD(String.valueOf(order.getId()));
+			String sql = "DELETE FROM `order` WHERE id_order=" + returnValueStringBD(String.valueOf(order.getId()));
 			command.executeUpdate(sql);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -101,7 +95,7 @@ public class OrderDAO extends UtilsDAO<OrderDAO, Order> implements DAO<Order> {
 	public List<Order> retrievePayments() throws DatabaseException {
 		try {
 			this.startConnection();
-			String sql = "SELECT * FROM order";
+			String sql = "SELECT * FROM `order`";
 			ResultSet rs = command.executeQuery(sql);
 			List<Order> payments = new ArrayList<Order>();
 			while (rs.next()) {
@@ -123,7 +117,7 @@ public class OrderDAO extends UtilsDAO<OrderDAO, Order> implements DAO<Order> {
 	public List<Order> retrievePaymentsBYId(Client client) throws DatabaseException {
 		try {
 			this.startConnection();
-			String sql = "SELECT * FROM order_client JOIM order WHERE id_client = `"+client.getId_client()+"`";
+			String sql = "SELECT * FROM `order_client` JOIN `order` on `order`.id_order = `order_client`.id_order WHERE id_client = "+client.getId_client();
 			ResultSet rs = command.executeQuery(sql);
 			List<Order> payments = new ArrayList<Order>();
 			while (rs.next()) {
@@ -145,7 +139,7 @@ public class OrderDAO extends UtilsDAO<OrderDAO, Order> implements DAO<Order> {
 	public List<Order> retrievePaymentsByType(String type) throws DatabaseException {
 		try {
 			this.startConnection();
-			String sql = "SELECT * FROM order WHERE type=" + this.returnValueStringBD("%" + type + "%");
+			String sql = "SELECT * FROM `order` WHERE type=" + this.returnValueStringBD("%" + type + "%");
 			ResultSet rs = command.executeQuery(sql);
 			List<Order> payments = new ArrayList<Order>();
 			while (rs.next()) {
@@ -166,7 +160,7 @@ public class OrderDAO extends UtilsDAO<OrderDAO, Order> implements DAO<Order> {
 
 	@Override
 	protected String returnFieldsBD() {
-		return "status";
+		return "`status`";
 	}
 
 	@Override
@@ -182,10 +176,11 @@ public class OrderDAO extends UtilsDAO<OrderDAO, Order> implements DAO<Order> {
 		return returnValueStringBD(order.getStatus());
 	}
 	
-	public void creatOrderClient(int clientID, int orderID) throws DatabaseException{
+	public void creatOrderClient(Client client, Order order) throws DatabaseException{
 		try {
 			this.startConnection();
-			String sql = "INSERT INTO order_client(`id_client`, `id_order`) VALUES("+clientID+","+orderID+")";
+			String sql = "INSERT INTO order_client(`id_client`, `id_order`) VALUES("+returnValueStringBD(String.valueOf(client.getId_client()))+","
+			+returnValueStringBD(String.valueOf(order.getId()))+")";
 			command.executeUpdate(sql);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -197,7 +192,7 @@ public class OrderDAO extends UtilsDAO<OrderDAO, Order> implements DAO<Order> {
 	public Order selectOrderbyClient(int idClient) throws DatabaseException{
 		try {
 			this.startConnection();
-			String sql = "select * from order_client JOIN order WHERE id_client = "+ idClient+" ORDER BY id_client desc limit 1";
+			String sql = "select * from order_client JOIN `order` WHERE id_client = "+ idClient+" ORDER BY id_client desc limit 1";
 			ResultSet rs = command.executeQuery(sql);
 			Order p = new Order();
 			if (rs.next()) {
@@ -215,9 +210,13 @@ public class OrderDAO extends UtilsDAO<OrderDAO, Order> implements DAO<Order> {
 	}
 	
 	public void addToCart(Product product, Order order, int qtd) throws DatabaseException{
+		
 		try {
 			this.startConnection();
-			String sql = "INSERT INTO product_order(`id_product`, `id_order`, `quantity`) VALUES()";
+			String sql = "INSERT INTO product_order (`id_product`,`id_order`,`quantity`) VALUES("
+			+returnValueStringBD(String.valueOf(product.getId()))+ ","
+			+returnValueStringBD(String.valueOf(order.getId())) + ","
+			+returnValueStringBD(String.valueOf(qtd))+")";
 			command.executeUpdate(sql);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -225,4 +224,61 @@ public class OrderDAO extends UtilsDAO<OrderDAO, Order> implements DAO<Order> {
 			this.closeConnection();
 		}
 	}
+	public void repeatOrderProducts(Order order) throws DatabaseException{
+		try{
+			this.startConnection();
+			String sql = "SELECT * FROM product_order JOIN product WHERE id_order = `"+order.getId()+"`";
+			ResultSet rs = command.executeQuery(sql);
+			List<Product> products = new ArrayList<Product>();
+			if(rs.next()) {
+				Product p = new Product();
+				p.setId(Integer.parseInt(rs.getString("id_order")));
+				p.setQuantidade(Integer.parseInt(rs.getString("product_order.quantity")));
+				products.add(p);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			this.closeConnection();
+		}
+	}
+	
+	public double valueToPay(Order order) throws DatabaseException{
+		try {
+			this.startConnection();
+			String sql = "SELECT * FROM product_order JOIN product WHERE id_order = "+order.getId();
+			ResultSet rs = command.executeQuery(sql);
+			double total = 0;
+			if(rs.next()) {
+				double value = Double.parseDouble(rs.getString("price"));
+				total += value * (Double.parseDouble(rs.getString("product_order.quantity")));
+			}
+			return total;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			this.closeConnection();
+		}
+		return 0;
+	}
+
+	public Order lastOrder() throws Exception{
+		try {
+			this.startConnection();
+			String sql = "select * from `order` ORDER BY id_order desc limit 1";
+			ResultSet rs = command.executeQuery(sql);
+			Order p = new Order();
+			if (rs.next()) {
+				p.setId(Integer.parseInt(rs.getString("id_order")));
+				p.setStatus(rs.getString("status"));
+			}
+			return p;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			this.closeConnection();
+		}
+		return null;
+	}
+	
 }

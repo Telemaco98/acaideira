@@ -10,11 +10,9 @@ import com.ufrn.imd.acaideira.data.OrderDAO;
 import com.ufrn.imd.acaideira.data.ProductDAO;
 import com.ufrn.imd.acaideira.data.RestaurantDAO;
 import com.ufrn.imd.acaideira.data.exception.DatabaseException;
-import com.ufrn.imd.acaideira.domain.Address;
 import com.ufrn.imd.acaideira.domain.Client;
 import com.ufrn.imd.acaideira.domain.Order;
 import com.ufrn.imd.acaideira.domain.Product;
-import com.ufrn.imd.acaideira.domain.CreditCard;
 import com.ufrn.imd.acaideira.domain.Restaurant;
 
 public class ClientVision implements Vision{
@@ -26,6 +24,9 @@ public class ClientVision implements Vision{
 	
 	public ClientVision() throws DatabaseException{
 		this.clientDAO = ClientDAO.getInstance();
+		this.productDAO = ProductDAO.getInstance();
+		this.orderDAO = OrderDAO.getInstance();
+		this.restaurantDAO = RestaurantDAO.getInstance();
 	}
 	//ok
 	@Override
@@ -72,11 +73,12 @@ public class ClientVision implements Vision{
 		infoClient.add("Name: ");
 		infoClient.add("Email: ");
 		infoClient.add("Phone: ");
+		infoClient.add("password:");
 		infoClient.add("Address: ");
 		
 		ArrayList<String> cli = askInfo(infoClient,infoClient.size());
 
-		Client c = new Client(cli.get(0),cli.get(1), cli.get(2),cli.get(3), cli.get(4));
+		Client c = new Client(cli.get(0),cli.get(1), cli.get(2),cli.get(3), cli.get(4), cli.get(5));
 		try {
 			clientDAO.insert(c);
 		}catch(Exception e) {
@@ -103,14 +105,13 @@ public class ClientVision implements Vision{
 	    else {
 	    	try {
 	    		clientDAO.delete(client);
-	    		//restaurantDAO.commit();
 	    	}catch(DatabaseException e) {
 	    		throw new DatabaseException("Problems");
 	    	}
 	    }
 		
 	}
-	//not ok
+	//ok
 	@Override
 	public void alter() throws Exception {
 		
@@ -129,20 +130,21 @@ public class ClientVision implements Vision{
 	    }
 	    else {
 	    	ArrayList<String> infoClient = new ArrayList<String>();
-	    	infoClient.add("Name: ");
 	    	infoClient.add("cpf: ");
+	    	infoClient.add("Name: ");
 	    	infoClient.add("email: ");
 	    	infoClient.add("phone: ");
+	    	infoClient.add("password: ");	    	
 	    	infoClient.add("Address: ");
 			
 			ArrayList<String> par = this.askInfo(infoClient,infoClient.size());
 			 
-			client.setName(par.get(0));
-			client.setCpf(par.get(1));
+			client.setCpf(par.get(0));
+			client.setName(par.get(1));
 			client.setEmail(par.get(2));
 			client.setPhone(par.get(3));
-			//setAddress
-			client.setPhone(par.get(4));
+			client.setPassword(par.get(4));
+			client.setAddresses(par.get(5));
 	    	try {
 	    		clientDAO.update(client);
 	    	}catch(DatabaseException e) {
@@ -158,19 +160,21 @@ public class ClientVision implements Vision{
 		int idClient= Integer.parseInt(reader.readLine());
 		Client client = null;
 		
-		try {
+		Order order = new Order("waiting");		
+    	try {
 			client = clientDAO.select(idClient);
 		}catch (DatabaseException e) {
 			throw new DatabaseException("Problems");
 		}
-		
 		if(client != null) {
-			Order order = new Order("creating");
 			try {
 				orderDAO.insert(order);
 			} catch(DatabaseException e) {
 				throw new DatabaseException("Problems");
-			}			
+			}
+			order = orderDAO.lastOrder();
+			orderDAO.creatOrderClient(client, order);
+			
 		} else {
 			System.out.println("Client not found");
 		}
@@ -228,7 +232,7 @@ public class ClientVision implements Vision{
 			} catch (DatabaseException e) {
 				throw new DatabaseException("Erro");
 			} if(clientShared != null) {
-				orderDAO.creatOrderClient(idClient, idOrder);
+				orderDAO.creatOrderClient(clientShared, order);
 			}
 		}
 	}
@@ -253,17 +257,70 @@ public class ClientVision implements Vision{
 					System.out.println(single);
 				}
 			}
+		}else {
+			System.out.println("client not found");
 		}
 	}
 	
 	//aaaaaaaa
-	public void payAcount() {
+	public void payAccount() throws Exception{
+		System.out.println("type the order ID: ");
+		int idOrder = Integer.parseInt(reader.readLine());
+		Order order = null;
+		
+		try {
+			order = orderDAO.select(idOrder);
+		} catch (DatabaseException e) {
+			throw new DatabaseException("erro");
+		}if(order != null) {
+			if(order.getStatus().equals("waiting")) {
+				double total = orderDAO.valueToPay(order);
+				System.out.println("the value total to pay is: " + total);
+				System.out.println("Insert the value to pay");
+				double payment = Float.parseFloat(reader.readLine());				
+				total = total - payment;
+				if (total <= 0) {
+					order.setStatus("paid");
+					orderDAO.update(order);
+				}
+				double totalf = orderDAO.valueToPay(order);
+				System.out.println("the value total to pay is: " + totalf);
+			} else {
+				System.out.println("already paid");
+			}
+		} else {
+			System.out.println("order not found");
+		}
 		
 	}
 	
 	
 	//aaaaaaaa
-	public void repeatOrder() {}
+	public void repeatOrder() throws Exception{
+		System.out.println("type the id of Order: ");
+		int idOrder = Integer.parseInt(reader.readLine());
+		System.out.println("type the id of the client: ");
+		int idClient= Integer.parseInt(reader.readLine());
+		
+		Order order = null;
+		Client client = null;
+		
+		try {
+			order = orderDAO.select(idOrder);
+			client = clientDAO.select(idClient);
+		} catch (DatabaseException e) {
+			throw new DatabaseException("erro");
+		} if(order != null || client != null) {
+			List<Product> products = new ArrayList<Product>();
+			createOrder();
+			for(Product producti:products) {
+				Product product = productDAO.select(producti.getId());
+				orderDAO.addToCart(product, order, producti.getQuantidade());
+			}
+		} else {
+			System.out.println("client not found");
+		}
+	}
 	
 	//aaaaaaaa
 	public void seeMenu() throws Exception{
@@ -294,6 +351,8 @@ public class ClientVision implements Vision{
 	    		System.out.println("No have products in this restaurant!");
 	    	}
 			
+		} else {
+			System.out.println("restaurant not found");
 		}
 	}
 	
@@ -346,5 +405,22 @@ public class ClientVision implements Vision{
 		}while(i < size);
 		return par;
 	}
-	
+	public void showOrders() throws Exception{
+		List<Order> orders= new ArrayList<Order>();		
+		try {
+			orders =  orderDAO.retrievePayments();
+		} catch (DatabaseException e) {
+			throw new DatabaseException("erro");
+		}
+		int sizeOrder = orders.size();
+		if (sizeOrder > 0) {
+			System.out.println("-----List of products:");
+			for(Order order:orders) {
+				System.out.println(order);
+			}
+		} else {
+			System.out.println("No have this product in the restaurants list");
+		}
+
+	}	
 }

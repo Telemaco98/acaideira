@@ -54,7 +54,6 @@ public class RestaurantDAO extends UtilsDAO<RestaurantDAO, Restaurant> implement
 	public void insert(Restaurant r) throws DatabaseException {
 		try {
 			this.startConnection();
-
 			StringBuffer buffer = new StringBuffer();
 			buffer.append("INSERT INTO restaurant (");
 			buffer.append(this.returnFieldsBD());

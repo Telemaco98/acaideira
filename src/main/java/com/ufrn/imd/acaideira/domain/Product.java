@@ -63,7 +63,7 @@ public class Product{
 	}
 	
 	public String toString() {
-		return "Id: " + this.getId() + " Nome: " +  this.getNome() + " Quantidade: "+ this.getQuantidade() + " Endereco: "+ this.getPrice();
+		return "Id: " + this.getId() + " Nome: " +  this.getNome() + " Quantidade: "+ this.getQuantidade() + " Preco: "+ this.getPrice();
 	}
 	
 }
