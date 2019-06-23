@@ -4,6 +4,10 @@
 	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
 	id="WebApp_ID" version="3.1">
 	<display-name>Acaideira</display-name>
+	<context-param>
+		<param-name>facelets.LIBRARIES</param-name>
+		<param-value>/WEB-INF/p.taglib.xml</param-value>
+	</context-param>
 	<servlet>
 		<servlet-name>Faces Servlet</servlet-name>
 		<servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
@@ -16,16 +20,15 @@
 	<welcome-file-list>
 		<welcome-file>index.xhtml</welcome-file>
 	</welcome-file-list>
-	<!-- 
 	<filter>
-		<filter-name>LoginFilte</filter-name>
-		<filter-class>com.ufrn;imd.acaideira.presentation.LoginFilter</filter-class>
+		<filter-name>LoginFilter</filter-name>
+		<filter-class>com.ufrn.imd.acaideira.presentation.LoginFilter</filter-class>
 	</filter>
 	<filter-mapping>
-		<filter-name>LoginFilte</filter-name>
+		<filter-name>LoginFilter</filter-name>
 		<url-pattern>/restricted/*</url-pattern>
 	</filter-mapping>
 	<session-config>
 		<session-timeout>30</session-timeout>
-	</session-config>  -->
+	</session-config>
 </web-app>

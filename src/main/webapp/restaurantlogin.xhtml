@@ -34,17 +34,17 @@
 							</div>
 							<div class="form-group">
 								<h:outputLabel value="Email" />
-								<h:inputText class="form-control" aria-describedby="emailHelp" value="#{loginRestaurantMB.email}" required="true" >
+								<h:inputText class="form-control" aria-describedby="emailHelp" value="#{loginRestControllator.email}" required="true" >
 									<f:passThroughAttribute name="placeholder" value="email@example.com" />
 								</h:inputText>
 							</div>
 							<div class="form-group">
 								<h:outputLabel value="Password" />
-								<h:inputSecret class="form-control" value="#{loginRestaurantMB.psw}" required="true" >
+								<h:inputSecret class="form-control" value="#{loginRestControllator.psw}" required="true" >
 									<f:passThroughAttribute name="placeholder" value="**********" />
 								</h:inputSecret>
 							</div>
-							<h:commandButton class="btn btn-secondary" value="Confirmar" action="#{loginRestaurantMB.login}" />
+							<h:commandButton class="btn btn-secondary" actionListener="#{loginRestControllator.login}" value="Confirmar" action="restricted/restaurantlogged.xhtml?faces-redirect=true"  />
 						</h:form>
 					</div>
 					

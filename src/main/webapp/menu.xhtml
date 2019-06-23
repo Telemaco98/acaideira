@@ -2,7 +2,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:h="http://java.sun.com/jsf/html" lang="pt">
+	xmlns:h="http://xmlns.jcp.org/jsf/html"  
+	xmlns:p="http://primefaces.org/ui">
 <head>
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 	<link rel="stylesheet"
@@ -101,8 +102,8 @@
 							</f:facet>
 							
 							<h:outputLabel value="Quantidade" />
-							<h:inputText name="#{prod.idProduct}" value="#{orderManagedBean.amount}" maxlength="#{prod.amount}"/>
-							
+							<p:spinner id="basic" value="#{menuManagedBean.amount}"/>
+ 
 							<h:commandButton class="btn btn-success text-center" image="./resources/images/shopping_cart.png" title="Adicionar ao Carrinho" >
 								<f:param name="id_prod" value="#{prod.idProduct}" />
 							</h:commandButton>

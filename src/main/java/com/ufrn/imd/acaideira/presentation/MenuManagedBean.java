@@ -17,9 +17,18 @@ import com.ufrn.imd.acaideira.enums.ProductType;
 public class MenuManagedBean {
 	ProductDAO productDAO;
 	
-	boolean nofilter = true;
+	private boolean nofilter = true;
+	private int amount = 0;
 	List<Product> products = new ArrayList<Product>();
 	List<Product> productsAsc = new ArrayList<Product>();
+	
+	public int getAmount() {
+		return amount;
+	}
+	
+	public void setAmount(int amount) {
+		this.amount = amount;
+	}
 	
 	public List<Product> getProducts() {
 		if(!nofilter)

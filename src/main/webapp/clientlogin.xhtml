@@ -34,17 +34,18 @@
 							</div>
 							<div class="form-group">
 								<h:outputLabel value="Email" />
-								<h:inputText class="form-control" aria-describedby="emailHelp" value="#{loginManagedBean.email}" required="true" >
+								<h:inputText class="form-control" aria-describedby="emailHelp" value="#{loginControllator.email}" required="true" >
 									<f:passThroughAttribute name="placeholder" value="email@example.com" />
 								</h:inputText>
 							</div>
 							<div class="form-group">
 								<h:outputLabel value="Password" />
-								<h:inputSecret class="form-control" value="#{loginManagedBean.psw}" required="true" >
+								<h:inputSecret class="form-control" value="#{loginControllator.psw}" required="true" >
 									<f:passThroughAttribute name="placeholder" value="**********" />
 								</h:inputSecret>
 							</div>
-							<h:commandButton class="btn btn-secondary" value="Confirmar" action="#{loginManagedBean.login}" />
+							<h:commandButton class="btn btn-secondary" actionListener="#{loginControllator.login}" value="Login" action="restricted/clientlogged.xhtml?faces-redirect=true"  />
+							<!-- <h:commandButton  value="Confirmar" action="#{loginManagedBean.login}" /> -->
 						</h:form>
 					</div>
 					

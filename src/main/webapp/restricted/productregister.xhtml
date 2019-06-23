@@ -1,0 +1,29 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html">
+
+	<h:head><title>Cadastro - Produto</title></h:head>	
+	<body>
+		<h2> <h:outputLabel value="#{restaurantController.restaurant().name}"/> - Cadastrar Produto</h2>
+		<h:form><h:inputHidden value="#{restaurantController.restaurant().idRestaurant}"/>
+			<h:panelGrid columns="2">
+				<h:outputLabel value="Nome "/>
+				<h:inputText value="#{restaurantController.product.name}" required="true" requiredMessage="Valor é obrigatório"/>
+				<h:outputLabel value="Preço"/>
+				<h:inputText value="#{restaurantController.product.price}" required="true" requiredMessage="Valor é obrigatório"/>
+				<h:outputLabel value="Quantidade"/>
+				<h:inputText value="#{restaurantController.product.amount}" required="true" requiredMessage="Valor é obrigatório"/>
+				<h:outputLabel value="Tipo"/>
+				<h:selectOneMenu value="#{restaurantController.pt_str}" required="true" requiredMessage="Valor é obrigatório">  
+	                <f:selectItems value="#{restaurantController.productsType}" var="t" itemLabel="#{t}" itemValue="#{t}"/>  
+            	</h:selectOneMenu>  
+				<h:outputLabel value="Descrição"/>
+				<h:inputTextarea cols="21" rows="2" value="#{restaurantController.product.description}"/>	
+			</h:panelGrid>
+			
+			<h:commandButton value="Confirmar" action="#{restaurantController.confirmProductRegister}" />
+		</h:form>
+	</body>      
+</html>

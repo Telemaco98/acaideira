@@ -23,7 +23,7 @@
 					</li>
 				</ul>
 				<form class="form-inline my-2 my-lg-0">
-					<h:commandButton class="btn btn-outline-dark mr-sm-2" value="Sair" action="#{loginManagedBean.logout}" />
+					<h:commandButton class="btn btn-outline-dark mr-sm-2" value="Sair" actionListener="#{loginControllator.logout()}" action="/clientlogin.xhtml?faces-redirect=true" />
 				</form>
 			</div>
 		</div>

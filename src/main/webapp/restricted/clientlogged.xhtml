@@ -6,22 +6,20 @@
 
 <h:head>
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-		integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" />
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
 	<title>Logged</title>
 </h:head>
 <body>
 	<div class="header">
 		<ui:insert name="header">
-			<ui:include src="layout/header-logged-client.xhtml"></ui:include>
+				<ui:include src="../layout/header_withou_search.xhtml"></ui:include>
 		</ui:insert>
 	</div>	
 
 	<h:form>
-		<h3>Seja bem-vindo <h:outputLabel value="#{loginManagedBean.client.name}" /> </h3>
-		<h4><h:outputLabel value="#{loginManagedBean.client.email}" /> </h4> <br></br>
-		
-		<h:commandButton value="Sair" action="#{loginManagedBean.logout}" />
+		<h3>Seja bem-vindo <h:outputLabel value="#{loginControllator.client.name}" /> </h3>
+		<h4><h:outputLabel value="#{loginControllator.client.email}" /> </h4> <br></br>
+		<h:commandButton class="btn btn-outline-dark mr-sm-2" value="Sair" actionListener="#{loginControllator.logout()}" action="/clientlogin.xhtml?faces-redirect=true" />
 	</h:form>
 </body>
 </html>
